@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/GdxTheme" >
         <activity
-            android:name="com.brentaureli.game.android.AndroidLauncher"
+            android:name="com.tanks.game.android.AndroidLauncher"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >

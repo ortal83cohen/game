@@ -2,32 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx/1.6.2/b70b1eb9da71076aa47ac8932b42358b00db84a0/gdx-1.6.2.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="b70b1eb9da71076aa47ac8932b42358b00db84a0">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/gdx-1.6.2-3421a6e3ccd2b898fe7f371a316b10bcc96f7d8b.jar" />
-    </item>
-    <item
         jar="/Users/ortalcohen/Documents/tanks.io-client/core/build/libs/core-1.0.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="1368ae6e72a1ce3b63b90ee8fcbc1be12bcb22c1">
+        sha1="34609d5012252d344270be1dd8e8e80cc19950cf">
         <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/core-1.0-b8e9b0ab876721f8ac58dcf88ab1c98941c1a0d1.jar" />
-    </item>
-    <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-backend-android/1.6.2/14e97f2799e74334d15c59ae90c6247f36b90429/gdx-backend-android-1.6.2.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="14e97f2799e74334d15c59ae90c6247f36b90429">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/gdx-backend-android-1.6.2-5ef47f3567b489dadfe8f547a5a5f57d37167d70.jar" />
-    </item>
-    <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-box2d/1.6.2/b4406b97b35d7caf7111400ceebc8b92c8998168/gdx-box2d-1.6.2.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="b4406b97b35d7caf7111400ceebc8b92c8998168">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/gdx-box2d-1.6.2-df36565d7cd0f2aaa5c2831dd141855cec4d0dc2.jar" />
     </item>
 
 </items>
