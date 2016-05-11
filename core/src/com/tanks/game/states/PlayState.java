@@ -78,8 +78,8 @@ public class PlayState extends State {
 //        }
 
         font.draw(sb, "ortal", mTank.getPosition().x - 10, mTank.getPosition().y - 10);
-        font.draw(sb, String.valueOf(Gdx.input.getX()), cam.position.x, cam.position.y - 150);
-        font.draw(sb, String.valueOf(Gdx.input.getY()), cam.position.x, cam.position.y - 165);
+        font.draw(sb, String.valueOf(Gdx.input.getX() - ANDROID_WIDTH / 2), cam.position.x, cam.position.y - 150);
+        font.draw(sb, String.valueOf(Gdx.input.getY() - ANDROID_HEIGHT / 2), cam.position.x, cam.position.y - 165);
 
         sb.end();
     }
