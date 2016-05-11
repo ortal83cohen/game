@@ -11,7 +11,7 @@ public class TanksDemo extends ApplicationAdapter {
     public static final int WIDTH = 480;
     public static final int HEIGHT = 800;
 
-    public static final String TITLE = "Flappy Tank";
+    public static final String TITLE = "Tanks.io";
     private com.tanks.game.states.GameStateManager gsm;
     private SpriteBatch batch;
 

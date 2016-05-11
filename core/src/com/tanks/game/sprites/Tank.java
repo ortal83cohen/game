@@ -30,6 +30,7 @@ public class Tank {
     public void update(float dt){
         birdAnimation.update(dt);
 
+
         bounds.setPosition(position.x, position.y);
     }
 
@@ -41,9 +42,10 @@ public class Tank {
         return texture ;//birdAnimation.getFrame();
     }
 
-    public void jump(){
-
-        flap.play(0.5f);
+    public void move(int x, int y){
+        position.x = position.x + x/100;
+        position.y = position.y - y/100;
+//        flap.play(0.5f);
     }
 
     public Rectangle getBounds(){

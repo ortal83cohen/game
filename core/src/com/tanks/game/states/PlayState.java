@@ -2,7 +2,9 @@ package com.tanks.game.states;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.Tank;
@@ -11,26 +13,40 @@ import com.tanks.game.sprites.Tank;
  * Created by Brent on 7/5/2015.
  */
 public class PlayState extends State {
+
     private static final int GROUND_Y_OFFSET = -50;
 
+    private final TextureRegion bgTextureRegion;
+
     private Tank mTank;
+
     private Texture bg;
+
     private Vector2 groundPos1, groundPos2;
 
+    BitmapFont font = new BitmapFont();
+
+    int ANDROID_WIDTH = Gdx.graphics.getWidth();
+
+    int ANDROID_HEIGHT = Gdx.graphics.getHeight();
 
     public PlayState(com.tanks.game.states.GameStateManager gsm) {
         super(gsm);
-        mTank = new Tank(40,200);
+        mTank = new Tank(200, 200);
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
-
-
+        bg.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        bgTextureRegion = new TextureRegion(bg);
+        bgTextureRegion.setRegion(0, 0, bg.getWidth() * 10, bg.getHeight() * 10);
     }
 
     @Override
     protected void handleInput() {
-        if(Gdx.input.justTouched())
-            mTank.jump();
+        if (Gdx.input.isTouched()) {
+
+            mTank.move(Gdx.input.getX() - ANDROID_WIDTH / 2, Gdx.input.getY() - ANDROID_HEIGHT / 2);
+        }
+
     }
 
     @Override
@@ -38,19 +54,9 @@ public class PlayState extends State {
         handleInput();
 
         mTank.update(dt);
-        cam.position.x = mTank.getPosition().x + 80;
 
-
-
-//
-//            if(cam.position.x - (cam.viewportWidth / 2) > tube.getPosTopTube().x + tube.getTopTube().getWidth()){
-//                tube.reposition(tube.getPosTopTube().x  + ((Tube.TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
-//            }
-//
-//            if(tube.collides(mTank.getBounds()))
-//                gsm.set(new MenuState(gsm));
-
-
+        cam.position.x = mTank.getPosition().x;
+        cam.position.y = mTank.getPosition().y;
 
         cam.update();
 
@@ -60,10 +66,20 @@ public class PlayState extends State {
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(bg, cam.position.x - (cam.viewportWidth / 2), 0);
+        sb.draw(bgTextureRegion, 0, 0);
         sb.draw(mTank.getTexture(), mTank.getPosition().x, mTank.getPosition().y);
 
+        sb.setProjectionMatrix(cam.combined); //or your matrix to draw GAME WORLD, not UI
 
+//        //draw background, objects, etc.
+//        for( View view: views )
+//        {
+//            view.draw(batch, dt);
+//        }
+
+        font.draw(sb, "ortal", mTank.getPosition().x - 10, mTank.getPosition().y - 10);
+        font.draw(sb, String.valueOf(Gdx.input.getX()), cam.position.x, cam.position.y - 150);
+        font.draw(sb, String.valueOf(Gdx.input.getY()), cam.position.x, cam.position.y - 165);
 
         sb.end();
     }
@@ -72,8 +88,6 @@ public class PlayState extends State {
     public void dispose() {
         bg.dispose();
         mTank.dispose();
-
-
 
         System.out.println("Play State Disposed");
     }
