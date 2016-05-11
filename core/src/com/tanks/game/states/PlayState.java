@@ -43,8 +43,7 @@ public class PlayState extends State {
     @Override
     protected void handleInput() {
         if (Gdx.input.isTouched()) {
-
-            mTank.move(Gdx.input.getX() - ANDROID_WIDTH / 2, Gdx.input.getY() - ANDROID_HEIGHT / 2);
+            mTank.move(Gdx.input.getX() - ANDROID_WIDTH / 2, -(Gdx.input.getY() - ANDROID_HEIGHT / 2));
         }
 
     }
@@ -55,8 +54,8 @@ public class PlayState extends State {
 
         mTank.update(dt);
 
-        cam.position.x = mTank.getPosition().x;
-        cam.position.y = mTank.getPosition().y;
+        cam.position.x = mTank.getPosition().x +mTank.getBounds().height ;
+        cam.position.y = mTank.getPosition().y+ mTank.getBounds().width;
 
         cam.update();
 
@@ -67,8 +66,7 @@ public class PlayState extends State {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(bgTextureRegion, 0, 0);
-        sb.draw(mTank.getTexture(), mTank.getPosition().x, mTank.getPosition().y);
-
+        mTank.getSprite().draw(sb);
         sb.setProjectionMatrix(cam.combined); //or your matrix to draw GAME WORLD, not UI
 
 //        //draw background, objects, etc.
@@ -77,7 +75,7 @@ public class PlayState extends State {
 //            view.draw(batch, dt);
 //        }
 
-        font.draw(sb, "ortal", mTank.getPosition().x - 10, mTank.getPosition().y - 10);
+        font.draw(sb,String.valueOf( mTank.getSprite().getRotation()), mTank.getPosition().x - 10, mTank.getPosition().y - 10);
         font.draw(sb, String.valueOf(Gdx.input.getX() - ANDROID_WIDTH / 2), cam.position.x, cam.position.y - 150);
         font.draw(sb, String.valueOf(Gdx.input.getY() - ANDROID_HEIGHT / 2), cam.position.x, cam.position.y - 165);
 
