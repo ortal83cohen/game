@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.tanks.game.utils.MathUtil;
 
 /**
  * Created by Brent on 7/5/2015.
@@ -33,15 +34,20 @@ public class Tank {
 
     public Tank(int x, int y) {
         position = new Vector3(x, y, 0);
-        texture = new Texture("tank.png");
+        if (Math.random() < 0.5) {
+            texture = new Texture("tank.png");
+        } else {
+            texture = new Texture("tank2.png");
+        }
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
         birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
         bounds = new Rectangle(x, y, texture.getWidth() / 3, texture.getHeight());
         flap = Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg"));
     }
 
+
     public void update(float dt) {
-        birdAnimation.update(dt);
+        birdAnimation.update(dt);//animation example
         bounds.setPosition(position.x, position.y);
 
         glowSprite.setPosition(getPosition().x, getPosition().y);
@@ -57,17 +63,12 @@ public class Tank {
     }
 
     public void move(int x, int y) {
-        position.x = position.x + x / 300;
-        position.y = position.y + y / 300;
 
-        rotation = (float) getAngle(x, y);
-//        flap.play(0.5f);
-    }
+        rotation = (float) MathUtil.getAngle(x, y);
 
-    public static double getAngle(int x, int y) {
+        position.x = position.x + (float) x / 300;
+        position.y = position.y + (float) y / 300;
 
-        return (180 / Math.PI) * Math.atan2(y, x)
-                - 180; //note the atan2 call, the order of paramers is y then x
     }
 
     public Rectangle getBounds() {

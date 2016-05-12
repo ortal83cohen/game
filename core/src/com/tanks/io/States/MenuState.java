@@ -9,7 +9,9 @@ import com.tanks.io.TanksIo;
  * Created by Brent on 6/25/2015.
  */
 public class MenuState extends State {
+
     Texture background;
+
     Texture playBtn;
 
     public MenuState(GameStateManager gsm) {
@@ -20,7 +22,7 @@ public class MenuState extends State {
 
     @Override
     public void handleInput() {
-        if(Gdx.input.justTouched()){
+        if (Gdx.input.justTouched()) {
             gsm.set(new PlayState(gsm));
         }
     }

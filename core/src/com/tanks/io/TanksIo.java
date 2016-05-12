@@ -8,28 +8,33 @@ import com.tanks.io.States.GameStateManager;
 import com.tanks.io.States.MenuState;
 
 public class TanksIo extends ApplicationAdapter {
+
     public static final int WIDTH = 480;
+
     public static final int HEIGHT = 800;
+
     public static final float SCALE = 0.5f;
+
     public static final String TITLE = "TanksIo";
 
-	private SpriteBatch spriteBatch;
+    private SpriteBatch spriteBatch;
+
     private GameStateManager gameStateManager;
-	
-	@Override
-	public void create () {
-		spriteBatch = new SpriteBatch();
+
+    @Override
+    public void create() {
+        spriteBatch = new SpriteBatch();
         gameStateManager = new GameStateManager();
         gameStateManager.push(new MenuState(gameStateManager));
 
         Gdx.gl.glClearColor(1, 0, 0, 1);
-	}
+    }
 
-	@Override
-	public void render () {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		gameStateManager.update(Gdx.graphics.getDeltaTime());
+    @Override
+    public void render() {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        gameStateManager.update(Gdx.graphics.getDeltaTime());
         gameStateManager.render(spriteBatch);
-	}
+    }
 
 }

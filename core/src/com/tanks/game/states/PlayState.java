@@ -18,20 +18,21 @@ public class PlayState extends State {
 
     private final TextureRegion bgTextureRegion;
 
-    private Tank mTank;
-
-    private Texture bg;
-
-    private Vector2 groundPos1, groundPos2;
-
     BitmapFont font = new BitmapFont();
 
     int ANDROID_WIDTH = Gdx.graphics.getWidth();
 
     int ANDROID_HEIGHT = Gdx.graphics.getHeight();
 
+    private Tank mTank;
+
+    private Texture bg;
+
+    private Vector2 groundPos1, groundPos2;
+
     public PlayState(com.tanks.game.states.GameStateManager gsm) {
         super(gsm);
+
         mTank = new Tank(200, 200);
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
@@ -43,7 +44,8 @@ public class PlayState extends State {
     @Override
     protected void handleInput() {
         if (Gdx.input.isTouched()) {
-            mTank.move(Gdx.input.getX() - ANDROID_WIDTH / 2, -(Gdx.input.getY() - ANDROID_HEIGHT / 2));
+            mTank.move(Gdx.input.getX() - ANDROID_WIDTH / 2,
+                    -(Gdx.input.getY() - ANDROID_HEIGHT / 2));
         }
 
     }
@@ -54,8 +56,8 @@ public class PlayState extends State {
 
         mTank.update(dt);
 
-        cam.position.x = mTank.getPosition().x +mTank.getBounds().height ;
-        cam.position.y = mTank.getPosition().y+ mTank.getBounds().width;
+        cam.position.x = mTank.getPosition().x + mTank.getBounds().height / 2;
+        cam.position.y = mTank.getPosition().y + mTank.getBounds().width / 2;
 
         cam.update();
 
@@ -75,9 +77,12 @@ public class PlayState extends State {
 //            view.draw(batch, dt);
 //        }
 
-        font.draw(sb,String.valueOf( mTank.getSprite().getRotation()), mTank.getPosition().x - 10, mTank.getPosition().y - 10);
-        font.draw(sb, String.valueOf(Gdx.input.getX() - ANDROID_WIDTH / 2), cam.position.x, cam.position.y - 150);
-        font.draw(sb, String.valueOf(Gdx.input.getY() - ANDROID_HEIGHT / 2), cam.position.x, cam.position.y - 165);
+        font.draw(sb, String.valueOf(mTank.getSprite().getRotation()), mTank.getPosition().x - 10,
+                mTank.getPosition().y - 10);
+        font.draw(sb, String.valueOf(Gdx.input.getX() - ANDROID_WIDTH / 2), cam.position.x,
+                cam.position.y - 150);
+        font.draw(sb, String.valueOf(Gdx.input.getY() - ANDROID_HEIGHT / 2), cam.position.x,
+                cam.position.y - 165);
 
         sb.end();
     }

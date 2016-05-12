@@ -8,9 +8,12 @@ import com.tanks.game.TanksDemo;
 /**
  * Created by Brent on 6/26/2015.
  */
-public class MenuState extends State{
+public class MenuState extends State {
+
     private Texture background;
+
     private Texture playBtn;
+
     public MenuState(GameStateManager gsm) {
         super(gsm);
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
@@ -20,7 +23,7 @@ public class MenuState extends State{
 
     @Override
     public void handleInput() {
-        if(Gdx.input.justTouched()){
+        if (Gdx.input.justTouched()) {
             gsm.set(new PlayState(gsm));
         }
     }
@@ -34,7 +37,7 @@ public class MenuState extends State{
     public void render(SpriteBatch sb) {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(background, 0,0);
+        sb.draw(background, 0, 0);
         sb.draw(playBtn, cam.position.x - playBtn.getWidth() / 2, cam.position.y);
         sb.end();
     }

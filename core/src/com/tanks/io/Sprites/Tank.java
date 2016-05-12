@@ -9,69 +9,77 @@ import com.badlogic.gdx.math.Vector3;
  * Created by Brent on 6/25/2015.
  */
 public class Tank {
-    private static final int GRAVITY = -15;
-    private static final int MOVEMENT = 100;
 
-    private Vector3 position;
-    private Vector3 velocity;
-    private Rectangle bounds;
-    private Texture texture;
-    private Animation birdAnimation;
+    private static final int GRAVITY = -15;
+
+    private static final int MOVEMENT = 100;
 
     public boolean colliding;
 
+    private Vector3 position;
 
-    public Tank(int x, int y){
+    private Vector3 velocity;
+
+    private Rectangle bounds;
+
+    private Texture texture;
+
+    private Animation birdAnimation;
+
+
+    public Tank(int x, int y) {
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0, 0, 0);
         texture = new Texture("tank.png");
         birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
-        bounds = new Rectangle(x, y, texture.getWidth()/3, texture.getHeight());
+        bounds = new Rectangle(x, y, texture.getWidth() / 3, texture.getHeight());
         colliding = false;
     }
 
-    public void update(float dt){
+    public void update(float dt) {
         birdAnimation.update(dt);
         velocity.add(0, GRAVITY, 0);
         velocity.scl(dt);
-        if(!colliding)
+        if (!colliding) {
             position.add(MOVEMENT * dt, velocity.y, 0);
-        if(position.y < 82)
+        }
+        if (position.y < 82) {
             position.y = 82;
+        }
 
         velocity.scl(1 / dt);
         updateBounds();
     }
 
-    public void jump(){
+    public void jump() {
         velocity.y = 250;
     }
 
-    public void updateBounds(){
+    public void updateBounds() {
         bounds.setPosition(position.x, position.y);
     }
 
-    public float getX(){
+    public float getX() {
         return position.x;
     }
 
-    public float getY(){
+    public float getY() {
         return position.y;
     }
 
-    public float getWidth(){
+    public float getWidth() {
         return texture.getWidth();
     }
 
-    public float getHeight(){
+    public float getHeight() {
         return texture.getHeight();
     }
 
-    public Texture getTexture(){
-        return texture ;//birdAnimation.getFrame();
+    public Texture getTexture() {
+        return texture;//birdAnimation.getFrame();
     }
 
-    public Rectangle getBounds(){
+    public Rectangle getBounds() {
         return bounds;
     }
 }
