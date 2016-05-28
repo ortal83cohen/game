@@ -3,7 +3,7 @@ package com.tanks.game.utils;
 /**
  * Created by cohenort on 12/05/2016.
  */
-public class mathUtil1 {
+public class MathUtil {
 
 
     public static double getAngle(int x, int y) {
