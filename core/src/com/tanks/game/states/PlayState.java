@@ -9,6 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.Tank;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Brent on 7/5/2015.
  */
@@ -30,10 +33,16 @@ public class PlayState extends State {
 
     private Vector2 groundPos1, groundPos2;
 
+    ArrayList<Tank> enemies;
+
     public PlayState(com.tanks.game.states.GameStateManager gsm) {
         super(gsm);
 
         mTank = new Tank(200, 200);
+       enemies = new ArrayList<Tank>();
+        for (int i=0;i<200;i++){
+            enemies.add(i, new Tank(100*i,100*i));
+        }
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
         bg.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
@@ -48,6 +57,7 @@ public class PlayState extends State {
                     -(Gdx.input.getY() - ANDROID_HEIGHT / 2));
         }
 
+
     }
 
     @Override
@@ -56,6 +66,12 @@ public class PlayState extends State {
 
         mTank.update(dt);
 
+        for (int i=0;i<200;i++){
+            Tank enemy = enemies.get(i);
+            enemy.move(enemy.directionX, enemy.directionY);
+
+            enemies.get(i).update(dt);
+        }
         cam.position.x = mTank.getPosition().x + mTank.getBounds().height / 2;
         cam.position.y = mTank.getPosition().y + mTank.getBounds().width / 2;
 
@@ -70,6 +86,10 @@ public class PlayState extends State {
         sb.draw(bgTextureRegion, 0, 0);
         mTank.getSprite().draw(sb);
         sb.setProjectionMatrix(cam.combined); //or your matrix to draw GAME WORLD, not UI
+
+        for (int i=0;i<200;i++){
+            enemies.get(i).getSprite().draw(sb);
+        }
 
 //        //draw background, objects, etc.
 //        for( View view: views )

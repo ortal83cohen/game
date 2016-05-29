@@ -30,6 +30,9 @@ public class Tank {
 
     private Sound flap;
 
+    public int directionX;//tmp for enemies
+    public int directionY;//tmp for enemies
+
     private float rotation;
 
     public Tank(int x, int y) {
@@ -39,10 +42,15 @@ public class Tank {
         } else {
             texture = new Texture("tank2.png");
         }
+
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
         birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
         bounds = new Rectangle(x, y, texture.getWidth() / 3, texture.getHeight());
         flap = Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg"));
+        getSprite().scale(-0.5f);
+
+        directionX = (int)(Math.random()*500)-250;
+        directionY = (int)(Math.random()*500)-250;
     }
 
 
@@ -52,6 +60,7 @@ public class Tank {
 
         glowSprite.setPosition(getPosition().x, getPosition().y);
         glowSprite.setRotation(rotation);
+
     }
 
     public Vector3 getPosition() {
