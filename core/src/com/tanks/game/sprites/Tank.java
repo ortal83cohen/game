@@ -80,6 +80,10 @@ public class Tank {
 
     }
 
+    public float getRotation() {
+        return rotation;
+    }
+
     public Rectangle getBounds() {
         return bounds;
     }

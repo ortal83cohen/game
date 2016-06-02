@@ -18,7 +18,7 @@ public class MenuState extends State {
         super(gsm);
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         background = new Texture("bg.png");
-        playBtn = new Texture("playbtn.png");
+        playBtn = new Texture("button.png");
     }
 
     @Override
