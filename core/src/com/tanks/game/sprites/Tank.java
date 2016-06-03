@@ -12,17 +12,8 @@ import com.tanks.game.utils.MathUtil;
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Tank {
+public class Tank extends GameSprite{
 
-    private static final int GRAVITY = -15;
-
-    private static final int MOVEMENT = 100;
-
-    private final Sprite glowSprite;
-
-    private Vector3 position;
-
-    private Rectangle bounds;
 
     private Animation birdAnimation;
 
@@ -44,10 +35,11 @@ public class Tank {
         }
 
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
-        birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
-        bounds = new Rectangle(x, y, texture.getWidth() / 3, texture.getHeight());
-        flap = Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg"));
         getSprite().scale(-0.5f);
+        birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
+        bounds = new Rectangle(x, y, glowSprite.getWidth() , glowSprite.getHeight());
+        flap = Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg"));
+
 
         directionX = (int)(Math.random()*500)-250;
         directionY = (int)(Math.random()*500)-250;
@@ -63,13 +55,6 @@ public class Tank {
 
     }
 
-    public Vector3 getPosition() {
-        return position;
-    }
-
-    public Sprite getSprite() {
-        return glowSprite;
-    }
 
     public void move(int x, int y) {
 
@@ -84,9 +69,6 @@ public class Tank {
         return rotation;
     }
 
-    public Rectangle getBounds() {
-        return bounds;
-    }
 
     public void dispose() {
         texture.dispose();
