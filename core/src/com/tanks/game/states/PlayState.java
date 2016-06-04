@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -33,6 +32,10 @@ public class PlayState extends State {
 
     int ANDROID_HEIGHT = Gdx.graphics.getHeight();
 
+    ArrayList<Tank> enemies;
+
+    ArrayList<Bullet> bullets;
+
     private Tank mTank;
 
     private Button mButton;
@@ -41,16 +44,11 @@ public class PlayState extends State {
 
     private Vector2 groundPos1, groundPos2;
 
-    ArrayList<Tank> enemies;
-
-    ArrayList<Bullet> bullets;
-
     public PlayState(com.tanks.game.states.GameStateManager gsm) {
         super(gsm);
 
         mTank = new Tank(200, 200);
-        mButton = new Button((int) cam.position.x - 100,
-                (int) cam.position.y - 150);
+        mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150);
         enemies = new ArrayList<Tank>();
         bullets = new ArrayList<Bullet>();
         for (int i = 0; i < 20; i++) {
@@ -75,14 +73,12 @@ public class PlayState extends State {
 
             if (mButton.collides(
                     new com.badlogic.gdx.math.Polygon(
-                            new float[] {
+                            new float[]{
                                     x, y,
                                     x, y + 20,
                                     x + 20, y + 20,
                                     x + 20, y
                             }))) {
-
-             //   shoot(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
 
             } else {
                 mTank.move(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
@@ -126,11 +122,12 @@ public class PlayState extends State {
             }
 
         }
-        cam.position.x = mTank.getPosition().x + mTank.getBounds().height / 2;
-        cam.position.y = mTank.getPosition().y + mTank.getBounds().width / 2;
+        cam.position.x = mTank.getPosition().x
+                + mTank.getBoundsPolygon().getBoundingRectangle().height / 2;
+        cam.position.y = mTank.getPosition().y
+                + mTank.getBoundsPolygon().getBoundingRectangle().width / 2;
 
-        mButton.setPosition(cam.position.x - 100,
-                cam.position.y - 170);
+        mButton.setPosition(cam.position.x - 100, cam.position.y - 170);
         mButton.update(dt);
         cam.update();
 
@@ -162,7 +159,6 @@ public class PlayState extends State {
         mTank.getSprite().draw(sb);
         mButton.getSprite().draw(sb);
 
-
         sb.setProjectionMatrix(cam.combined); //or your matrix to draw GAME WORLD, not UI
 
         for (int i = 0; i < enemies.size(); i++) {
@@ -189,22 +185,15 @@ public class PlayState extends State {
         sr.setProjectionMatrix(cam.combined);
         sr.setAutoShapeType(true);
         sr.begin();
-
+        sr.setColor(Color.BLACK);
         for (int i = 0; i < enemies.size(); i++) {
-            sr.setColor(Color.BLACK);
-            sr.polygon(enemies.get(i).getBoundsPolygon().getVertices());
-            sr.setColor(Color.RED);
-            sr.rect(enemies.get(i).getBounds().x, enemies.get(i).getBounds().y,
-                    enemies.get(i).getBounds().width, enemies.get(i).getBounds().height);
+            sr.polygon(enemies.get(i).getBoundsPolygon().getTransformedVertices());
         }
         for (int i = 0; i < bullets.size(); i++) {
-            sr.setColor(Color.BLACK);
-            sr.polygon(bullets.get(i).getBoundsPolygon().getVertices());
-            sr.setColor(Color.RED);
-            sr.rect(bullets.get(i).getBounds().x, bullets.get(i).getBounds().y,
-                    bullets.get(i).getBounds().width, bullets.get(i).getBounds().height);
+            sr.polygon(bullets.get(i).getBoundsPolygon().getTransformedVertices());
         }
-
+        sr.polygon(mButton.getBoundsPolygon().getTransformedVertices());
+        sr.polygon(mTank.getBoundsPolygon().getTransformedVertices());
         sr.end();
     }
 

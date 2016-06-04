@@ -1,6 +1,5 @@
 package com.tanks.game.states;
 
-import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -37,6 +36,7 @@ public class GameStateManager {
     public void render(SpriteBatch sb) {
         states.peek().render(sb);
     }
+
     public void render(ShapeRenderer pb) {
         states.peek().render(pb);
     }
