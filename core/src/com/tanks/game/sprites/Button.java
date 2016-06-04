@@ -1,13 +1,9 @@
 package com.tanks.game.sprites;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.tanks.game.utils.MathUtil;
 
 /**
  * Created by Brent on 7/5/2015.
@@ -23,13 +19,14 @@ public class Button extends GameSprite{
 
         glowSprite = new Sprite(texture);
         bounds = new Rectangle(x, y, glowSprite.getWidth() , glowSprite.getHeight());
+        setPolygon(x, y);
     }
 
 
     public void update(float dt) {
 
         bounds.setPosition(position.x, position.y);
-
+        boundsPoly.setPosition(position.x, position.y);
         glowSprite.setPosition(getPosition().x, getPosition().y);
 
     }

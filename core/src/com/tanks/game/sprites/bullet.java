@@ -4,10 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
-import com.tanks.game.utils.MathUtil;
 
 /**
  * Created by Brent on 7/5/2015.
@@ -31,7 +29,7 @@ public class Bullet extends GameSprite{
 
         glowSprite = new Sprite(texture);
         getSprite().scale(-0.5f);
-        bounds = new Rectangle(x, y, glowSprite.getWidth() , glowSprite.getHeight());
+        bounds = new Rectangle(x, y, glowSprite.getWidth() /2, glowSprite.getHeight()/2);
         flap = Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg"));
         flap.play(0.5f);
 
@@ -39,7 +37,7 @@ public class Bullet extends GameSprite{
         this.directionY = directionY;
 
         this.rotation = rotation;
-
+        setPolygon(x, y);
     }
 
     public void update(float dt) {
@@ -47,7 +45,8 @@ public class Bullet extends GameSprite{
         position.y = position.y + (float) directionY *dt;
 
         bounds.setPosition(position.x, position.y);
-
+        boundsPoly.setOrigin(position.x, position.y);
+        boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
         glowSprite.setRotation(rotation);
 

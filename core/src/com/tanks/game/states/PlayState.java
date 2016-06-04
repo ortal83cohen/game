@@ -1,10 +1,13 @@
 package com.tanks.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.tanks.game.TanksDemo;
@@ -71,7 +74,13 @@ public class PlayState extends State {
             cam.unproject(touchPos);
 
             if (mButton.collides(
-                    new com.badlogic.gdx.math.Rectangle(touchPos.x, touchPos.y, 20, 20))) {
+                    new com.badlogic.gdx.math.Polygon(
+                            new float[] {
+                                    x, y,
+                                    x, y + 20,
+                                    x + 20, y + 20,
+                                    x + 20, y
+                            }))) {
 
              //   shoot(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
 
@@ -108,8 +117,9 @@ public class PlayState extends State {
                 bullet.update(dt);
                 for (int j = 0; j < enemies.size(); j++) {
                     Tank enemy = enemies.get(j);
-                    if (bullet.collides(enemy.getBounds())) {
+                    if (bullet.collides(enemy.getBoundsPolygon())) {
                         enemies.remove(j);
+                        bullets.remove(i);
                     }
                 }
 
@@ -151,6 +161,8 @@ public class PlayState extends State {
         sb.draw(bgTextureRegion, 0, 0);
         mTank.getSprite().draw(sb);
         mButton.getSprite().draw(sb);
+
+
         sb.setProjectionMatrix(cam.combined); //or your matrix to draw GAME WORLD, not UI
 
         for (int i = 0; i < enemies.size(); i++) {
@@ -170,6 +182,26 @@ public class PlayState extends State {
                 cam.position.y - 175);
 
         sb.end();
+    }
+
+    @Override
+    public void render(ShapeRenderer sr) {
+        sr.setProjectionMatrix(cam.combined);
+        sr.setAutoShapeType(true);
+        sr.begin();
+        sr.setColor(Color.BLACK);
+        for (int i = 0; i < enemies.size(); i++) {
+            sr.polygon(enemies.get(i).getBoundsPolygon().getVertices() );
+            sr.rect(enemies.get(i).getBounds().x, enemies.get(i).getBounds().y,
+                    enemies.get(i).getBounds().width, enemies.get(i).getBounds().height);
+        }
+        for (int i = 0; i < bullets.size(); i++) {
+            sr.polygon(bullets.get(i).getBoundsPolygon().getVertices() );
+            sr.rect(bullets.get(i).getBounds().x, bullets.get(i).getBounds().y,
+                    bullets.get(i).getBounds().width, bullets.get(i).getBounds().height);
+        }
+
+        sr.end();
     }
 
     @Override

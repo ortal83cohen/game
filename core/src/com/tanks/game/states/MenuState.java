@@ -3,6 +3,7 @@ package com.tanks.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.tanks.game.TanksDemo;
 
 /**
@@ -40,6 +41,11 @@ public class MenuState extends State {
         sb.draw(background, 0, 0);
         sb.draw(playBtn, cam.position.x - playBtn.getWidth() / 2, cam.position.y);
         sb.end();
+    }
+
+    @Override
+    public void render(ShapeRenderer pb) {
+
     }
 
     @Override
