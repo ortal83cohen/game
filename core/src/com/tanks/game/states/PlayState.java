@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.Bullet;
@@ -22,7 +21,9 @@ import java.util.ArrayList;
  */
 public class PlayState extends State {
 
-    private static final int GROUND_Y_OFFSET = -50;
+    static public int GAME_WIDTH = 500;
+
+    static public int GAME_HEIGHT = 500;
 
     private final TextureRegion bgTextureRegion;
 
@@ -42,8 +43,6 @@ public class PlayState extends State {
 
     private Texture bg;
 
-    private Vector2 groundPos1, groundPos2;
-
     public PlayState(com.tanks.game.states.GameStateManager gsm) {
         super(gsm);
 
@@ -52,13 +51,13 @@ public class PlayState extends State {
         enemies = new ArrayList<Tank>();
         bullets = new ArrayList<Bullet>();
         for (int i = 0; i < 20; i++) {
-            enemies.add(i, new Tank(100 * i, 100 * i));
+            enemies.add(i, new Tank((int)(Math.random()*GAME_WIDTH),(int)(Math.random()* GAME_HEIGHT)));
         }
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
         bg.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         bgTextureRegion = new TextureRegion(bg);
-        bgTextureRegion.setRegion(0, 0, bg.getWidth() * 10, bg.getHeight() * 10);
+        bgTextureRegion.setRegion(0, 0, GAME_WIDTH+50, GAME_HEIGHT+50);
     }
 
     @Override
@@ -100,6 +99,15 @@ public class PlayState extends State {
 
         for (int i = 0; i < enemies.size(); i++) {
             Tank enemy = enemies.get(i);
+            if (enemy.getPosition().x < 0) {
+                enemy.directionX = Math.abs(enemy.directionX);
+            } else if (enemy.getPosition().x > GAME_WIDTH) {
+                enemy.directionX = -Math.abs(enemy.directionX);
+            } else if (enemy.getPosition().y < 0) {
+                enemy.directionY = Math.abs(enemy.directionY);
+            } else if (enemy.getPosition().y > GAME_HEIGHT) {
+                enemy.directionY = -Math.abs(enemy.directionY);
+            }
             enemy.move(enemy.directionX, enemy.directionY);
 
             enemy.update(dt);
