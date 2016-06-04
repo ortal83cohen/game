@@ -189,14 +189,18 @@ public class PlayState extends State {
         sr.setProjectionMatrix(cam.combined);
         sr.setAutoShapeType(true);
         sr.begin();
-        sr.setColor(Color.BLACK);
+
         for (int i = 0; i < enemies.size(); i++) {
-            sr.polygon(enemies.get(i).getBoundsPolygon().getVertices() );
+            sr.setColor(Color.BLACK);
+            sr.polygon(enemies.get(i).getBoundsPolygon().getVertices());
+            sr.setColor(Color.RED);
             sr.rect(enemies.get(i).getBounds().x, enemies.get(i).getBounds().y,
                     enemies.get(i).getBounds().width, enemies.get(i).getBounds().height);
         }
         for (int i = 0; i < bullets.size(); i++) {
-            sr.polygon(bullets.get(i).getBoundsPolygon().getVertices() );
+            sr.setColor(Color.BLACK);
+            sr.polygon(bullets.get(i).getBoundsPolygon().getVertices());
+            sr.setColor(Color.RED);
             sr.rect(bullets.get(i).getBounds().x, bullets.get(i).getBounds().y,
                     bullets.get(i).getBounds().width, bullets.get(i).getBounds().height);
         }

@@ -5,19 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="53b79b00-f0a8-484d-8e7e-2b7309d283e4" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/bullet.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Bullet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/outputs/apk/android-debug-unaligned.apk" afterPath="$PROJECT_DIR$/android/build/outputs/apk/android-debug-unaligned.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/outputs/apk/android-debug.apk" afterPath="$PROJECT_DIR$/android/build/outputs/apk/android-debug.apk" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/build/libs/core-1.0.jar" afterPath="$PROJECT_DIR$/core/build/libs/core-1.0.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Button.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Button.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/GameSprite.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/GameSprite.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/states/GameStateManager.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/states/GameStateManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/states/MenuState.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/states/MenuState.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/states/PlayState.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/states/PlayState.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/states/State.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/states/State.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Tank.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Tank.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/TanksDemo.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/TanksDemo.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="tanks.io-client.iws" />
@@ -93,8 +81,8 @@
       <file leaf-file-name="PlayState.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/states/PlayState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.46470588">
-              <caret line="195" column="89" selection-start-line="195" selection-start-column="89" selection-end-line="195" selection-end-column="89" />
+            <state vertical-scroll-proportion="0.7735294">
+              <caret line="202" column="35" selection-start-line="202" selection-start-column="35" selection-end-line="202" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -2940,7 +2928,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/core/src/com/tanks/game/states/PlayState.java</url>
-          <line>215</line>
+          <line>219</line>
           <properties />
           <option name="timeStamp" value="15" />
         </line-breakpoint>
@@ -3396,8 +3384,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/states/PlayState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46470588">
-          <caret line="195" column="89" selection-start-line="195" selection-start-column="89" selection-end-line="195" selection-end-column="89" />
+        <state vertical-scroll-proportion="0.7735294">
+          <caret line="202" column="35" selection-start-line="202" selection-start-column="35" selection-end-line="202" selection-end-column="35" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
