@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Bullet1 extends GameSprite {
+public class Bullet extends GameSprite {
 
     private Texture texture;
 
@@ -21,7 +21,7 @@ public class Bullet1 extends GameSprite {
 
     private int directionY;
 
-    public Bullet1(int x, int y, float rotation, int directionX, int directionY) {
+    public Bullet(int x, int y, float rotation, int directionX, int directionY) {
         position = new Vector2(x, y);
 
         texture = new Texture("bullet.png");
