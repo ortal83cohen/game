@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.tanks.game.TanksDemo;
-import com.tanks.game.sprites.Bullet;
+import com.tanks.game.sprites.Bullet1;
 import com.tanks.game.sprites.Button;
 import com.tanks.game.sprites.GameSprite;
 import com.tanks.game.sprites.Tank;
@@ -37,6 +37,8 @@ public class OnlinePlayState extends State {
 
     private final TextureRegion bgTextureRegion;
 
+    private final Texture tankTexture;
+
     BitmapFont font = new BitmapFont();
 
     int ANDROID_WIDTH = Gdx.graphics.getWidth();
@@ -45,7 +47,7 @@ public class OnlinePlayState extends State {
 
     HashMap<String, Tank> enemies;
 
-    ArrayList<Bullet> bullets;
+    ArrayList<Bullet1> mBullet1s;
 
     private Socket socket;
 
@@ -64,12 +66,13 @@ public class OnlinePlayState extends State {
 
         mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150);
         enemies = new HashMap<String, Tank>();
-        bullets = new ArrayList<Bullet>();
+        mBullet1s = new ArrayList<Bullet1>();
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
         bg.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         bgTextureRegion = new TextureRegion(bg);
         bgTextureRegion.setRegion(0, 0, GAME_WIDTH + 50, GAME_HEIGHT + 50);
+        tankTexture = new Texture("tank.png");
     }
 
     public void connectSocket() {
@@ -86,8 +89,11 @@ public class OnlinePlayState extends State {
             @Override
             public void call(Object... args) {
                 Gdx.app.log("SocketIO", "Connected");
+
+
+
                 player = new Tank((int) (Math.random() * GAME_WIDTH),
-                        (int) (Math.random() * GAME_HEIGHT));
+                        (int) (Math.random() * GAME_HEIGHT), tankTexture);
             }
         }).on("socketID", new Emitter.Listener() {
             @Override
@@ -108,7 +114,7 @@ public class OnlinePlayState extends State {
                 try {
                     myId = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player Connect: " + myId);
-                    enemies.put(myId, new Tank(0, 0));
+                    enemies.put(myId, new Tank(0, 0,tankTexture));
 
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting New PlayerID");
@@ -131,7 +137,7 @@ public class OnlinePlayState extends State {
                 JSONArray objects = (JSONArray) args[0];
                 try {
                     for (int i = 0; i < objects.length(); i++) {
-                        Tank enemy = new Tank(0, 0);
+                        Tank enemy = new Tank(0, 0,tankTexture);
                         Vector2 position = new Vector2();
                         position.x = ((Double) objects.getJSONObject(i).getDouble("x"))
                                 .floatValue();
@@ -202,18 +208,18 @@ if(player!=null) {
 
             enemy.update(dt);
         }
-        for (int i = 0; i < bullets.size(); i++) {
-            Bullet bullet = bullets.get(i);
+        for (int i = 0; i < mBullet1s.size(); i++) {
+            Bullet1 bullet1 = mBullet1s.get(i);
 
-            if (isOurOfScreen(bullet)) {
-                bullets.remove(i);
+            if (isOurOfScreen(bullet1)) {
+                mBullet1s.remove(i);
             } else {
-                bullet.update(dt);
+                bullet1.update(dt);
                 for (int j = 0; j < enemies.size(); j++) {
                     Tank enemy = enemies.get(j);
-                    if (bullet.collides(enemy.getBoundsPolygon())) {
+                    if (bullet1.collides(enemy.getBoundsPolygon())) {
                         enemies.remove(j);
-                        bullets.remove(i);
+                        mBullet1s.remove(i);
                     }
                 }
 
@@ -243,11 +249,11 @@ if(player!=null) {
 
     private void shoot(int directionx, int directiony) {
         if(player!=null) {
-            if (bullets.size() < 5) {
-                Bullet bullet = new Bullet((int) player.getPosition().x,
+            if (mBullet1s.size() < 5) {
+                Bullet1 bullet1 = new Bullet1((int) player.getPosition().x,
                         (int) player.getPosition().y,
                         player.getRotation(), directionx, directiony);
-                bullets.add(bullet);
+                mBullet1s.add(bullet1);
             }
         }
     }
@@ -265,8 +271,8 @@ if(player!=null) {
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).getSprite().draw(sb);
         }
-        for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).getSprite().draw(sb);
+        for (int i = 0; i < mBullet1s.size(); i++) {
+            mBullet1s.get(i).getSprite().draw(sb);
         }
 
 //        font.draw(sb, String.valueOf(player.getSprite().getRotation()), player.getPosition().x - 10,
@@ -290,8 +296,8 @@ if(player!=null) {
         for (int i = 0; i < enemies.size(); i++) {
             sr.polygon(enemies.get(i).getBoundsPolygon().getTransformedVertices());
         }
-        for (int i = 0; i < bullets.size(); i++) {
-            sr.polygon(bullets.get(i).getBoundsPolygon().getTransformedVertices());
+        for (int i = 0; i < mBullet1s.size(); i++) {
+            sr.polygon(mBullet1s.get(i).getBoundsPolygon().getTransformedVertices());
         }
         sr.polygon(mButton.getBoundsPolygon().getTransformedVertices());
         if(player!=null) {
@@ -308,8 +314,8 @@ if(player!=null) {
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).dispose();
         }
-        for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).dispose();
+        for (int i = 0; i < mBullet1s.size(); i++) {
+            mBullet1s.get(i).dispose();
         }
 
     }

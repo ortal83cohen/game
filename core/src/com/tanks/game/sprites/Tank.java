@@ -21,10 +21,24 @@ public class Tank extends GameSprite {
 
     private Texture texture;
 
-    private Sound flap;
 
     private float rotation;
 
+    public Tank(int x, int y,Texture texture) {
+        position = new Vector2(x, y);
+
+        this.texture = texture;
+        glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
+        setPolygon();
+        boundsPoly.scale(-0.5f);
+        getSprite().scale(-0.5f);
+        birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
+
+        directionX = (int) (Math.random() * 500) - 250;
+        directionY = (int) (Math.random() * 500) - 250;
+
+
+    }
     public Tank(int x, int y) {
         position = new Vector2(x, y);
         if (Math.random() < 0.5) {
@@ -38,7 +52,6 @@ public class Tank extends GameSprite {
         boundsPoly.scale(-0.5f);
         getSprite().scale(-0.5f);
         birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
-        flap = Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg"));
 
         directionX = (int) (Math.random() * 500) - 250;
         directionY = (int) (Math.random() * 500) - 250;
@@ -73,7 +86,6 @@ public class Tank extends GameSprite {
 
     public void dispose() {
         texture.dispose();
-        flap.dispose();
     }
 
     public void setPosition(Vector2 position) {
