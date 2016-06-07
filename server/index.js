@@ -13,7 +13,6 @@ io.on('connection', function(socket){
 	socket.emit('getPlayers', players);
 	socket.broadcast.emit('newPlayer', { id: socket.id });
 	socket.on('playerMoved', function(data){
-    		console.log("Player Moved");
     		data.id = socket.id;
     		socket.broadcast.emit('playerMoved', data);
     		for(var i = 0; i < players.length; i++){
@@ -23,6 +22,21 @@ io.on('connection', function(socket){
             			}
             		}
     	});
+    	socket.on('playerSHoot', function(data){
+    		data.id = socket.id;
+    		socket.broadcast.emit('playerSHoot', data);
+
+    	});
+    	socket.on('playerHit', function(data){
+                console.log("Player Hit");
+
+                for(var i = 0; i < players.length; i++){
+        			if(players[i].id == data.id){
+        			 	socket.broadcast.emit('playerHit', data);
+        				players.splice(data.id, 1);
+        			}
+        		}
+            	});
 	socket.on('disconnect', function(){
 		console.log("Player Disconnected");
 		socket.broadcast.emit('playerDisconnected', { id: socket.id });

@@ -27,6 +27,8 @@ public class PlayState extends State {
 
     private final TextureRegion bgTextureRegion;
 
+    private final Texture bulletTexture;
+
     BitmapFont font = new BitmapFont();
 
     int ANDROID_WIDTH = Gdx.graphics.getWidth();
@@ -59,6 +61,7 @@ public class PlayState extends State {
         bg.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         bgTextureRegion = new TextureRegion(bg);
         bgTextureRegion.setRegion(0, 0, GAME_WIDTH + 50, GAME_HEIGHT + 50);
+        bulletTexture = new Texture("bullet.png");
     }
 
     @Override
@@ -154,7 +157,7 @@ public class PlayState extends State {
     private void shoot(int directionx, int directiony) {
         if (mBullets.size() < 5) {
             Bullet bullet = new Bullet((int) mTank.getPosition().x, (int) mTank.getPosition().y,
-                    mTank.getRotation(), directionx, directiony);
+                    mTank.getRotation(), directionx, directiony,bulletTexture);
             mBullets.add(bullet);
         }
 

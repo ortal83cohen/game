@@ -2,95 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/io.socket/socket.io-client/0.6.2/31fb4bf50b62daadee5e94f39679812ad8a9ae00/socket.io-client-0.6.2.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="31fb4bf50b62daadee5e94f39679812ad8a9ae00">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/socket.io-client-0.6.2_c3dcc93ea2e484ac6078c8278703f1ff268c2a92.jar" />
-    </item>
-    <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl_util/2.9.2/4b9e37300a87799856e0bd15ed81663cdb6b0947/lwjgl_util-2.9.2.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="4b9e37300a87799856e0bd15ed81663cdb6b0947">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/lwjgl_util-2.9.2_6a6e1af12194438938f03033d4e7f32200f26a43.jar" />
-    </item>
-    <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/org.lwjgl.lwjgl/lwjgl/2.9.2/a9d80fe5935c7a9149f6584d9777cfd471f65489/lwjgl-2.9.2.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="a9d80fe5935c7a9149f6584d9777cfd471f65489">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/lwjgl-2.9.2_550b827b6f46f4266534774c56193eea2181eabe.jar" />
-    </item>
-    <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.6.0/98476622f10715998eacf9240d6b479f12c66143/okio-1.6.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="98476622f10715998eacf9240d6b479f12c66143">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/okio-1.6.0_e191e8bb47024828720a11304c71086577e9ef2d.jar" />
-    </item>
-    <item
         jar="/Users/ortalcohen/Documents/tanks.io-client/core/build/libs/core-1.0.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="f62bc207f052206e4150670b57d841a9bdccfffb">
+        sha1="421451a3260c52df9677ad0075d36b5452c42890">
         <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/core-1.0_b8e9b0ab876721f8ac58dcf88ab1c98941c1a0d1.jar" />
-    </item>
-    <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-backend-android/1.6.2/14e97f2799e74334d15c59ae90c6247f36b90429/gdx-backend-android-1.6.2.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="14e97f2799e74334d15c59ae90c6247f36b90429">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/gdx-backend-android-1.6.2_5ef47f3567b489dadfe8f547a5a5f57d37167d70.jar" />
-    </item>
-    <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp-ws/2.5.0/e9753b7dcae5deca92e871c5c759067070b07bc/okhttp-ws-2.5.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="0e9753b7dcae5deca92e871c5c759067070b07bc">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/okhttp-ws-2.5.0_ebcd3e7e023da441c15a56b62cd72f2173831707.jar" />
-    </item>
-    <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx/1.6.2/b70b1eb9da71076aa47ac8932b42358b00db84a0/gdx-1.6.2.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="b70b1eb9da71076aa47ac8932b42358b00db84a0">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/gdx-1.6.2_3421a6e3ccd2b898fe7f371a316b10bcc96f7d8b.jar" />
-    </item>
-    <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp/okhttp/2.5.0/4de2b4ed3445c37ec1720a7d214712e845a24636/okhttp-2.5.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="4de2b4ed3445c37ec1720a7d214712e845a24636">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/okhttp-2.5.0_936f91da59ce59b2824c27ddcef315d6bb1b4431.jar" />
-    </item>
-    <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/io.socket/engine.io-client/0.6.2/939f90d47c800626d5b0a4e7f89f98b3dde61dc6/engine.io-client-0.6.2.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="939f90d47c800626d5b0a4e7f89f98b3dde61dc6">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/engine.io-client-0.6.2_52636496a09bebafb8f3d92e1fdfd1f19b2acbe4.jar" />
-    </item>
-    <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/net.java.jinput/jinput/2.0.5/39c7796b469a600f72380316f6b1f11db6c2c7c4/jinput-2.0.5.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="39c7796b469a600f72380316f6b1f11db6c2c7c4">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/jinput-2.0.5_bf0e2e96d8ad70333e3c22ac828c8f8c8588c842.jar" />
-    </item>
-    <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/net.java.jutils/jutils/1.0.0/e12fe1fda814bd348c1579329c86943d2cd3c6a6/jutils-1.0.0.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="e12fe1fda814bd348c1579329c86943d2cd3c6a6">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/jutils-1.0.0_666c1787b46218ee1bfaf1a6985e867686417c9f.jar" />
-    </item>
-    <item
-        jar="/Users/ortalcohen/.gradle/caches/modules-2/files-2.1/com.badlogicgames.gdx/gdx-box2d/1.6.2/b4406b97b35d7caf7111400ceebc8b92c8998168/gdx-box2d-1.6.2.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="b4406b97b35d7caf7111400ceebc8b92c8998168">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/gdx-box2d-1.6.2_df36565d7cd0f2aaa5c2831dd141855cec4d0dc2.jar" />
     </item>
 
 </items>

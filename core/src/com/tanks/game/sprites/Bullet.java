@@ -21,10 +21,10 @@ public class Bullet extends GameSprite {
 
     private int directionY;
 
-    public Bullet(int x, int y, float rotation, int directionX, int directionY) {
+    public Bullet(int x, int y, float rotation, int directionX, int directionY,Texture texture) {
         position = new Vector2(x, y);
 
-        texture = new Texture("bullet.png");
+        this.texture = texture;
 
         glowSprite = new Sprite(texture);
         getSprite().scale(-0.5f);
