@@ -6,125 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="53b79b00-f0a8-484d-8e7e-2b7309d283e4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/build/libs/core-1.0.jar" afterPath="$PROJECT_DIR$/core/build/libs/core-1.0.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/object-keys/.jscs.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/object-keys/.jscs.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/AndroidManifest.xml" afterPath="$PROJECT_DIR$/android/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/manifests/full/debug/AndroidManifest.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/manifests/full/debug/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/states/MenuState.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/states/MenuState.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Tank.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Tank.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/has-binary/fixtures/big.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/has-binary/fixtures/big.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/has-binary-data/fixtures/big.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/has-binary-data/fixtures/big.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/has-binary/fixtures/big.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/has-binary/fixtures/big.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/utf8/bower.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/utf8/bower.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/engine.io-parser/node_modules/utf8/bower.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/engine.io-parser/node_modules/utf8/bower.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/src/bufferutil.cc" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/src/bufferutil.cc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/src/bufferutil.cc" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/src/bufferutil.cc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/has-binary/node_modules/isarray/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/has-binary/node_modules/isarray/component.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/utf8/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/utf8/component.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/has-binary-data/node_modules/isarray/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/has-binary-data/node_modules/isarray/component.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/isarray/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/isarray/component.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/backo2/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/backo2/component.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/component-inherit/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/component-inherit/component.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/engine.io-parser/node_modules/utf8/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/engine.io-parser/node_modules/utf8/component.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/has-binary/node_modules/isarray/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/has-binary/node_modules/isarray/component.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/indexof/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/indexof/component.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/object-component/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/object-component/component.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-parser/node_modules/isarray/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-parser/node_modules/isarray/component.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/json3/coverage/coverage.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/json3/coverage/coverage.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-parser/node_modules/json3/coverage/coverage.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-parser/node_modules/json3/coverage/coverage.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/accepts/node_modules/mime-types/node_modules/mime-db/db.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/accepts/node_modules/mime-types/node_modules/mime-db/db.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/type-is/node_modules/mime-types/node_modules/mime-db/db.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/type-is/node_modules/mime-types/node_modules/mime-db/db.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-hdpi-v4.json" afterPath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-hdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-mdpi-v4.json" afterPath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-mdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-xhdpi-v4.json" afterPath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-xhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-xxhdpi-v4.json" afterPath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-xxhdpi-v4.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/utf8/tests/index.html" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/utf8/tests/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/engine.io-parser/node_modules/utf8/tests/index.html" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/engine.io-parser/node_modules/utf8/tests/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/has-cors/node_modules/global/test/index.html" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/has-cors/node_modules/global/test/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/json3/coverage/lcov-report/lib/json3.js.html" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/json3/coverage/lcov-report/lib/json3.js.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-parser/node_modules/json3/coverage/lcov-report/lib/json3.js.html" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-parser/node_modules/json3/coverage/lcov-report/lib/json3.js.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAndroidTestAssets/merger.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAndroidTestAssets/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAndroidTestResources/merger.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAndroidTestResources/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAndroidTestShaders/merger.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAndroidTestShaders/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAssets/merger.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAssets/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugResources/merger.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugResources/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugShaders/merger.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugShaders/merger.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_pre_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_pre_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_pre_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_pre_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_pre_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_pre_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_pre_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_pre_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_pre_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_pre_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_pre_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_pre_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_pre_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_pre_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_pre_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_pre_43_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_new.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_new.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_new.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_new.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_new.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_new.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_new.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_new.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_object_wrap.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_object_wrap.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_object_wrap.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_object_wrap.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_object_wrap.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_object_wrap.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_object_wrap.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_object_wrap.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_pre_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_pre_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_pre_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_pre_12_inl.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_string_bytes.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_string_bytes.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_string_bytes.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_string_bytes.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_string_bytes.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_string_bytes.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_string_bytes.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_string_bytes.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_typedarray_contents.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_typedarray_contents.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_typedarray_contents.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_typedarray_contents.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_typedarray_contents.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_typedarray_contents.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_typedarray_contents.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_typedarray_contents.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_weak.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_weak.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_weak.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_weak.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_weak.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_weak.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_weak.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_weak.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/node_modules/mime/types.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/node_modules/mime/types.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/src/validation.cc" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/src/validation.cc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/src/validation.cc" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/src/validation.cc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/multi/values.json" afterPath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/multi/values.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/index.js" afterPath="$PROJECT_DIR$/server/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="tanks.io-client.iws" />
@@ -222,21 +105,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
+            <state vertical-scroll-proportion="0.253886">
+              <caret line="11" column="47" selection-start-line="11" selection-start-column="47" selection-end-line="11" selection-end-column="47" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OnlinePlayState.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="OnlinePlayState.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.15012106">
-              <caret line="91" column="66" selection-start-line="91" selection-start-column="66" selection-end-line="91" selection-end-column="66" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="152" column="46" selection-start-line="152" selection-start-column="46" selection-end-line="152" selection-end-column="46" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3024#3341#0" expanded="true" />
@@ -247,8 +130,10 @@
                 <element signature="e#4336#4337#0" expanded="true" />
                 <element signature="e#4364#4796#0" expanded="true" />
                 <element signature="e#4795#4796#0" expanded="true" />
-                <element signature="e#4815#5842#0" expanded="true" />
-                <element signature="e#5841#5842#0" expanded="true" />
+                <element signature="e#4816#5484#0" expanded="true" />
+                <element signature="e#5483#5484#0" expanded="true" />
+                <element signature="e#5503#6530#0" expanded="true" />
+                <element signature="e#6529#6530#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2617,6 +2502,7 @@
         <option value="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Bullet1.java" />
         <option value="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Bullet.java" />
         <option value="$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java" />
+        <option value="$PROJECT_DIR$/server/index.js" />
       </list>
     </option>
   </component>
@@ -2624,7 +2510,7 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-11" />
+    <option name="x" value="-5" />
     <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="773" />
@@ -3200,7 +3086,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="23" width="1280" height="773" extended-state="0" />
+    <frame x="-5" y="23" width="1280" height="773" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -3286,19 +3172,19 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java</url>
-          <line>216</line>
+          <line>232</line>
           <properties />
           <option name="timeStamp" value="49" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java</url>
-          <line>236</line>
+          <line>252</line>
           <properties />
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java</url>
-          <line>158</line>
+          <line>173</line>
           <properties />
           <option name="timeStamp" value="51" />
         </line-breakpoint>
@@ -3704,14 +3590,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="5" column="31" selection-start-line="5" selection-start-column="31" selection-end-line="5" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/states/PlayState.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3744,8 +3622,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15012106">
-          <caret line="91" column="66" selection-start-line="91" selection-start-column="66" selection-end-line="91" selection-end-column="66" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="152" column="46" selection-start-line="152" selection-start-column="46" selection-end-line="152" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#3024#3341#0" expanded="true" />
@@ -3756,9 +3634,19 @@
             <element signature="e#4336#4337#0" expanded="true" />
             <element signature="e#4364#4796#0" expanded="true" />
             <element signature="e#4795#4796#0" expanded="true" />
-            <element signature="e#4815#5842#0" expanded="true" />
-            <element signature="e#5841#5842#0" expanded="true" />
+            <element signature="e#4816#5484#0" expanded="true" />
+            <element signature="e#5483#5484#0" expanded="true" />
+            <element signature="e#5503#6530#0" expanded="true" />
+            <element signature="e#6529#6530#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.253886">
+          <caret line="11" column="47" selection-start-line="11" selection-start-column="47" selection-end-line="11" selection-end-column="47" />
+          <folding />
         </state>
       </provider>
     </entry>

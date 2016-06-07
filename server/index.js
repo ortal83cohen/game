@@ -12,6 +12,17 @@ io.on('connection', function(socket){
 	socket.emit('socketID', { id: socket.id });
 	socket.emit('getPlayers', players);
 	socket.broadcast.emit('newPlayer', { id: socket.id });
+	socket.on('playerMoved', function(data){
+    		console.log("Player Moved");
+    		data.id = socket.id;
+    		socket.broadcast.emit('playerMoved', data);
+    		for(var i = 0; i < players.length; i++){
+            			if(players[i].id == socket.id){
+            				players[i].x =data.x;
+            				players[i].y =data.y;
+            			}
+            		}
+    	});
 	socket.on('disconnect', function(){
 		console.log("Player Disconnected");
 		socket.broadcast.emit('playerDisconnected', { id: socket.id });

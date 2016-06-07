@@ -148,6 +148,21 @@ public class OnlinePlayState extends State {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
                 }
             }
+        }).on("playerMoved", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    String enemyId = data.getString("id");
+                    double x = data.getDouble("x");
+                    double y = data.getDouble("y");
+                   if(enemies.containsKey(enemyId)){
+                       enemies.get(enemyId).setPosition(new Vector2((float)x,(float)y));
+                    }
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
+                }
+            }
         }).on("getPlayers", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
@@ -208,6 +223,7 @@ public class OnlinePlayState extends State {
 
     @Override
     public void update(float dt) {
+        updateServer(dt);
         handleInput();
         if (player != null) {
             player.update(dt);
@@ -269,6 +285,7 @@ public class OnlinePlayState extends State {
 
     @Override
     public void render(SpriteBatch sb) {
+
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(bgTextureRegion, 0, 0);
