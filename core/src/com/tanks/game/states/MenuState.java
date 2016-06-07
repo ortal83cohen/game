@@ -21,6 +21,7 @@ public class MenuState extends State {
 
 
     private Button mButton1;
+
     private Button mButton2;
 
     public MenuState(GameStateManager gsm) {
@@ -28,15 +29,15 @@ public class MenuState extends State {
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         background = new Texture("bg.png");
 //        playBtn = new Texture("button.png");
-        mButton1 = new Button((int) cam.position.x , (int) cam.position.y);
-        mButton2 = new Button((int) cam.position.x , (int) cam.position.y );
-         tutchPolygon = new com.badlogic.gdx.math.Polygon(
-                 new float[]{
-                      0, 0,
-                         0,0,
-                         0, 0,
-                        0,0
-                 }
+        mButton1 = new Button((int) cam.position.x, (int) cam.position.y);
+        mButton2 = new Button((int) cam.position.x, (int) cam.position.y);
+        tutchPolygon = new com.badlogic.gdx.math.Polygon(
+                new float[]{
+                        0, 0,
+                        0, 0,
+                        0, 0,
+                        0, 0
+                }
         );
     }
 
@@ -49,7 +50,7 @@ public class MenuState extends State {
             touchPos.set(x, y,
                     0); //when the screen is touched, the coordinates are inserted into the vector
             cam.unproject(touchPos);
-            tutchPolygon.setVertices( new float[]{
+            tutchPolygon.setVertices(new float[]{
                     x, y,
                     x, y + 20,
                     x + 20, y + 20,
@@ -71,8 +72,8 @@ public class MenuState extends State {
     public void update(float dt) {
         handleInput();
         cam.update();
-        mButton1.setPosition(cam.position.x , cam.position.y );
-        mButton2.setPosition(cam.position.x , cam.position.y );
+        mButton1.setPosition(cam.position.x, cam.position.y);
+        mButton2.setPosition(cam.position.x, cam.position.y);
     }
 
     @Override

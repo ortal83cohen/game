@@ -1,7 +1,5 @@
 package com.tanks.game.sprites;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -24,7 +22,7 @@ public class Tank extends GameSprite {
 
     private float rotation;
 
-    public Tank(int x, int y,Texture texture) {
+    public Tank(int x, int y, Texture texture) {
         position = new Vector2(x, y);
 
         this.texture = texture;
@@ -39,6 +37,7 @@ public class Tank extends GameSprite {
 
 
     }
+
     public Tank(int x, int y) {
         position = new Vector2(x, y);
         if (Math.random() < 0.5) {

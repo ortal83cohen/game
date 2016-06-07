@@ -5,27 +5,126 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="53b79b00-f0a8-484d-8e7e-2b7309d283e4" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/android/build/intermediates/classes/debug/com/brentaureli/game/android/BuildConfig.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/android/build/intermediates/classes/debug/com/brentaureli/game/android/R$attr.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/android/build/intermediates/classes/debug/com/brentaureli/game/android/R$drawable.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/android/build/intermediates/classes/debug/com/brentaureli/game/android/R$string.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/android/build/intermediates/classes/debug/com/brentaureli/game/android/R$style.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/android/build/intermediates/classes/debug/com/brentaureli/game/android/R.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/android/build/outputs/apk/android-debug-unaligned.apk" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/android/build/outputs/apk/android-debug.apk" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/bullet.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Bullet1.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/build/libs/core-1.0.jar" afterPath="$PROJECT_DIR$/core/build/libs/core-1.0.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/object-keys/.jscs.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/object-keys/.jscs.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/AndroidManifest.xml" afterPath="$PROJECT_DIR$/android/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/manifests/full/debug/AndroidManifest.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/manifests/full/debug/AndroidManifest.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/states/MenuState.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/states/MenuState.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/states/PlayState.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/states/PlayState.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Tank.java" afterPath="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Tank.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/android.iml" afterPath="$PROJECT_DIR$/android/android.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/core.iml" afterPath="$PROJECT_DIR$/core/core.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/desktop/desktop.iml" afterPath="$PROJECT_DIR$/desktop/desktop.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/gradle.xml" afterPath="$PROJECT_DIR$/.idea/gradle.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/outputs/logs/manifest-merger-debug-report.txt" afterPath="$PROJECT_DIR$/android/build/outputs/logs/manifest-merger-debug-report.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/has-binary/fixtures/big.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/has-binary/fixtures/big.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/has-binary-data/fixtures/big.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/has-binary-data/fixtures/big.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/has-binary/fixtures/big.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/has-binary/fixtures/big.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/utf8/bower.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/utf8/bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/engine.io-parser/node_modules/utf8/bower.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/engine.io-parser/node_modules/utf8/bower.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/src/bufferutil.cc" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/src/bufferutil.cc" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/src/bufferutil.cc" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/src/bufferutil.cc" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/has-binary/node_modules/isarray/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/has-binary/node_modules/isarray/component.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/utf8/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/utf8/component.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/has-binary-data/node_modules/isarray/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/has-binary-data/node_modules/isarray/component.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/isarray/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/isarray/component.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/backo2/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/backo2/component.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/component-inherit/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/component-inherit/component.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/engine.io-parser/node_modules/utf8/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/engine.io-parser/node_modules/utf8/component.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/has-binary/node_modules/isarray/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/has-binary/node_modules/isarray/component.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/indexof/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/indexof/component.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/object-component/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/object-component/component.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-parser/node_modules/isarray/component.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-parser/node_modules/isarray/component.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/json3/coverage/coverage.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/json3/coverage/coverage.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-parser/node_modules/json3/coverage/coverage.json" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-parser/node_modules/json3/coverage/coverage.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/accepts/node_modules/mime-types/node_modules/mime-db/db.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/accepts/node_modules/mime-types/node_modules/mime-db/db.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/type-is/node_modules/mime-types/node_modules/mime-db/db.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/type-is/node_modules/mime-types/node_modules/mime-db/db.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-hdpi-v4.json" afterPath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-hdpi-v4.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-mdpi-v4.json" afterPath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-mdpi-v4.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-xhdpi-v4.json" afterPath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-xhdpi-v4.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-xxhdpi-v4.json" afterPath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/single/drawable-xxhdpi-v4.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/utf8/tests/index.html" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/engine.io-parser/node_modules/utf8/tests/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/engine.io-parser/node_modules/utf8/tests/index.html" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/engine.io-parser/node_modules/utf8/tests/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/has-cors/node_modules/global/test/index.html" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/has-cors/node_modules/global/test/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/json3/coverage/lcov-report/lib/json3.js.html" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-adapter/node_modules/socket.io-parser/node_modules/json3/coverage/lcov-report/lib/json3.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-parser/node_modules/json3/coverage/lcov-report/lib/json3.js.html" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-parser/node_modules/json3/coverage/lcov-report/lib/json3.js.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAndroidTestAssets/merger.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAndroidTestAssets/merger.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAndroidTestResources/merger.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAndroidTestResources/merger.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAndroidTestShaders/merger.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAndroidTestShaders/merger.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAssets/merger.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugAssets/merger.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugResources/merger.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugResources/merger.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugShaders/merger.xml" afterPath="$PROJECT_DIR$/android/build/intermediates/incremental/mergeDebugShaders/merger.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_pre_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_pre_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_callbacks_pre_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_callbacks_pre_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_pre_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_pre_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_converters_pre_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_converters_pre_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_pre_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_pre_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_implementation_pre_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_implementation_pre_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_pre_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_pre_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_maybe_pre_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_pre_43_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_maybe_pre_43_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_new.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_new.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_new.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_new.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_new.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_new.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_new.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_new.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_object_wrap.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_object_wrap.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_object_wrap.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_object_wrap.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_object_wrap.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_object_wrap.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_object_wrap.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_object_wrap.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_pre_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_pre_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_persistent_pre_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_pre_12_inl.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_persistent_pre_12_inl.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_string_bytes.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_string_bytes.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_string_bytes.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_string_bytes.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_string_bytes.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_string_bytes.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_string_bytes.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_string_bytes.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_typedarray_contents.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_typedarray_contents.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_typedarray_contents.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_typedarray_contents.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_typedarray_contents.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_typedarray_contents.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_typedarray_contents.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_typedarray_contents.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_weak.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_weak.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_weak.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_weak.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_weak.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/bufferutil/node_modules/nan/nan_weak.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_weak.h" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/node_modules/nan/nan_weak.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/node_modules/mime/types.json" afterPath="$PROJECT_DIR$/server/node_modules/express/node_modules/send/node_modules/mime/types.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/src/validation.cc" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/engine.io/node_modules/ws/node_modules/utf-8-validate/src/validation.cc" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/src/validation.cc" afterPath="$PROJECT_DIR$/server/node_modules/socket.io/node_modules/socket.io-client/node_modules/engine.io-client/node_modules/ws/node_modules/utf-8-validate/src/validation.cc" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/multi/values.json" afterPath="$PROJECT_DIR$/android/build/intermediates/blame/res/debug/multi/values.json" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="tanks.io-client.iws" />
@@ -69,11 +168,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Bullet1.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/sprites/Bullet1.java">
+      <file leaf-file-name="Bullet.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/sprites/Bullet.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+              <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -117,7 +216,7 @@
         <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/states/MenuState.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="79" column="30" selection-start-line="79" selection-start-column="30" selection-end-line="79" selection-end-column="30" />
+              <caret line="80" column="30" selection-start-line="80" selection-start-column="30" selection-end-line="80" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -133,36 +232,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OnlinePlayState.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="OnlinePlayState.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="195" column="29" selection-start-line="195" selection-start-column="29" selection-end-line="195" selection-end-column="29" />
+            <state vertical-scroll-proportion="0.15012106">
+              <caret line="91" column="66" selection-start-line="91" selection-start-column="66" selection-end-line="91" selection-end-column="66" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2429#2748#0" expanded="true" />
-                <element signature="e#2747#2748#0" expanded="true" />
-                <element signature="e#2765#3200#0" expanded="true" />
-                <element signature="e#3199#3200#0" expanded="true" />
-                <element signature="e#3218#3743#0" expanded="true" />
-                <element signature="e#3742#3743#0" expanded="true" />
-                <element signature="e#3770#4202#0" expanded="true" />
-                <element signature="e#4201#4202#0" expanded="true" />
-                <element signature="e#4221#5102#0" expanded="true" />
-                <element signature="e#5101#5102#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tank.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/sprites/Tank.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.18393782">
-              <caret line="74" column="51" selection-start-line="74" selection-start-column="51" selection-end-line="74" selection-end-column="51" />
-              <folding>
-                <element signature="e#2201#2202#0" expanded="true" />
-                <element signature="e#2234#2235#0" expanded="true" />
+                <element signature="e#3024#3341#0" expanded="true" />
+                <element signature="e#3340#3341#0" expanded="true" />
+                <element signature="e#3358#3793#0" expanded="true" />
+                <element signature="e#3792#3793#0" expanded="true" />
+                <element signature="e#3811#4337#0" expanded="true" />
+                <element signature="e#4336#4337#0" expanded="true" />
+                <element signature="e#4364#4796#0" expanded="true" />
+                <element signature="e#4795#4796#0" expanded="true" />
+                <element signature="e#4815#5842#0" expanded="true" />
+                <element signature="e#5841#5842#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -174,6 +260,18 @@
             <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Tank.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/sprites/Tank.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -2511,13 +2609,14 @@
         <option value="$PROJECT_DIR$/android/build.gradle" />
         <option value="$PROJECT_DIR$/core/src/com/tanks/game/states/PlayState.java" />
         <option value="$PROJECT_DIR$/core/src/com/tanks/game/sprites/GameSprite.java" />
-        <option value="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Bullet.java" />
         <option value="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Button.java" />
         <option value="$PROJECT_DIR$/core/src/com/tanks/game/states/MenuState.java" />
         <option value="$PROJECT_DIR$/core/src/com/tanks/game/sprites/bullet.java" />
         <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java" />
         <option value="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Tank.java" />
+        <option value="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Bullet1.java" />
+        <option value="$PROJECT_DIR$/core/src/com/tanks/game/sprites/Bullet.java" />
+        <option value="$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java" />
       </list>
     </option>
   </component>
@@ -2525,7 +2624,7 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1" />
+    <option name="x" value="-11" />
     <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="773" />
@@ -3101,38 +3200,38 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1" y="23" width="1280" height="773" extended-state="6" />
-    <editor active="false" />
+    <frame x="-11" y="23" width="1280" height="773" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32724506" sideWeight="0.49676898" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32876712" sideWeight="0.503231" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39726028" sideWeight="0.5129241" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5205479" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5205479" sideWeight="0.49676898" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.49676898" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32876712" sideWeight="0.49676898" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32876712" sideWeight="0.4806139" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.49676898" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32972324" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24878837" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32851985" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39831528" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39726028" sideWeight="0.48707592" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32851985" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -3169,18 +3268,42 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/core/src/com/tanks/game/states/MenuState.java</url>
-          <line>59</line>
+          <line>60</line>
           <properties />
           <option name="timeStamp" value="45" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/core/src/com/tanks/game/states/MenuState.java</url>
-          <line>62</line>
+          <line>63</line>
           <properties />
           <option name="timeStamp" value="46" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java</url>
+          <line>133</line>
+          <properties />
+          <option name="timeStamp" value="48" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java</url>
+          <line>216</line>
+          <properties />
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java</url>
+          <line>236</line>
+          <properties />
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java</url>
+          <line>158</line>
+          <properties />
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="48" />
+      <option name="time" value="52" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="android">
@@ -3191,10 +3314,13 @@
         <watch expression="enemy.getBoundsPolygon()" />
         <watch expression="rotation" />
       </configuration>
+      <configuration name="Application">
+        <watch expression="bjects.getJSONObject(i).getString(&quot;myId&quot;)" />
+      </configuration>
     </watches-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/sprites/Bullet1.java">
+    <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/sprites/Bullet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -3235,8 +3361,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="66" column="42" selection-start-line="66" selection-start-column="42" selection-end-line="66" selection-end-column="42" />
           <folding>
-            <element signature="e#2283#2284#0" expanded="true" />
-            <element signature="e#2323#2324#0" expanded="true" />
+            <element signature="e#2219#2220#0" expanded="true" />
+            <element signature="e#2259#2260#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3320,8 +3446,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#2283#2284#0" expanded="true" />
-            <element signature="e#2323#2324#0" expanded="true" />
+            <element signature="e#2219#2220#0" expanded="true" />
+            <element signature="e#2259#2260#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -3355,6 +3481,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.32824427">
           <caret line="17" column="12" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3540,18 +3667,8 @@
     <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/states/MenuState.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="79" column="30" selection-start-line="79" selection-start-column="30" selection-end-line="79" selection-end-column="30" />
+          <caret line="80" column="30" selection-start-line="80" selection-start-column="30" selection-end-line="80" selection-end-column="30" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/sprites/Bullet1.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3605,33 +3722,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java">
+    <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/sprites/Bullet.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="195" column="29" selection-start-line="195" selection-start-column="29" selection-end-line="195" selection-end-column="29" />
+          <caret line="28" column="0" selection-start-line="28" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2429#2748#0" expanded="true" />
-            <element signature="e#2747#2748#0" expanded="true" />
-            <element signature="e#2765#3200#0" expanded="true" />
-            <element signature="e#3199#3200#0" expanded="true" />
-            <element signature="e#3218#3743#0" expanded="true" />
-            <element signature="e#3742#3743#0" expanded="true" />
-            <element signature="e#3770#4202#0" expanded="true" />
-            <element signature="e#4201#4202#0" expanded="true" />
-            <element signature="e#4221#5102#0" expanded="true" />
-            <element signature="e#5101#5102#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/sprites/Tank.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18393782">
-          <caret line="74" column="51" selection-start-line="74" selection-start-column="51" selection-end-line="74" selection-end-column="51" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
           <folding>
-            <element signature="e#2201#2202#0" expanded="true" />
-            <element signature="e#2234#2235#0" expanded="true" />
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/com/tanks/game/states/OnlinePlayState.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15012106">
+          <caret line="91" column="66" selection-start-line="91" selection-start-column="66" selection-end-line="91" selection-end-column="66" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3024#3341#0" expanded="true" />
+            <element signature="e#3340#3341#0" expanded="true" />
+            <element signature="e#3358#3793#0" expanded="true" />
+            <element signature="e#3792#3793#0" expanded="true" />
+            <element signature="e#3811#4337#0" expanded="true" />
+            <element signature="e#4336#4337#0" expanded="true" />
+            <element signature="e#4364#4796#0" expanded="true" />
+            <element signature="e#4795#4796#0" expanded="true" />
+            <element signature="e#4815#5842#0" expanded="true" />
+            <element signature="e#5841#5842#0" expanded="true" />
           </folding>
         </state>
       </provider>
