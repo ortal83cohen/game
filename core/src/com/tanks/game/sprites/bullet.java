@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by Brent on 7/5/2015.
@@ -22,7 +22,7 @@ public class Bullet extends GameSprite {
     private int directionY;
 
     public Bullet(int x, int y, float rotation, int directionX, int directionY) {
-        position = new Vector3(x, y, 0);
+        position = new Vector2(x, y);
 
         texture = new Texture("bullet.png");
 

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 import com.tanks.game.utils.MathUtil;
 
 /**
@@ -26,7 +26,7 @@ public class Tank extends GameSprite {
     private float rotation;
 
     public Tank(int x, int y) {
-        position = new Vector3(x, y, 0);
+        position = new Vector2(x, y);
         if (Math.random() < 0.5) {
             texture = new Texture("tank.png");
         } else {
@@ -76,4 +76,7 @@ public class Tank extends GameSprite {
         flap.dispose();
     }
 
+    public void setPosition(Vector2 position) {
+        this.position = position;
+    }
 }

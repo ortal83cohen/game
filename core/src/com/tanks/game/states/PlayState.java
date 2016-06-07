@@ -51,13 +51,14 @@ public class PlayState extends State {
         enemies = new ArrayList<Tank>();
         bullets = new ArrayList<Bullet>();
         for (int i = 0; i < 20; i++) {
-            enemies.add(i, new Tank((int)(Math.random()*GAME_WIDTH),(int)(Math.random()* GAME_HEIGHT)));
+            enemies.add(i, new Tank((int) (Math.random() * GAME_WIDTH),
+                    (int) (Math.random() * GAME_HEIGHT)));
         }
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
         bg.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         bgTextureRegion = new TextureRegion(bg);
-        bgTextureRegion.setRegion(0, 0, GAME_WIDTH+50, GAME_HEIGHT+50);
+        bgTextureRegion.setRegion(0, 0, GAME_WIDTH + 50, GAME_HEIGHT + 50);
     }
 
     @Override

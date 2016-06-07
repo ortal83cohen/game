@@ -2,7 +2,7 @@ package com.tanks.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector2;
 
 /**
  * Created by Brent on 7/5/2015.
@@ -12,7 +12,7 @@ public class Button extends GameSprite {
     private Texture texture;
 
     public Button(int x, int y) {
-        position = new Vector3(x, y, 0);
+        position = new Vector2(x, y);
 
         texture = new Texture("button.png");
 
