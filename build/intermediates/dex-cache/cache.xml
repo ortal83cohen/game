@@ -5,7 +5,7 @@
         jar="/Users/ortalcohen/Documents/tanks.io-client/core/build/libs/core-1.0.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="0758ce1a071fb29acd859161ff4789005d330587">
+        sha1="2b8a3bd859aa6c5a63380404fb9e78a56cc3bd60">
         <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/core-1.0_b8e9b0ab876721f8ac58dcf88ab1c98941c1a0d1.jar" />
     </item>
 
