@@ -27,12 +27,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="json-20160212" level="project" />
     <orderEntry type="library" exported="" name="socket.io-client-0.6.2" level="project" />
     <orderEntry type="library" exported="" name="gdx-1.6.2" level="project" />
     <orderEntry type="library" exported="" name="gdx-box2d-1.6.2" level="project" />
     <orderEntry type="library" exported="" name="lwjgl_util-2.9.2" level="project" />
     <orderEntry type="library" exported="" name="engine.io-client-0.6.2" level="project" />
+    <orderEntry type="library" exported="" name="json-20090211" level="project" />
     <orderEntry type="library" exported="" name="lwjgl-2.9.2" level="project" />
     <orderEntry type="library" exported="" name="okhttp-ws-2.5.0" level="project" />
     <orderEntry type="library" exported="" name="lwjgl-platform-2.9.2-natives-windows" level="project" />
