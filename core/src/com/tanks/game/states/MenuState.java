@@ -15,7 +15,7 @@ import com.tanks.game.sprites.Button;
  */
 public class MenuState extends State {
 
-    private final Polygon tutchPolygon;
+    private final Polygon touchPolygon;
 
     private Texture background;
 
@@ -31,7 +31,7 @@ public class MenuState extends State {
 //        playBtn = new Texture("button.png");
         mButton1 = new Button((int) cam.position.x, (int) cam.position.y+111);
         mButton2 = new Button((int) cam.position.x, (int) cam.position.y-111);
-        tutchPolygon = new com.badlogic.gdx.math.Polygon(
+        touchPolygon = new com.badlogic.gdx.math.Polygon(
                 new float[]{
                         0, 0,
                         0, 0,
@@ -50,17 +50,17 @@ public class MenuState extends State {
             touchPos.set(x, y,
                     0); //when the screen is touched, the coordinates are inserted into the vector
             cam.unproject(touchPos);
-            tutchPolygon.setVertices(new float[]{
+            touchPolygon.setVertices(new float[]{
                     touchPos.x-10, touchPos.y-10,
                     touchPos.x-10, touchPos.y + 10,
                     touchPos.x + 10, touchPos.y + 10,
                     touchPos.x + 10, touchPos.y-10
             });
 
-            if (mButton1.collides(tutchPolygon)) {
+            if (mButton1.collides(touchPolygon)) {
                 gsm.set(new PlayState(gsm));
             }
-            if (mButton2.collides(tutchPolygon)) {
+            if (mButton2.collides(touchPolygon)) {
                 gsm.set(new OnlinePlayState(gsm));
             }
 
@@ -94,7 +94,7 @@ public class MenuState extends State {
         sr.setColor(Color.BLACK);
         sr.polygon(mButton1.getBoundsPolygon().getTransformedVertices());
         sr.polygon(mButton2.getBoundsPolygon().getTransformedVertices());
-        sr.polygon(tutchPolygon.getTransformedVertices());
+        sr.polygon(touchPolygon.getTransformedVertices());
 
         sr.end();
     }
