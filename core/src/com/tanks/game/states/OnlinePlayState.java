@@ -101,7 +101,8 @@ public class OnlinePlayState extends State {
     public void connectSocket() {
         try {
 //            socket = IO.socket("http://localhost:8080");
-            socket = IO.socket("http://ec2-52-37-181-55.us-west-2.compute.amazonaws.com:8080");
+//            socket = IO.socket("http://104.155.63.29:9000");
+            socket = IO.socket("http://ec2-52-58-247-221.eu-central-1.compute.amazonaws.com:9000");
             socket.connect();
         } catch (Exception e) {
             Gdx.app.log("SocketIO", "Error");
