@@ -14,6 +14,7 @@ import com.tanks.game.sprites.Bullet;
 import com.tanks.game.sprites.Button;
 import com.tanks.game.sprites.GameSprite;
 import com.tanks.game.sprites.Tank;
+import com.tanks.game.utils.BulletPool;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.socket.client.IO;
@@ -55,9 +57,11 @@ public class OnlinePlayState extends State {
 
     HashMap<String, Tank> enemies;
 
-    ArrayList<Bullet> mMyBullets;
+    BulletPool bulletPool;
 
-    ArrayList<Bullet> mEnemyBullets;
+    List<Bullet> mMyBullets;
+
+    List<Bullet> mEnemyBullets;
 
     private Socket socket;
 
@@ -87,6 +91,7 @@ public class OnlinePlayState extends State {
         bgTextureRegion.setRegion(0, 0, GAME_WIDTH + 50, GAME_HEIGHT + 50);
         tankTexture = new Texture("tank2.png");
         bulletTexture = new Texture("bullet.png");
+        bulletPool = new BulletPool(bulletTexture, Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")));
 
         persistent = new Persistent();
     }
@@ -224,9 +229,8 @@ public class OnlinePlayState extends State {
                     double rotation = data.getDouble("rotation");
                     int directionx = data.getInt("directionx");
                     int directiony = data.getInt("directiony");
-                    Bullet bullet = new Bullet(x,
-                            y,
-                            (float) rotation, directionx, directiony, bulletTexture);
+                    Bullet bullet = bulletPool.obtainAndFire(enemyId, x, y,
+                            (float) rotation, directionx, directiony);
                     mEnemyBullets.add(bullet);
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
@@ -306,8 +310,9 @@ public class OnlinePlayState extends State {
         for (int i = 0; i < mMyBullets.size(); i++) {
             Bullet bullet = mMyBullets.get(i);
 
-            if (isOurOfScreen(bullet)) {
+            if (isOutOfScreen(bullet)) {
                 mMyBullets.remove(i);
+                bulletPool.free(bullet);
             } else {
                 bullet.update(dt);
                 try {
@@ -326,6 +331,7 @@ public class OnlinePlayState extends State {
                             }
                             enemies.remove(entry.getKey());
                             mMyBullets.remove(i);
+                            bulletPool.free(bullet);
                         }
                     }
                 } catch (ConcurrentModificationException e) {
@@ -347,7 +353,7 @@ public class OnlinePlayState extends State {
 
     }
 
-    private boolean isOurOfScreen(GameSprite gameSprite) {
+    private boolean isOutOfScreen(GameSprite gameSprite) {
         return cam.position.x - (cam.viewportWidth / 2) > gameSprite.getPosition().x + gameSprite
                 .getSprite().getWidth() ||
                 cam.position.x + (cam.viewportWidth / 2) < gameSprite.getPosition().x ||
@@ -359,9 +365,9 @@ public class OnlinePlayState extends State {
     private void shoot(int directionx, int directiony) {
         if (player != null) {
             if (mMyBullets.size() < 5) {
-                Bullet bullet = new Bullet((int) player.getPosition().x,
+                Bullet bullet = bulletPool.obtainAndFire("Player", (int) player.getPosition().x,
                         (int) player.getPosition().y,
-                        player.getRotation(), directionx, directiony, bulletTexture);
+                        player.getRotation(), directionx, directiony);
                 mMyBullets.add(bullet);
 
                 JSONObject data = new JSONObject();
@@ -447,13 +453,7 @@ public class OnlinePlayState extends State {
         for (Map.Entry<String, Tank> entry : enemies.entrySet()) {
             entry.getValue().dispose();
         }
-        for (int i = 0; i < mMyBullets.size(); i++) {
-            mMyBullets.get(i).dispose();
-        }
-        for (int i = 0; i < mEnemyBullets.size(); i++) {
-            mEnemyBullets.get(i).dispose();
-        }
-
+        bulletPool.dispose();
     }
 
 
