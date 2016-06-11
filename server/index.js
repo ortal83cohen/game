@@ -3,12 +3,12 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var players = [];
 
-server.listen(8080, function(){
+server.listen(9000, function(){
 	console.log("Server is now running...");
 });
 
 io.on('connection', function(socket){
-	console.log("Player Connected!");
+	console.log(socket.id+" Player Connected!");
 	socket.emit('socketID', { id: socket.id });
 	socket.emit('getPlayers', players);
 	socket.broadcast.emit('newPlayer', { id: socket.id });
@@ -28,7 +28,7 @@ io.on('connection', function(socket){
 
     	});
     	socket.on('playerHit', function(data){
-                console.log("Player Hit");
+                console.log(socket.id+" Hit "+data.id);
 
                 for(var i = 0; i < players.length; i++){
         			if(players[i].id == data.id){
@@ -36,21 +36,31 @@ io.on('connection', function(socket){
         				players.splice(data.id, 1);
         			}
         		}
+        		printPlayers();
             	});
 	socket.on('disconnect', function(){
-		console.log("Player Disconnected");
+		console.log(socket.id+" Disconnected");
 		socket.broadcast.emit('playerDisconnected', { id: socket.id });
 		for(var i = 0; i < players.length; i++){
 			if(players[i].id == socket.id){
 				players.splice(i, 1);
 			}
 		}
+		printPlayers();
 	});
 	players.push(new player(socket.id, 0, 0));
+	printPlayers();
 });
 
 function player(id, x, y){
 	this.id = id;
 	this.x = x;
 	this.y = y;
+}
+
+function printPlayers(){
+console.log("Players:");
+	for(var i = 0; i < players.length; i++){
+    	console.log("Player:"+players[i].id);
+    }
 }

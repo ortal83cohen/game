@@ -70,7 +70,7 @@ public class Tank extends GameSprite {
 
 
     public void move(int x, int y) {
-
+        movement = true;
         rotation = (float) MathUtil.getAngle(x, y);
 
         position.x = position.x + (float) x / 300;

@@ -16,6 +16,7 @@ public abstract class GameSprite {
 
     protected Polygon boundsPoly;
 
+    protected boolean movement = false;
     public void setPolygon() {
         boundsPoly = new Polygon(new float[]{
                 0, 0, glowSprite.getWidth(), 0, glowSprite.getWidth(), glowSprite.getHeight(), 0,
@@ -38,5 +39,11 @@ public abstract class GameSprite {
 
     public boolean collides(Polygon polygon) {
         return Intersector.overlapConvexPolygons(boundsPoly, polygon);
+    }
+
+    public boolean hasMoved() {
+      boolean  movement = this.movement;
+        this.movement = false;
+        return movement;
     }
 }

@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +42,7 @@ public class OnlinePlayState extends State {
     private final TextureRegion bgTextureRegion;
 
     private final Texture tankTexture;
+
     private final Texture bulletTexture;
 
     BitmapFont font = new BitmapFont();
@@ -52,6 +54,7 @@ public class OnlinePlayState extends State {
     HashMap<String, Tank> enemies;
 
     ArrayList<Bullet> mMyBullets;
+
     ArrayList<Bullet> mEnemyBullets;
 
     private Socket socket;
@@ -86,7 +89,8 @@ public class OnlinePlayState extends State {
 
     public void playerMoved(float dt) {
         timer += dt;
-        if (timer >= UPDATE_TIME && player != null) {
+        if (timer >= UPDATE_TIME && player != null && player.hasMoved()) {
+            timer = 0;
             JSONObject data = new JSONObject();
             try {
                 data.put("x", player.getPosition().x);
@@ -136,7 +140,7 @@ public class OnlinePlayState extends State {
                 JSONObject data = (JSONObject) args[0];
                 try {
                     String id = data.getString("id");
-                    Gdx.app.log("SocketIO", "New Player Connect: " + myId);
+                    Gdx.app.log("SocketIO", "New Player Connect: " + id);
                     enemies.put(id, new Tank(0, 0, tankTexture));
 
                 } catch (JSONException e) {
@@ -148,8 +152,9 @@ public class OnlinePlayState extends State {
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 try {
-                    myId = data.getString("id");
-                    enemies.remove(myId);
+                    String id = data.getString("id");
+                    enemies.remove(id);
+                    Gdx.app.log("SocketIO", "player Disconnected: " + id);
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
                 }
@@ -161,6 +166,8 @@ public class OnlinePlayState extends State {
                 try {
                     String id = data.getString("id");
                     if (id.equals(myId)) {
+                        socket.disconnect();
+                        socket.close();
                         Gdx.app.postRunnable(new Runnable() {
                             @Override
                             public void run() {
@@ -168,7 +175,7 @@ public class OnlinePlayState extends State {
                             }
                         });
 
-                    } else{
+                    } else {
                         enemies.remove(id);
                     }
                 } catch (JSONException e) {
@@ -201,10 +208,10 @@ public class OnlinePlayState extends State {
                     int y = data.getInt("y");
                     double rotation = data.getDouble("rotation");
                     int directionx = data.getInt("directionx");
-                    int directiony= data.getInt("directiony");
+                    int directiony = data.getInt("directiony");
                     Bullet bullet = new Bullet(x,
-                           y,
-                            (float)rotation, directionx, directiony,bulletTexture);
+                            y,
+                            (float) rotation, directionx, directiony, bulletTexture);
                     mEnemyBullets.add(bullet);
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
@@ -291,19 +298,23 @@ public class OnlinePlayState extends State {
                 mMyBullets.remove(i);
             } else {
                 bullet.update(dt);
-                for (Map.Entry<String, Tank> entry : enemies.entrySet()) {
+                try {
+                    for (Map.Entry<String, Tank> entry : enemies.entrySet()) {
 
-                    if (bullet.collides(entry.getValue().getBoundsPolygon())) {
-                        JSONObject data = new JSONObject();
-                        try {
-                            data.put("id", entry.getKey());
-                            socket.emit("playerHit", data);
-                        } catch (JSONException e) {
-                            Gdx.app.log("SocketIO", "Error sending update data");
+                        if (bullet.collides(entry.getValue().getBoundsPolygon())) {
+                            JSONObject data = new JSONObject();
+                            try {
+                                data.put("id", entry.getKey());
+                                socket.emit("playerHit", data);
+                            } catch (JSONException e) {
+                                Gdx.app.log("SocketIO", "Error sending update data");
+                            }
+                            enemies.remove(entry.getKey());
+                            mMyBullets.remove(i);
                         }
-                        enemies.remove(entry.getKey());
-                        mMyBullets.remove(i);
                     }
+                } catch (ConcurrentModificationException e) {
+                    Gdx.app.log("SocketIO", e.getMessage());
                 }
 
             }
@@ -335,7 +346,7 @@ public class OnlinePlayState extends State {
             if (mMyBullets.size() < 5) {
                 Bullet bullet = new Bullet((int) player.getPosition().x,
                         (int) player.getPosition().y,
-                        player.getRotation(), directionx, directiony,bulletTexture);
+                        player.getRotation(), directionx, directiony, bulletTexture);
                 mMyBullets.add(bullet);
 
                 JSONObject data = new JSONObject();
@@ -381,7 +392,7 @@ public class OnlinePlayState extends State {
 //        font.draw(sb, String.valueOf(Gdx.input.getY() - ANDROID_HEIGHT / 2), cam.position.x,
 //                cam.position.y - 165);
         font.draw(sb, "enemies " + enemies.size(), cam.position.x - 35, cam.position.y - 170);
-        font.draw(sb, "my id  " + myId, cam.position.x - 100, cam.position.y - 185);
+        font.draw(sb, "my id  " + myId, cam.position.x - 115, cam.position.y - 185);
 
         sb.end();
     }
