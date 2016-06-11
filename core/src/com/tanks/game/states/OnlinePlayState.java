@@ -45,6 +45,8 @@ public class OnlinePlayState extends State {
 
     private final Texture bulletTexture;
 
+    private final Persistent persistent;
+
     BitmapFont font = new BitmapFont();
 
     int ANDROID_WIDTH = Gdx.graphics.getWidth();
@@ -85,6 +87,8 @@ public class OnlinePlayState extends State {
         bgTextureRegion.setRegion(0, 0, GAME_WIDTH + 50, GAME_HEIGHT + 50);
         tankTexture = new Texture("tank2.png");
         bulletTexture = new Texture("bullet.png");
+
+          persistent = new Persistent();
     }
 
     public void playerMoved(float dt) {
@@ -166,6 +170,9 @@ public class OnlinePlayState extends State {
                 try {
                     String id = data.getString("id");
                     if (id.equals(myId)) {
+                        HashMap map =new HashMap();
+                                map.put("killed", persistent.Load("killed")+"|");
+                        persistent.save(map);
                         socket.disconnect();
                         socket.close();
                         Gdx.app.postRunnable(new Runnable() {
@@ -306,6 +313,9 @@ public class OnlinePlayState extends State {
                             try {
                                 data.put("id", entry.getKey());
                                 socket.emit("playerHit", data);
+                                HashMap map =new HashMap();
+                                map.put("kill", persistent.Load("kill")+"|");
+                                persistent.save(map);
                             } catch (JSONException e) {
                                 Gdx.app.log("SocketIO", "Error sending update data");
                             }
@@ -391,6 +401,9 @@ public class OnlinePlayState extends State {
 //                cam.position.y - 150);
 //        font.draw(sb, String.valueOf(Gdx.input.getY() - ANDROID_HEIGHT / 2), cam.position.x,
 //                cam.position.y - 165);
+        font.draw(sb, "kill     -" + persistent.Load("kill"), cam.position.x - 35, cam.position.y + 170);
+        font.draw(sb, "killed -" + persistent.Load("killed"), cam.position.x - 35, cam.position.y + 185);
+
         font.draw(sb, "enemies " + enemies.size(), cam.position.x - 35, cam.position.y - 170);
         font.draw(sb, "my id  " + myId, cam.position.x - 115, cam.position.y - 185);
 
@@ -435,6 +448,7 @@ public class OnlinePlayState extends State {
         }
 
     }
+
 
 
 }
