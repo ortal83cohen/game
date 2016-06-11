@@ -33,7 +33,7 @@ io.on('connection', function(socket){
                 for(var i = 0; i < players.length; i++){
         			if(players[i].id == data.id){
         			 	socket.broadcast.emit('playerHit', data);
-        				players.splice(data.id, 1);
+        				players.splice(i, 1);
         			}
         		}
         		printPlayers();

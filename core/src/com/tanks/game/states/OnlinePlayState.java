@@ -88,7 +88,7 @@ public class OnlinePlayState extends State {
         tankTexture = new Texture("tank2.png");
         bulletTexture = new Texture("bullet.png");
 
-          persistent = new Persistent();
+        persistent = new Persistent();
     }
 
     public void playerMoved(float dt) {
@@ -109,8 +109,8 @@ public class OnlinePlayState extends State {
     public void connectSocket() {
         try {
 //            socket = IO.socket("http://localhost:8080");
-//            socket = IO.socket("http://104.155.63.29:9000");
-            socket = IO.socket("http://ec2-52-58-247-221.eu-central-1.compute.amazonaws.com:9000");
+            socket = IO.socket("http://104.155.63.29:9000");
+//            socket = IO.socket("http://ec2-52-58-247-221.eu-central-1.compute.amazonaws.com:9000");
             socket.connect();
         } catch (Exception e) {
             Gdx.app.log("SocketIO", "Error");
@@ -125,6 +125,14 @@ public class OnlinePlayState extends State {
 
                 player = new Tank((int) (Math.random() * GAME_WIDTH),
                         (int) (Math.random() * GAME_HEIGHT), tankTexture);
+                JSONObject data = new JSONObject();
+                try {
+                    data.put("x", player.getPosition().x);
+                    data.put("y", player.getPosition().y);
+                    socket.emit("playerMoved", data);
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error sending update data");
+                }
             }
         }).on("socketID", new Emitter.Listener() {
             @Override
@@ -145,7 +153,7 @@ public class OnlinePlayState extends State {
                 try {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player Connect: " + id);
-                    enemies.put(id, new Tank(0, 0, tankTexture));
+                    enemies.put(id, new Tank(-500, -500, tankTexture));
 
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting New PlayerID");
@@ -163,16 +171,16 @@ public class OnlinePlayState extends State {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
                 }
             }
-        }).on("playerHit", new Emitter.Listener() {
+        }).once("playerHit", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 try {
                     String id = data.getString("id");
                     if (id.equals(myId)) {
-                        HashMap map =new HashMap();
-                                map.put("killed", persistent.Load("killed")+"|");
-                        persistent.save(map);
+                        HashMap map = new HashMap();
+                        map.put("killed1", persistent.LoadInt("killed1") + 1);
+                        persistent.saveInt(map);
                         socket.disconnect();
                         socket.close();
                         Gdx.app.postRunnable(new Runnable() {
@@ -276,10 +284,7 @@ public class OnlinePlayState extends State {
             if (x % 20 == 0) {
                 shoot(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
             }
-
         }
-
-
     }
 
     @Override
@@ -313,9 +318,9 @@ public class OnlinePlayState extends State {
                             try {
                                 data.put("id", entry.getKey());
                                 socket.emit("playerHit", data);
-                                HashMap map =new HashMap();
-                                map.put("kill", persistent.Load("kill")+"|");
-                                persistent.save(map);
+                                HashMap map = new HashMap();
+                                map.put("kill1", persistent.LoadInt("kill1") + 1);
+                                persistent.saveInt(map);
                             } catch (JSONException e) {
                                 Gdx.app.log("SocketIO", "Error sending update data");
                             }
@@ -324,7 +329,7 @@ public class OnlinePlayState extends State {
                         }
                     }
                 } catch (ConcurrentModificationException e) {
-                    Gdx.app.log("SocketIO", e.getMessage());
+                    Gdx.app.log("SocketIO", "enemies updated in other process");
                 }
 
             }
@@ -401,8 +406,10 @@ public class OnlinePlayState extends State {
 //                cam.position.y - 150);
 //        font.draw(sb, String.valueOf(Gdx.input.getY() - ANDROID_HEIGHT / 2), cam.position.x,
 //                cam.position.y - 165);
-        font.draw(sb, "kill     -" + persistent.Load("kill"), cam.position.x - 35, cam.position.y + 170);
-        font.draw(sb, "killed -" + persistent.Load("killed"), cam.position.x - 35, cam.position.y + 185);
+        font.draw(sb, "kill     -" + persistent.LoadInt("kill1"), cam.position.x - 35,
+                cam.position.y + 170);
+        font.draw(sb, "killed -" + persistent.LoadInt("killed1"), cam.position.x - 35,
+                cam.position.y + 185);
 
         font.draw(sb, "enemies " + enemies.size(), cam.position.x - 35, cam.position.y - 170);
         font.draw(sb, "my id  " + myId, cam.position.x - 115, cam.position.y - 185);
@@ -448,7 +455,6 @@ public class OnlinePlayState extends State {
         }
 
     }
-
 
 
 }
