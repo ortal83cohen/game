@@ -19,14 +19,20 @@ public class Persistent {
 
     }
 
-    public void save(Map<String, String> map) {
+    public void saveStrign(Map<String, String> map) {
 
         preferences.put(map);
         preferences.flush();
     }
+    public void saveInt(Map<String, Integer> map) {
 
-    public String Load(String key) {
-
+        preferences.put(map);
+        preferences.flush();
+    }
+    public int LoadInt(String key) {
+        return preferences.getInteger(key);
+    }
+    public String LoadString(String key) {
         return preferences.getString(key);
     }
 
