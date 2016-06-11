@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.tanks.game.states.MenuState;
 
 public class TanksDemo extends ApplicationAdapter {
@@ -19,12 +20,15 @@ public class TanksDemo extends ApplicationAdapter {
 
     private SpriteBatch batch;
 
+    private ShapeRenderer mShapeRenderer;
+
     private Music music;
 
 
     @Override
     public void create() {
         batch = new SpriteBatch();
+        mShapeRenderer = new ShapeRenderer();
         gsm = new com.tanks.game.states.GameStateManager();
 //        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
 //        music.setLooping(true);
@@ -39,6 +43,7 @@ public class TanksDemo extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         gsm.update(Gdx.graphics.getDeltaTime());
         gsm.render(batch);
+        gsm.render(mShapeRenderer);
     }
 
     @Override
