@@ -217,7 +217,7 @@ public class OnlinePlayState extends State {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
                 }
             }
-        }).on("playerSHoot", new Emitter.Listener() {
+        }).on("playerShoot", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
 
@@ -370,7 +370,7 @@ public class OnlinePlayState extends State {
                     data.put("rotation", player.getRotation());
                     data.put("directionx", directionx);
                     data.put("directiony", directiony);
-                    socket.emit("playerSHoot", data);
+                    socket.emit("playerShoot", data);
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error sending update data");
                 }
