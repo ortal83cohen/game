@@ -11,7 +11,6 @@ io.on('connection', function(socket){
 	console.log(socket.id+" Player Connected!");
 	socket.emit('socketID', { id: socket.id });
 	socket.emit('getPlayers', players);
-	socket.broadcast.emit('newPlayer', { id: socket.id });
 	socket.on('playerMoved', function(data){
     		data.id = socket.id;
     		socket.broadcast.emit('playerMoved', data);
@@ -22,6 +21,13 @@ io.on('connection', function(socket){
             			}
             		}
     	});
+    	socket.on('newPlayer', function(data){
+    	        console.log(socket.id+" newPlayer");
+    	        players.push(new player(socket.id, data.x, data.y));
+    	        data.id = socket.id
+            	socket.broadcast.emit('newPlayer', data );
+	            printPlayers();
+         });
     	socket.on('playerSHoot', function(data){
     		data.id = socket.id;
     		socket.broadcast.emit('playerSHoot', data);
@@ -48,8 +54,7 @@ io.on('connection', function(socket){
 		}
 		printPlayers();
 	});
-	players.push(new player(socket.id, 0, 0));
-	printPlayers();
+
 });
 
 function player(id, x, y){
@@ -61,6 +66,6 @@ function player(id, x, y){
 function printPlayers(){
 console.log("Players:");
 	for(var i = 0; i < players.length; i++){
-    	console.log("Player:"+players[i].id);
+    	console.log("Player:"+players[i].id+ "  x-"+players[i].x+"  y-"+players[i].y);
     }
 }

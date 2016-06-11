@@ -47,7 +47,7 @@ public class OnlinePlayState extends State {
 
     private final Persistent persistent;
 
-    BitmapFont font = new BitmapFont();
+    BitmapFont font;
 
     int ANDROID_WIDTH = Gdx.graphics.getWidth();
 
@@ -82,6 +82,7 @@ public class OnlinePlayState extends State {
         mEnemyBullets = new ArrayList<Bullet>();
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
+
         bg.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         bgTextureRegion = new TextureRegion(bg);
         bgTextureRegion.setRegion(0, 0, GAME_WIDTH + 50, GAME_HEIGHT + 50);
@@ -89,6 +90,10 @@ public class OnlinePlayState extends State {
         bulletTexture = new Texture("bullet.png");
 
         persistent = new Persistent();
+
+        font = new BitmapFont();
+        font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear,
+                Texture.TextureFilter.Linear);
     }
 
     public void playerMoved(float dt) {
@@ -111,6 +116,7 @@ public class OnlinePlayState extends State {
 //            socket = IO.socket("http://localhost:8080");
             socket = IO.socket("http://104.155.63.29:9000");
 //            socket = IO.socket("http://ec2-52-58-247-221.eu-central-1.compute.amazonaws.com:9000");
+
             socket.connect();
         } catch (Exception e) {
             Gdx.app.log("SocketIO", "Error");
@@ -129,7 +135,7 @@ public class OnlinePlayState extends State {
                 try {
                     data.put("x", player.getPosition().x);
                     data.put("y", player.getPosition().y);
-                    socket.emit("playerMoved", data);
+                    socket.emit("newPlayer", data);
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error sending update data");
                 }
@@ -153,7 +159,7 @@ public class OnlinePlayState extends State {
                 try {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player Connect: " + id);
-                    enemies.put(id, new Tank(-500, -500, tankTexture));
+                    enemies.put(id, new Tank(data.getInt("x"), data.getInt("y"), tankTexture));
 
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting New PlayerID");
@@ -171,7 +177,7 @@ public class OnlinePlayState extends State {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
                 }
             }
-        }).once("playerHit", new Emitter.Listener() {
+        }).on("playerHit", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
@@ -181,8 +187,7 @@ public class OnlinePlayState extends State {
                         HashMap map = new HashMap();
                         map.put("killed1", persistent.LoadInt("killed1") + 1);
                         persistent.saveInt(map);
-                        socket.disconnect();
-                        socket.close();
+
                         Gdx.app.postRunnable(new Runnable() {
                             @Override
                             public void run() {
@@ -240,15 +245,9 @@ public class OnlinePlayState extends State {
                 try {
                     Gdx.app.log("SocketIO", "Get Players: " + objects.length());
                     for (int i = 0; i < objects.length(); i++) {
-                        Tank enemy = new Tank(0, 0, tankTexture);
-                        Vector2 position = new Vector2();
-                        position.x = ((Double) objects.getJSONObject(i).getDouble("x"))
-                                .floatValue();
-                        position.y = ((Double) objects.getJSONObject(i).getDouble("y"))
-                                .floatValue();
-                        enemy.setPosition(position);
-
-                        enemies.put(objects.getJSONObject(i).getString("id"), enemy);
+                        enemies.put(objects.getJSONObject(i).getString("id"),
+                                new Tank(objects.getJSONObject(i).getInt("x"),
+                                        objects.getJSONObject(i).getInt("y"), tankTexture));
                     }
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error Get Players");
@@ -441,6 +440,9 @@ public class OnlinePlayState extends State {
 
     @Override
     public void dispose() {
+        socket.off();
+        socket.disconnect();
+        socket.close();
         bg.dispose();
         player.dispose();
         mButton.dispose();
