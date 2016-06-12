@@ -35,7 +35,7 @@ import io.socket.emitter.Emitter;
  */
 public class OnlinePlayState extends State {
 
-    private static final float UPDATE_TIME = 1 / 40;
+    private static final float UPDATE_TIME = 1 / 20f;
 
     static public int GAME_WIDTH = 300;
 
@@ -75,6 +75,8 @@ public class OnlinePlayState extends State {
 
     private float timer = 0;
 
+    private float timer2 = 0;
+
     public OnlinePlayState(GameStateManager gsm) {
         super(gsm);
         connectSocket();
@@ -92,7 +94,8 @@ public class OnlinePlayState extends State {
         bgTextureRegion.setRegion(0, 0, GAME_WIDTH + 50, GAME_HEIGHT + 50);
         tankTexture = new Texture("tank2.png");
         bulletTexture = new Texture("bullet.png");
-        bulletPool = new BulletPool(bulletTexture, Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")));
+        bulletPool = new BulletPool(bulletTexture,
+                Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")));
 
         persistent = new Persistent();
 
@@ -103,12 +106,14 @@ public class OnlinePlayState extends State {
 
     public void playerMoved(float dt) {
         timer += dt;
+        timer2 += dt;
         if (timer >= UPDATE_TIME && player != null && player.hasMoved()) {
             timer = 0;
             JSONObject data = new JSONObject();
             try {
                 data.put("x", player.getPosition().x);
                 data.put("y", player.getPosition().y);
+                data.put("t", timer2);
                 socket.emit("playerMoved", data);
             } catch (JSONException e) {
                 Gdx.app.log("SocketIO", "Error sending update data");
@@ -215,8 +220,12 @@ public class OnlinePlayState extends State {
                     String enemyId = data.getString("id");
                     double x = data.getDouble("x");
                     double y = data.getDouble("y");
+                    double t = data.getDouble("t");
                     if (enemies.containsKey(enemyId)) {
                         enemies.get(enemyId).setPosition(new Vector2((float) x, (float) y));
+                        Gdx.app.log("SocketIO",
+                                "timer out " + t + "| timer in " + timer2 + "| X " + x + "| Y "
+                                        + y);
                     }
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");

@@ -11,16 +11,19 @@ import com.tanks.game.utils.MathUtil;
 public class Tank extends GameSprite {
 
 
-    public int directionX;//tmp for enemies
+    public float directionX;//tmp for enemies
 
-    public int directionY;//tmp for enemies
+    public float directionY;//tmp for enemies
+
+    private int maxSpeed;
 
     private Animation birdAnimation;
 
     private Texture texture;
 
+    private float speed;
 
-    private float rotation;
+    private boolean deceleration = false;
 
     public Tank(int x, int y, Texture texture) {
         position = new Vector2(x, y);
@@ -32,10 +35,12 @@ public class Tank extends GameSprite {
         getSprite().scale(-0.5f);
         birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
 
-        directionX = (int) (Math.random() * 500) - 250;
-        directionY = (int) (Math.random() * 500) - 250;
+        directionX = 0;
+        directionY = 0;
 
-
+        speed = 0;
+        maxSpeed = 50;
+        deceleration = true;
     }
 
     public Tank(int x, int y) {
@@ -55,11 +60,24 @@ public class Tank extends GameSprite {
         directionX = (int) (Math.random() * 500) - 250;
         directionY = (int) (Math.random() * 500) - 250;
 
+        double length = Math.sqrt((directionX * directionX) + (directionY * directionY));
 
+        this.directionX = (float) (directionX / length);
+        this.directionY = (float) (directionY / length);
+
+        speed = 50;
+        maxSpeed = 50;
     }
 
 
     public void update(float dt) {
+        if (deceleration && speed > 0) {
+            movement = true;
+            speed = speed - dt * 20;
+        }
+        position.x = position.x + (directionX * dt * speed);
+        position.y = position.y + (directionY * dt * speed);
+        float rotation = (float) MathUtil.getAngle(directionX, directionY);
         birdAnimation.update(dt);//animation example
         boundsPoly.setPosition(position.x, position.y);
         boundsPoly.setRotation(rotation);
@@ -70,16 +88,17 @@ public class Tank extends GameSprite {
 
 
     public void move(int x, int y) {
-        movement = true;
-        rotation = (float) MathUtil.getAngle(x, y);
-
-        position.x = position.x + (float) x / 300;
-        position.y = position.y + (float) y / 300;
+        if (speed < maxSpeed) {
+            speed = speed + 3f;
+        }
+        double length = Math.sqrt((x * x) + (y * y));
+        this.directionX = (float) (x / length);
+        this.directionY = (float) (y / length);
 
     }
 
     public float getRotation() {
-        return rotation;
+        return (float) MathUtil.getAngle(directionX, directionY);
     }
 
 

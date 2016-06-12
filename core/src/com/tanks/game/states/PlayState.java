@@ -50,7 +50,7 @@ public class PlayState extends State {
     public PlayState(com.tanks.game.states.GameStateManager gsm) {
         super(gsm);
 
-        mTank = new Tank(200, 200);
+        mTank = new Tank(GAME_WIDTH / 2, GAME_HEIGHT / 2, new Texture("tank2.png"));
         mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150);
         enemies = new ArrayList<Tank>();
         usedBullets = new ArrayList<Bullet>();
@@ -116,8 +116,6 @@ public class PlayState extends State {
             } else if (enemy.getPosition().y > GAME_HEIGHT) {
                 enemy.directionY = -Math.abs(enemy.directionY);
             }
-            enemy.move(enemy.directionX, enemy.directionY);
-
             enemy.update(dt);
         }
         for (int i = 0; i < usedBullets.size(); i++) {
@@ -162,7 +160,8 @@ public class PlayState extends State {
 
     private void shoot(int directionx, int directiony) {
         if (usedBullets.size() < 5) {
-            Bullet bullet = bulletPool.obtainAndFire("Player", (int) mTank.getPosition().x, (int) mTank.getPosition().y,
+            Bullet bullet = bulletPool.obtainAndFire("Player", (int) mTank.getPosition().x,
+                    (int) mTank.getPosition().y,
                     mTank.getRotation(), directionx, directiony);
             usedBullets.add(bullet);
         }

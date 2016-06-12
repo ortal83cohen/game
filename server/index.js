@@ -32,7 +32,7 @@ io.on('connection', function(socket) {
     });
     socket.on('playerShoot', function(data) {
         data.id = socket.id;
-        socket.broadcast.emit('playerSHoot', data);
+        socket.broadcast.emit('playerShoot', data);
 
     });
     socket.on('playerHit', function(data) {

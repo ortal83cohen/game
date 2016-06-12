@@ -7,11 +7,11 @@ import com.tanks.game.sprites.Bullet;
 
 /**
  * Created by shlomi on 11/6/2016.
- *
  */
 public class BulletPool extends Pool<Bullet> {
 
     private Texture bulletTexture;
+
     private Sound fireSound;
 
     public BulletPool(Texture bulletTexture, Sound fireSound) {
@@ -24,7 +24,8 @@ public class BulletPool extends Pool<Bullet> {
         return new Bullet(null, bulletTexture, fireSound);
     }
 
-    public Bullet obtainAndFire(String ownerId, int x, int y, float rotation, int directionX, int directionY) {
+    public Bullet obtainAndFire(String ownerId, int x, int y, float rotation, int directionX,
+            int directionY) {
         Bullet bullet = obtain();
         bullet.fire(ownerId, x, y, rotation, directionX, directionY);
         return bullet;
