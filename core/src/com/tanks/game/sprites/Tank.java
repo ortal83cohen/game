@@ -1,5 +1,6 @@
 package com.tanks.game.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -38,7 +39,7 @@ public class Tank extends GameSprite {
         directionX = 0;
         directionY = 0;
 
-        speed = 0;
+        speed = 0.1f;
         maxSpeed = 50;
         deceleration = true;
     }
@@ -74,16 +75,17 @@ public class Tank extends GameSprite {
         if (deceleration && speed > 0) {
             movement = true;
             speed = speed - dt * 20;
-        }
+
         position.x = position.x + (directionX * dt * speed);
         position.y = position.y + (directionY * dt * speed);
+        Gdx.app.log("SocketIO", "playerUpdate x"+position.x+" y"+position.y);
         float rotation = (float) MathUtil.getAngle(directionX, directionY);
         birdAnimation.update(dt);//animation example
         boundsPoly.setPosition(position.x, position.y);
         boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
         glowSprite.setRotation(rotation);
-
+        }
     }
 
 

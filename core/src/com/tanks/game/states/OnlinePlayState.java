@@ -1,6 +1,7 @@
 package com.tanks.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -176,7 +177,9 @@ public class OnlinePlayState extends State {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player Connect: " + id);
                     enemies.put(id, new Tank(data.getInt("x"), data.getInt("y"), tankTexture));
-
+                    if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Vibrator)) {
+                        Gdx.input.vibrate(new long[]{0, 2, 10, 2, 10, 2}, 1);
+                    }
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting New PlayerID");
                 }
@@ -236,7 +239,8 @@ public class OnlinePlayState extends State {
                     float s = (float) data.getDouble("s");
                     if (enemies.containsKey(enemyId)) {
                         enemies.get(enemyId).setPosition(new Vector2((float) x, (float) y));
-                        enemies.get(enemyId).move(dx, dy, s);
+                        enemies.get(enemyId).move(dx, dy, s - 0.5f);
+                        Gdx.app.log("SocketIO", "playerMoved x" + x + " y" + y + " s" + s);
                     }
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
@@ -272,6 +276,9 @@ public class OnlinePlayState extends State {
                         enemies.put(objects.getJSONObject(i).getString("id"),
                                 new Tank(objects.getJSONObject(i).getInt("x"),
                                         objects.getJSONObject(i).getInt("y"), tankTexture));
+                    }
+                    if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Vibrator)) {
+                        Gdx.input.vibrate(new long[]{0, 2, 10, 2, 10, 2}, -1);
                     }
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error Get Players");
