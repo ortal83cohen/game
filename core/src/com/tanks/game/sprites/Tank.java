@@ -97,6 +97,13 @@ public class Tank extends GameSprite {
 
     }
 
+    public void move(float directionX, float directionY, float speed) {
+        this.speed = speed;
+        this.directionX = directionX;
+        this.directionY = directionY;
+
+    }
+
     public float getRotation() {
         return (float) MathUtil.getAngle(directionX, directionY);
     }
@@ -108,5 +115,9 @@ public class Tank extends GameSprite {
 
     public void setPosition(Vector2 position) {
         this.position = position;
+    }
+
+    public float getSpeed() {
+        return speed;
     }
 }

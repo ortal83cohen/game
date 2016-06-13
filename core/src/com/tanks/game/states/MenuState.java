@@ -29,8 +29,8 @@ public class MenuState extends State {
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         background = new Texture("bg.png");
 //        playBtn = new Texture("button.png");
-        mButton1 = new Button((int) cam.position.x, (int) cam.position.y+111);
-        mButton2 = new Button((int) cam.position.x, (int) cam.position.y-111);
+        mButton1 = new Button((int) cam.position.x, (int) cam.position.y + 111);
+        mButton2 = new Button((int) cam.position.x, (int) cam.position.y - 111);
         touchPolygon = new com.badlogic.gdx.math.Polygon(
                 new float[]{
                         0, 0,
@@ -51,10 +51,10 @@ public class MenuState extends State {
                     0); //when the screen is touched, the coordinates are inserted into the vector
             cam.unproject(touchPos);
             touchPolygon.setVertices(new float[]{
-                    touchPos.x-10, touchPos.y-10,
-                    touchPos.x-10, touchPos.y + 10,
+                    touchPos.x - 10, touchPos.y - 10,
+                    touchPos.x - 10, touchPos.y + 10,
                     touchPos.x + 10, touchPos.y + 10,
-                    touchPos.x + 10, touchPos.y-10
+                    touchPos.x + 10, touchPos.y - 10
             });
 
             if (mButton1.collides(touchPolygon)) {

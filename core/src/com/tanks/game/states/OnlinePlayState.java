@@ -73,9 +73,13 @@ public class OnlinePlayState extends State {
 
     private String myId;
 
+    private float loopTimer = 0;
+
     private float timer = 0;
 
-    private float timer2 = 0;
+    private int skipCounter = 0;
+
+    private float lastUpdate = 0;
 
     public OnlinePlayState(GameStateManager gsm) {
         super(gsm);
@@ -105,15 +109,17 @@ public class OnlinePlayState extends State {
     }
 
     public void playerMoved(float dt) {
+        loopTimer += dt;
         timer += dt;
-        timer2 += dt;
-        if (timer >= UPDATE_TIME && player != null && player.hasMoved()) {
-            timer = 0;
+        if (loopTimer >= UPDATE_TIME && player != null && player.hasMoved()) {
+            loopTimer = 0;
             JSONObject data = new JSONObject();
             try {
                 data.put("x", player.getPosition().x);
                 data.put("y", player.getPosition().y);
-                data.put("t", timer2);
+                data.put("dx", player.directionX);
+                data.put("dy", player.directionY);
+                data.put("s", player.getSpeed());
                 socket.emit("playerMoved", data);
             } catch (JSONException e) {
                 Gdx.app.log("SocketIO", "Error sending update data");
@@ -217,15 +223,20 @@ public class OnlinePlayState extends State {
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 try {
+                    if (lastUpdate == timer) {
+                        Gdx.app.log("SocketIO", "SKIPED " + (skipCounter++) + " at " + timer);
+                        return;
+                    }
+                    lastUpdate = timer;
                     String enemyId = data.getString("id");
                     double x = data.getDouble("x");
                     double y = data.getDouble("y");
-                    double t = data.getDouble("t");
+                    float dx = (float) data.getDouble("dx");
+                    float dy = (float) data.getDouble("dy");
+                    float s = (float) data.getDouble("s");
                     if (enemies.containsKey(enemyId)) {
                         enemies.get(enemyId).setPosition(new Vector2((float) x, (float) y));
-                        Gdx.app.log("SocketIO",
-                                "timer out " + t + "| timer in " + timer2 + "| X " + x + "| Y "
-                                        + y);
+                        enemies.get(enemyId).move(dx, dy, s);
                     }
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
