@@ -13,8 +13,10 @@ import com.tanks.game.sprites.Bullet;
 import com.tanks.game.sprites.Button;
 import com.tanks.game.sprites.GameSprite;
 import com.tanks.game.sprites.Tank;
+import com.tanks.game.utils.BulletPool;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Brent on 7/5/2015.
@@ -27,8 +29,6 @@ public class PlayState extends State {
 
     private final TextureRegion bgTextureRegion;
 
-    private final Texture bulletTexture;
-
     BitmapFont font = new BitmapFont();
 
     int ANDROID_WIDTH = Gdx.graphics.getWidth();
@@ -37,7 +37,9 @@ public class PlayState extends State {
 
     ArrayList<Tank> enemies;
 
-    ArrayList<Bullet> mBullets;
+    List<Bullet> usedBullets;
+
+    BulletPool bulletPool;
 
     private Tank mTank;
 
@@ -48,10 +50,13 @@ public class PlayState extends State {
     public PlayState(com.tanks.game.states.GameStateManager gsm) {
         super(gsm);
 
-        mTank = new Tank(200, 200);
+        mTank = new Tank(GAME_WIDTH / 2, GAME_HEIGHT / 2, new Texture("tank2.png"));
         mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150);
         enemies = new ArrayList<Tank>();
-        mBullets = new ArrayList<Bullet>();
+        usedBullets = new ArrayList<Bullet>();
+        bulletPool = new BulletPool(
+                new Texture("bullet.png"),
+                Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")));
         for (int i = 0; i < 20; i++) {
             enemies.add(i, new Tank((int) (Math.random() * GAME_WIDTH),
                     (int) (Math.random() * GAME_HEIGHT)));
@@ -61,7 +66,6 @@ public class PlayState extends State {
         bg.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         bgTextureRegion = new TextureRegion(bg);
         bgTextureRegion.setRegion(0, 0, GAME_WIDTH + 50, GAME_HEIGHT + 50);
-        bulletTexture = new Texture("bullet.png");
     }
 
     @Override
@@ -112,22 +116,22 @@ public class PlayState extends State {
             } else if (enemy.getPosition().y > GAME_HEIGHT) {
                 enemy.directionY = -Math.abs(enemy.directionY);
             }
-            enemy.move(enemy.directionX, enemy.directionY);
-
             enemy.update(dt);
         }
-        for (int i = 0; i < mBullets.size(); i++) {
-            Bullet bullet = mBullets.get(i);
+        for (int i = 0; i < usedBullets.size(); i++) {
+            Bullet bullet = usedBullets.get(i);
 
-            if (isOurOfScreen(bullet)) {
-                mBullets.remove(i);
+            if (isOutOfScreen(bullet)) {
+                usedBullets.remove(i);
+                bulletPool.free(bullet);
             } else {
                 bullet.update(dt);
                 for (int j = 0; j < enemies.size(); j++) {
                     Tank enemy = enemies.get(j);
                     if (bullet.collides(enemy.getBoundsPolygon())) {
                         enemies.remove(j);
-                        mBullets.remove(i);
+                        usedBullets.remove(i);
+                        bulletPool.free(bullet);
                     }
                 }
 
@@ -145,7 +149,7 @@ public class PlayState extends State {
 
     }
 
-    private boolean isOurOfScreen(GameSprite gameSprite) {
+    private boolean isOutOfScreen(GameSprite gameSprite) {
         return cam.position.x - (cam.viewportWidth / 2) > gameSprite.getPosition().x + gameSprite
                 .getSprite().getWidth() ||
                 cam.position.x + (cam.viewportWidth / 2) < gameSprite.getPosition().x ||
@@ -155,10 +159,11 @@ public class PlayState extends State {
     }
 
     private void shoot(int directionx, int directiony) {
-        if (mBullets.size() < 5) {
-            Bullet bullet = new Bullet((int) mTank.getPosition().x, (int) mTank.getPosition().y,
-                    mTank.getRotation(), directionx, directiony,bulletTexture);
-            mBullets.add(bullet);
+        if (usedBullets.size() < 5) {
+            Bullet bullet = bulletPool.obtainAndFire("Player", (int) mTank.getPosition().x,
+                    (int) mTank.getPosition().y,
+                    mTank.getRotation(), directionx, directiony);
+            usedBullets.add(bullet);
         }
 
     }
@@ -176,8 +181,8 @@ public class PlayState extends State {
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).getSprite().draw(sb);
         }
-        for (int i = 0; i < mBullets.size(); i++) {
-            mBullets.get(i).getSprite().draw(sb);
+        for (int i = 0; i < usedBullets.size(); i++) {
+            usedBullets.get(i).getSprite().draw(sb);
         }
 
 //        font.draw(sb, String.valueOf(mTank.getSprite().getRotation()), mTank.getPosition().x - 10,
@@ -201,8 +206,8 @@ public class PlayState extends State {
         for (int i = 0; i < enemies.size(); i++) {
             sr.polygon(enemies.get(i).getBoundsPolygon().getTransformedVertices());
         }
-        for (int i = 0; i < mBullets.size(); i++) {
-            sr.polygon(mBullets.get(i).getBoundsPolygon().getTransformedVertices());
+        for (int i = 0; i < usedBullets.size(); i++) {
+            sr.polygon(usedBullets.get(i).getBoundsPolygon().getTransformedVertices());
         }
         sr.polygon(mButton.getBoundsPolygon().getTransformedVertices());
         sr.polygon(mTank.getBoundsPolygon().getTransformedVertices());
@@ -217,9 +222,7 @@ public class PlayState extends State {
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).dispose();
         }
-        for (int i = 0; i < mBullets.size(); i++) {
-            mBullets.get(i).dispose();
-        }
+        bulletPool.dispose();
 
     }
 

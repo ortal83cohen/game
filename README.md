@@ -1,4 +1,4 @@
-# Tanks.io
+# some game
 
 by
 Ortal and Shlomi

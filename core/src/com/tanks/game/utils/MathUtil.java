@@ -6,7 +6,7 @@ package com.tanks.game.utils;
 public class MathUtil {
 
 
-    public static double getAngle(int x, int y) {
+    public static double getAngle(float x, float y) {
 
         return (180 / Math.PI) * Math.atan2(y, x)
                 - 180; //note the atan2 call, the order of paramers is y then x
