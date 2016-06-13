@@ -36,7 +36,7 @@ import io.socket.emitter.Emitter;
  */
 public class OnlinePlayState extends State {
 
-    private static final float UPDATE_TIME = 1 / 20f;
+    private static final float UPDATE_TIME = 1 / 30f;
 
     static public int GAME_WIDTH = 300;
 
@@ -82,6 +82,8 @@ public class OnlinePlayState extends State {
 
     private float lastUpdate = 0;
 
+    private float lastShoot;
+
     public OnlinePlayState(GameStateManager gsm) {
         super(gsm);
         connectSocket();
@@ -110,8 +112,6 @@ public class OnlinePlayState extends State {
     }
 
     public void playerMoved(float dt) {
-        loopTimer += dt;
-        timer += dt;
         if (loopTimer >= UPDATE_TIME && player != null && player.hasMoved()) {
             loopTimer = 0;
             JSONObject data = new JSONObject();
@@ -178,7 +178,7 @@ public class OnlinePlayState extends State {
                     Gdx.app.log("SocketIO", "New Player Connect: " + id);
                     enemies.put(id, new Tank(data.getInt("x"), data.getInt("y"), tankTexture));
                     if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Vibrator)) {
-                        Gdx.input.vibrate(new long[]{0, 2, 10, 2, 10, 2}, 1);
+                        Gdx.input.vibrate(new long[]{0, 2, 10, 2, 10, 2}, -1);
                     }
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting New PlayerID");
@@ -228,7 +228,7 @@ public class OnlinePlayState extends State {
                 try {
                     if (lastUpdate == timer) {
                         Gdx.app.log("SocketIO", "SKIPED " + (skipCounter++) + " at " + timer);
-                        return;
+//                        return;
                     }
                     lastUpdate = timer;
                     String enemyId = data.getString("id");
@@ -256,10 +256,10 @@ public class OnlinePlayState extends State {
                     int x = data.getInt("x");
                     int y = data.getInt("y");
                     double rotation = data.getDouble("rotation");
-                    int directionx = data.getInt("directionx");
-                    int directiony = data.getInt("directiony");
+                    float directionX = (float) data.getDouble("directionx");
+                    float directionY = (float) data.getDouble("directiony");
                     Bullet bullet = bulletPool.obtainAndFire(enemyId, x, y,
-                            (float) rotation, directionx, directiony);
+                            (float) rotation, directionX, directionY);
                     mEnemyBullets.add(bullet);
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
@@ -290,35 +290,42 @@ public class OnlinePlayState extends State {
     @Override
     protected void handleInput() {
         Vector3 touchPos = new Vector3();
-        if (Gdx.input.isTouched()) {
-            int x = Gdx.input.getX();
-            int y = Gdx.input.getY();
-            touchPos.set(x, y,
-                    0); //when the screen is touched, the coordinates are inserted into the vector
+        if (Gdx.input.isTouched(0)) {
+            int x = Gdx.input.getX(0);
+            int y = Gdx.input.getY(0);
+            touchPos.set(x, y, 0);
             cam.unproject(touchPos);
 
+            if (player != null) {
+                player.move(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
+            }
+        }
+        if (Gdx.input.isTouched(1) && lastShoot + 0.3 < timer) {
+            lastShoot = timer;
+            int x = Gdx.input.getX(1);
+            int y = Gdx.input.getY(1);
+            touchPos.set(x, y, 0);
+            cam.unproject(touchPos);
             if (mButton.collides(
                     new com.badlogic.gdx.math.Polygon(
                             new float[]{
-                                    x, y,
-                                    x, y + 20,
-                                    x + 20, y + 20,
-                                    x + 20, y
+                                    touchPos.x - 10, touchPos.y - 10,
+                                    touchPos.x - 10, touchPos.y + 10,
+                                    touchPos.x + 10, touchPos.y + 10,
+                                    touchPos.x + 10, touchPos.y - 10
                             }))) {
+                shoot(player.getPosition().x, player.getPosition().y, player.getRotation(),
+                        player.directionX, player.directionY);
 
-            } else {
-                if (player != null) {
-                    player.move(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
-                }
-            }
-            if (x % 20 == 0) {
-                shoot(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
             }
         }
+
     }
 
     @Override
     public void update(float dt) {
+        loopTimer += dt;
+        timer += dt;
         playerMoved(dt);
         handleInput();
         if (player != null) {
@@ -353,7 +360,7 @@ public class OnlinePlayState extends State {
                                 map.put("kill1", persistent.LoadInt("kill1") + 1);
                                 persistent.saveInt(map);
                             } catch (JSONException e) {
-                                Gdx.app.log("SocketIO", "Error sending update data");
+                                Gdx.app.log("SocketIO", "Error sending playerHit data");
                             }
                             enemies.remove(entry.getKey());
                             mMyBullets.remove(i);
@@ -388,19 +395,18 @@ public class OnlinePlayState extends State {
                 cam.position.y + (cam.viewportHeight / 2) < gameSprite.getPosition().y;
     }
 
-    private void shoot(int directionx, int directiony) {
+    private void shoot(float x, float y, float rotation, float directionx, float directiony) {
         if (player != null) {
             if (mMyBullets.size() < 5) {
-                Bullet bullet = bulletPool.obtainAndFire("Player", (int) player.getPosition().x,
-                        (int) player.getPosition().y,
+                Bullet bullet = bulletPool.obtainAndFire("Player", (int) x, (int) y,
                         player.getRotation(), directionx, directiony);
                 mMyBullets.add(bullet);
 
                 JSONObject data = new JSONObject();
                 try {
-                    data.put("x", player.getPosition().x);
-                    data.put("y", player.getPosition().y);
-                    data.put("rotation", player.getRotation());
+                    data.put("x", x);
+                    data.put("y", y);
+                    data.put("rotation", rotation);
                     data.put("directionx", directionx);
                     data.put("directiony", directiony);
                     socket.emit("playerShoot", data);

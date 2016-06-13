@@ -43,12 +43,12 @@ public class Bullet extends GameSprite implements Pool.Poolable {
         speed = 90;
     }
 
-    public void fire(String ownerId, int x, int y, float rotation, int directionX, int directionY) {
-        double length = Math.sqrt((directionX * directionX) + (directionY * directionY));
+    public void fire(String ownerId, int x, int y, float rotation, float directionX,
+            float directionY) {
         this.ownerId = ownerId;
         position.set(x, y);
-        this.directionX = (float) (directionX / length);
-        this.directionY = (float) (directionY / length);
+        this.directionX = directionX;
+        this.directionY = directionY;
         this.rotation = rotation;
         fireSound.play(0.5f);
 
