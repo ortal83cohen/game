@@ -7,6 +7,10 @@ import java.util.LinkedList;
  */
 public interface CollisionManager {
 
+
+    public void setCallback(CollisionManagerCallBack callBack);
+
+
     public void register(Collisionable c);
 
     public void unregister(Collisionable c);
@@ -17,4 +21,9 @@ public interface CollisionManager {
 
     public void update(Collisionable c);
 
+    public interface CollisionManagerCallBack {
+
+        public void collide(Collisionable c1, Collisionable c2);
+
+    }
 }

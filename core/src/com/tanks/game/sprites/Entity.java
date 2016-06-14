@@ -11,7 +11,7 @@ import com.tanks.game.utils.CollisionManager;
  */
 public abstract class Entity {
 
-    protected CollisionManager cManager;
+    protected final CollisionManager collisionManager;
 
     protected Sprite glowSprite;
 
@@ -20,6 +20,10 @@ public abstract class Entity {
     protected Polygon boundsPoly;
 
     protected boolean movement = false;
+
+    protected Entity(CollisionManager collisionManager) {
+        this.collisionManager = collisionManager;
+    }
 
     public void setPolygon() {
         boundsPoly = new Polygon(new float[]{
@@ -43,10 +47,6 @@ public abstract class Entity {
 
     public boolean collides(Polygon polygon) {
         return Intersector.overlapConvexPolygons(boundsPoly, polygon);
-    }
-
-    public void setCollisionManager(CollisionManager cManager) {
-        this.cManager = cManager;
     }
 
     public boolean hasMoved() {

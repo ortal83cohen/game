@@ -13,6 +13,4 @@ public interface Collisionable {
 
     public Type getType();
 
-
-    public void setCollisionManager(CollisionManager cManager);
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.tanks.game.utils.CollisionManager;
 import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.Type;
 
@@ -14,7 +15,9 @@ public class Button extends Entity implements Collisionable {
 
     private Texture texture;
 
-    public Button(int x, int y) {
+    public Button(int x, int y, CollisionManager collisionManager) {
+        super(collisionManager);
+        this.collisionManager.register(this);
         position = new Vector2(x, y);
 
         texture = new Texture("button.png");
@@ -25,7 +28,7 @@ public class Button extends Entity implements Collisionable {
 
 
     public void update(float dt) {
-
+        collisionManager.update(this);
         boundsPoly.setPosition(position.x, position.y);
         glowSprite.setPosition(getPosition().x, getPosition().y);
 
@@ -40,7 +43,7 @@ public class Button extends Entity implements Collisionable {
 
     public void dispose() {
         texture.dispose();
-        cManager.unregister(this);
+        collisionManager.unregister(this);
     }
 
     @Override

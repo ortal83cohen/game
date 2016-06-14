@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.tanks.game.utils.CollisionManager;
 import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.MathUtil;
 import com.tanks.game.utils.Type;
@@ -30,9 +31,11 @@ public class Tank extends Entity implements Collisionable {
 
     private Type type;
 
-    public Tank(Type type, int x, int y, Texture texture) {
+    public Tank(int x, int y, Texture texture, CollisionManager collisionManager) {
+        super(collisionManager);
+        this.collisionManager.register(this);
         position = new Vector2(x, y);
-        this.type = type;
+        this.type = Type.PLAYER;
         this.texture = texture;
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
         setPolygon();
@@ -48,7 +51,9 @@ public class Tank extends Entity implements Collisionable {
         deceleration = true;
     }
 
-    public Tank(int x, int y) {
+    public Tank(int x, int y, CollisionManager collisionManager) {
+        super(collisionManager);
+        this.collisionManager.register(this);
         this.type = Type.ENEMY;
         position = new Vector2(x, y);
         if (Math.random() < 0.5) {
@@ -77,9 +82,12 @@ public class Tank extends Entity implements Collisionable {
 
 
     public void update(float dt) {
-        if (deceleration && speed > 0) {
+        if (speed > 0) {
+            collisionManager.update(this);
             movement = true;
-            speed = speed - dt * 20;
+            if (deceleration) {
+                speed = speed - dt * 20;
+            }
         }
         position.x = position.x + (directionX * dt * speed);
         position.y = position.y + (directionY * dt * speed);
@@ -90,7 +98,12 @@ public class Tank extends Entity implements Collisionable {
         boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
         glowSprite.setRotation(rotation);
-
+        Collisionable collision = collisionManager.checkCollision(this);
+        if (collision != null) {
+            collision.getCollisionBounds().getBoundingRectangle();
+            directionX = -directionX;
+            directionY = -directionY;
+        }
     }
 
 
@@ -123,7 +136,7 @@ public class Tank extends Entity implements Collisionable {
 
     public void dispose() {
         texture.dispose();
-        cManager.unregister(this);
+        collisionManager.unregister(this);
     }
 
     public void setPosition(Vector2 position) {

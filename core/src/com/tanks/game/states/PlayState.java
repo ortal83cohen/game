@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector3;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.Bullet;
@@ -14,6 +15,10 @@ import com.tanks.game.sprites.Button;
 import com.tanks.game.sprites.Entity;
 import com.tanks.game.sprites.Tank;
 import com.tanks.game.utils.BulletPool;
+import com.tanks.game.utils.CollisionManager;
+import com.tanks.game.utils.Collisionable;
+import com.tanks.game.utils.NaiveCollisionManager;
+import com.tanks.game.utils.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,13 +26,15 @@ import java.util.List;
 /**
  * Created by Brent on 7/5/2015.
  */
-public class PlayState extends State {
+public class PlayState extends State implements Collisionable {
 
-    static public int GAME_WIDTH = 500;
+    static public int GAME_WIDTH = 400;
 
-    static public int GAME_HEIGHT = 500;
+    static public int GAME_HEIGHT = 400;
 
     private final TextureRegion bgTextureRegion;
+
+    private final NaiveCollisionManager collisionManager;
 
     BitmapFont font = new BitmapFont();
 
@@ -51,24 +58,36 @@ public class PlayState extends State {
 
     private float lastShoot = 0;
 
+    private Polygon boundsPoly;
+
     public PlayState(com.tanks.game.states.GameStateManager gsm) {
         super(gsm);
+        boundsPoly =  new Polygon(new float[]{0,0,0,GAME_HEIGHT,GAME_HEIGHT,GAME_WIDTH,GAME_WIDTH,0});
+        collisionManager = new NaiveCollisionManager();
+        collisionManager.register(this);
+        collisionManager.setCallback(new CollisionManager.CollisionManagerCallBack() {
+            @Override
+            public void collide(Collisionable c1, Collisionable c2) {
 
-        player = new Tank(GAME_WIDTH / 2, GAME_HEIGHT / 2, new Texture("tank2.png"));
-        mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150);
+            }
+        });
+        player = new Tank(GAME_WIDTH / 2, GAME_HEIGHT / 2, new Texture("tank2.png"),
+                collisionManager);
+        mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150,
+                collisionManager);
         enemies = new ArrayList<Tank>();
         usedBullets = new ArrayList<Bullet>();
         bulletPool = new BulletPool(new Texture("bullet.png"),
-                Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")));
-        for (int i = 0; i < 20; i++) {
+                Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")), collisionManager);
+        for (int i = 0; i < 1; i++) {
             enemies.add(i, new Tank((int) (Math.random() * GAME_WIDTH),
-                    (int) (Math.random() * GAME_HEIGHT)));
+                    (int) (Math.random() * GAME_HEIGHT), collisionManager));
         }
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
         bg.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         bgTextureRegion = new TextureRegion(bg);
-        bgTextureRegion.setRegion(0, 0, GAME_WIDTH + 50, GAME_HEIGHT + 50);
+        bgTextureRegion.setRegion(0, 0, GAME_WIDTH , GAME_HEIGHT );
     }
 
     @Override
@@ -114,15 +133,15 @@ public class PlayState extends State {
 
         for (int i = 0; i < enemies.size(); i++) {
             Tank enemy = enemies.get(i);
-            if (enemy.getPosition().x < 0) {
-                enemy.directionX = Math.abs(enemy.directionX);
-            } else if (enemy.getPosition().x > GAME_WIDTH) {
-                enemy.directionX = -Math.abs(enemy.directionX);
-            } else if (enemy.getPosition().y < 0) {
-                enemy.directionY = Math.abs(enemy.directionY);
-            } else if (enemy.getPosition().y > GAME_HEIGHT) {
-                enemy.directionY = -Math.abs(enemy.directionY);
-            }
+//            if (enemy.getPosition().x < 0) {
+//                enemy.directionX = Math.abs(enemy.directionX);
+//            } else if (enemy.getPosition().x > GAME_WIDTH) {
+//                enemy.directionX = -Math.abs(enemy.directionX);
+//            } else if (enemy.getPosition().y < 0) {
+//                enemy.directionY = Math.abs(enemy.directionY);
+//            } else if (enemy.getPosition().y > GAME_HEIGHT) {
+//                enemy.directionY = -Math.abs(enemy.directionY);
+//            }
             enemy.update(dt);
         }
         for (int i = 0; i < usedBullets.size(); i++) {
@@ -136,9 +155,9 @@ public class PlayState extends State {
                 for (int j = 0; j < enemies.size(); j++) {
                     Tank enemy = enemies.get(j);
                     if (bullet.collides(enemy.getBoundsPolygon())) {
-                        enemies.remove(j);
-                        usedBullets.remove(i);
-                        bulletPool.free(bullet);
+//                        enemies.remove(j);
+//                        usedBullets.remove(i);
+//                        bulletPool.free(bullet);
                     }
                 }
 
@@ -217,6 +236,7 @@ public class PlayState extends State {
         }
         sr.polygon(mButton.getBoundsPolygon().getTransformedVertices());
         sr.polygon(player.getBoundsPolygon().getTransformedVertices());
+        sr.polygon(boundsPoly.getTransformedVertices());
         sr.end();
     }
 
@@ -232,5 +252,19 @@ public class PlayState extends State {
 
     }
 
+    @Override
+    public Polygon getCollisionBounds() {
+        return boundsPoly;
+    }
+
+    @Override
+    public boolean intersects(Collisionable c) {
+        return true;
+    }
+
+    @Override
+    public Type getType() {
+        return Type.GAME_WORLD;
+    }
 
 }

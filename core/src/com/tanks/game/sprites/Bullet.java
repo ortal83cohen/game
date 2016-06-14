@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import com.tanks.game.utils.CollisionManager;
 import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.Type;
 
@@ -28,15 +29,18 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     private float speed;
 
-    public Bullet(String ownerId, Texture texture, Sound fireSound) {
+    public Bullet(String ownerId, Texture texture, Sound fireSound,
+            CollisionManager collisionManager) {
+        super(collisionManager);
+        this.collisionManager.register(this);
         position = new Vector2();
         this.ownerId = ownerId;
         this.texture = texture;
 
         glowSprite = new Sprite(texture);
-        getSprite().scale(-0.5f);
+        getSprite().scale(-0.8f);
         setPolygon();
-        boundsPoly.scale(-0.65f);
+        boundsPoly.scale(-1.1f);
         this.fireSound = fireSound;
 
         this.directionX = 0;
@@ -58,6 +62,7 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
     }
 
     public void update(float dt) {
+        collisionManager.update(this);
         position.x = position.x + directionX * dt * speed;
         position.y = position.y + directionY * dt * speed;
 
@@ -65,11 +70,14 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
         boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
         glowSprite.setRotation(rotation);
-
+        Collisionable collision = collisionManager.checkCollision(this);
+        if (collision != null) {
+            position.x=9999; position.y = 9999;
+        }
     }
 
     public void dispose() {
-        cManager.unregister(this);
+        collisionManager.unregister(this);
     }
 
     @Override
@@ -127,7 +135,7 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     @Override
     public boolean intersects(Collisionable c) {
-        return false;
+        return c.getType() == Type.ENEMY ;
     }
 
     @Override

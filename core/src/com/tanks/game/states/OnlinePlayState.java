@@ -17,6 +17,8 @@ import com.tanks.game.sprites.Button;
 import com.tanks.game.sprites.Entity;
 import com.tanks.game.sprites.Tank;
 import com.tanks.game.utils.BulletPool;
+import com.tanks.game.utils.CollisionManager;
+import com.tanks.game.utils.NaiveCollisionManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +52,8 @@ public class OnlinePlayState extends State {
     private final Texture bulletTexture;
 
     private final com.tanks.game.utils.Persistent persistent;
+
+    private final CollisionManager collisionManager;
 
     BitmapFont font;
 
@@ -91,10 +95,12 @@ public class OnlinePlayState extends State {
 
     public OnlinePlayState(GameStateManager gsm) {
         super(gsm);
+        collisionManager = new NaiveCollisionManager();
         connectSocket();
         configSocketEvents();
 
-        mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150);
+        mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150,
+                collisionManager);
         enemies = new HashMap<String, Tank>();
         mMyBullets = new ArrayList<Bullet>();
         mEnemyBullets = new ArrayList<Bullet>();
@@ -107,7 +113,7 @@ public class OnlinePlayState extends State {
         tankTexture = new Texture("tank2.png");
         bulletTexture = new Texture("bullet.png");
         bulletPool = new BulletPool(bulletTexture,
-                Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")));
+                Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")), collisionManager);
 
         persistent = new com.tanks.game.utils.Persistent();
 
@@ -152,7 +158,7 @@ public class OnlinePlayState extends State {
                 Gdx.app.log("SocketIO", "Connected");
 
                 player = new Tank((int) (Math.random() * GAME_WIDTH),
-                        (int) (Math.random() * GAME_HEIGHT), tankTexture);
+                        (int) (Math.random() * GAME_HEIGHT), tankTexture, collisionManager);
                 JSONObject data = new JSONObject();
                 try {
                     data.put("x", player.getPosition().x);
@@ -181,7 +187,8 @@ public class OnlinePlayState extends State {
                 try {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player Connect: " + id);
-                    enemies.put(id, new Tank(data.getInt("x"), data.getInt("y"), tankTexture));
+                    enemies.put(id, new Tank(data.getInt("x"), data.getInt("y"), tankTexture,
+                            collisionManager));
                     if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Vibrator)) {
                         Gdx.input.vibrate(new long[]{0, 2, 10, 2, 10, 2}, -1);
                     }
@@ -280,7 +287,8 @@ public class OnlinePlayState extends State {
                     for (int i = 0; i < objects.length(); i++) {
                         enemies.put(objects.getJSONObject(i).getString("id"),
                                 new Tank(objects.getJSONObject(i).getInt("x"),
-                                        objects.getJSONObject(i).getInt("y"), tankTexture));
+                                        objects.getJSONObject(i).getInt("y"), tankTexture,
+                                        collisionManager));
                     }
                     if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Vibrator)) {
                         Gdx.input.vibrate(new long[]{0, 2, 10, 2, 10, 2}, -1);
