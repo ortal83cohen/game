@@ -9,7 +9,7 @@ import com.tanks.game.utils.MathUtil;
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Tank extends GameSprite {
+public class Tank extends Entity {
 
 
     public float directionX;//tmp for enemies
@@ -78,7 +78,7 @@ public class Tank extends GameSprite {
         }
         position.x = position.x + (directionX * dt * speed);
         position.y = position.y + (directionY * dt * speed);
-        Gdx.app.log("SocketIO", "playerUpdate x" + position.x + " y" + position.y);
+//        Gdx.app.log("SocketIO", "playerUpdate x" + position.x + " y" + position.y);
         float rotation = (float) MathUtil.getAngle(directionX, directionY);
         birdAnimation.update(dt);//animation example
         boundsPoly.setPosition(position.x, position.y);

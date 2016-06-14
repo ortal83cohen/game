@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Created by ortalcohen on 03/06/2016.
  */
-public abstract class GameSprite {
+public abstract class Entity {
 
     protected Sprite glowSprite;
 

@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Button extends GameSprite {
+public class Button extends Entity {
 
     private Texture texture;
 

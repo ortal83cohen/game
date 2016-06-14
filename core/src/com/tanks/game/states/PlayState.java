@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.Bullet;
 import com.tanks.game.sprites.Button;
-import com.tanks.game.sprites.GameSprite;
+import com.tanks.game.sprites.Entity;
 import com.tanks.game.sprites.Tank;
 import com.tanks.game.utils.BulletPool;
 
@@ -156,13 +156,13 @@ public class PlayState extends State {
 
     }
 
-    private boolean isOutOfScreen(GameSprite gameSprite) {
-        return cam.position.x - (cam.viewportWidth / 2) > gameSprite.getPosition().x + gameSprite
+    private boolean isOutOfScreen(Entity entity) {
+        return cam.position.x - (cam.viewportWidth / 2) > entity.getPosition().x + entity
                 .getSprite().getWidth() ||
-                cam.position.x + (cam.viewportWidth / 2) < gameSprite.getPosition().x ||
-                cam.position.y - (cam.viewportHeight / 2) > gameSprite.getPosition().y + gameSprite
+                cam.position.x + (cam.viewportWidth / 2) < entity.getPosition().x ||
+                cam.position.y - (cam.viewportHeight / 2) > entity.getPosition().y + entity
                         .getSprite().getWidth() ||
-                cam.position.y + (cam.viewportHeight / 2) < gameSprite.getPosition().y;
+                cam.position.y + (cam.viewportHeight / 2) < entity.getPosition().y;
     }
 
     private void shoot(float x, float y, float rotation, float directionX, float directionY) {

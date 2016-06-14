@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.Pool;
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Bullet extends GameSprite implements Pool.Poolable {
+public class Bullet extends Entity implements Pool.Poolable {
 
     private String ownerId;
 
