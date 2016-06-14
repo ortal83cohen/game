@@ -3,13 +3,16 @@ package com.tanks.game.sprites;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import com.tanks.game.utils.Collisionable;
+import com.tanks.game.utils.Type;
 
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Bullet extends GameSprite implements Pool.Poolable {
+public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     private String ownerId;
 
@@ -65,6 +68,10 @@ public class Bullet extends GameSprite implements Pool.Poolable {
 
     }
 
+    public void dispose() {
+        cManager.unregister(this);
+    }
+
     @Override
     public void reset() {
         //reset methods invoked when bullet is freed by pool
@@ -112,4 +119,20 @@ public class Bullet extends GameSprite implements Pool.Poolable {
         result = 31 * result + (int) directionY;
         return result;
     }
+
+    @Override
+    public Polygon getCollisionBounds() {
+        return boundsPoly;
+    }
+
+    @Override
+    public boolean intersects(Collisionable c) {
+        return false;
+    }
+
+    @Override
+    public Type getType() {
+        return Type.ENEMY_BULLET;
+    }
+
 }

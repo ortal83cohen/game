@@ -2,12 +2,15 @@ package com.tanks.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.tanks.game.utils.Collisionable;
+import com.tanks.game.utils.Type;
 
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Button extends GameSprite {
+public class Button extends Entity implements Collisionable {
 
     private Texture texture;
 
@@ -37,6 +40,23 @@ public class Button extends GameSprite {
 
     public void dispose() {
         texture.dispose();
+        cManager.unregister(this);
     }
+
+    @Override
+    public Polygon getCollisionBounds() {
+        return boundsPoly;
+    }
+
+    @Override
+    public boolean intersects(Collisionable c) {
+        return false;
+    }
+
+    @Override
+    public Type getType() {
+        return Type.BUTTON;
+    }
+
 
 }

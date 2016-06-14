@@ -1,4 +1,4 @@
-package com.tanks.game.states;
+package com.tanks.game.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;

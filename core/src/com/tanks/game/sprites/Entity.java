@@ -4,11 +4,14 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.tanks.game.utils.CollisionManager;
 
 /**
  * Created by ortalcohen on 03/06/2016.
  */
-public abstract class GameSprite {
+public abstract class Entity {
+
+    protected CollisionManager cManager;
 
     protected Sprite glowSprite;
 
@@ -42,9 +45,11 @@ public abstract class GameSprite {
         return Intersector.overlapConvexPolygons(boundsPoly, polygon);
     }
 
+    public void setCollisionManager(CollisionManager cManager) {
+        this.cManager = cManager;
+    }
+
     public boolean hasMoved() {
-        boolean movement = this.movement;
-        this.movement = false;
         return movement;
     }
 }

@@ -1,15 +1,17 @@
 package com.tanks.game.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.MathUtil;
+import com.tanks.game.utils.Type;
 
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Tank extends GameSprite {
+public class Tank extends Entity implements Collisionable {
 
 
     public float directionX;//tmp for enemies
@@ -26,9 +28,11 @@ public class Tank extends GameSprite {
 
     private boolean deceleration = false;
 
-    public Tank(int x, int y, Texture texture) {
-        position = new Vector2(x, y);
+    private Type type;
 
+    public Tank(Type type, int x, int y, Texture texture) {
+        position = new Vector2(x, y);
+        this.type = type;
         this.texture = texture;
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
         setPolygon();
@@ -45,6 +49,7 @@ public class Tank extends GameSprite {
     }
 
     public Tank(int x, int y) {
+        this.type = Type.ENEMY;
         position = new Vector2(x, y);
         if (Math.random() < 0.5) {
             texture = new Texture("tank.png");
@@ -78,7 +83,7 @@ public class Tank extends GameSprite {
         }
         position.x = position.x + (directionX * dt * speed);
         position.y = position.y + (directionY * dt * speed);
-        Gdx.app.log("SocketIO", "playerUpdate x" + position.x + " y" + position.y);
+//        Gdx.app.log("SocketIO", "playerUpdate x" + position.x + " y" + position.y);
         float rotation = (float) MathUtil.getAngle(directionX, directionY);
         birdAnimation.update(dt);//animation example
         boundsPoly.setPosition(position.x, position.y);
@@ -106,6 +111,11 @@ public class Tank extends GameSprite {
 
     }
 
+    @Override
+    public boolean hasMoved() {
+        return speed > 0;
+    }
+
     public float getRotation() {
         return (float) MathUtil.getAngle(directionX, directionY);
     }
@@ -113,6 +123,7 @@ public class Tank extends GameSprite {
 
     public void dispose() {
         texture.dispose();
+        cManager.unregister(this);
     }
 
     public void setPosition(Vector2 position) {
@@ -122,4 +133,20 @@ public class Tank extends GameSprite {
     public float getSpeed() {
         return speed;
     }
+
+    @Override
+    public Polygon getCollisionBounds() {
+        return boundsPoly;
+    }
+
+    @Override
+    public boolean intersects(Collisionable c) {
+        return false;
+    }
+
+    @Override
+    public Type getType() {
+        return this.type;
+    }
+
 }

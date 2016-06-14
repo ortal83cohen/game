@@ -10,10 +10,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Timer;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.Bullet;
 import com.tanks.game.sprites.Button;
-import com.tanks.game.sprites.GameSprite;
+import com.tanks.game.sprites.Entity;
 import com.tanks.game.sprites.Tank;
 import com.tanks.game.utils.BulletPool;
 
@@ -48,7 +49,7 @@ public class OnlinePlayState extends State {
 
     private final Texture bulletTexture;
 
-    private final Persistent persistent;
+    private final com.tanks.game.utils.Persistent persistent;
 
     BitmapFont font;
 
@@ -74,7 +75,9 @@ public class OnlinePlayState extends State {
 
     private String myId;
 
-    private float loopTimer = 0;
+    private float updateTimeLoopTimer = 0;
+
+    private float lastConnectionSpeed = 0;
 
     private float timer = 0;
 
@@ -83,6 +86,8 @@ public class OnlinePlayState extends State {
     private float lastUpdate = 0;
 
     private float lastShoot;
+
+    private float connectionDelay = 0;
 
     public OnlinePlayState(GameStateManager gsm) {
         super(gsm);
@@ -104,7 +109,7 @@ public class OnlinePlayState extends State {
         bulletPool = new BulletPool(bulletTexture,
                 Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")));
 
-        persistent = new Persistent();
+        persistent = new com.tanks.game.utils.Persistent();
 
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear,
@@ -112,8 +117,8 @@ public class OnlinePlayState extends State {
     }
 
     public void playerMoved(float dt) {
-        if (loopTimer >= UPDATE_TIME && player != null && player.hasMoved()) {
-            loopTimer = 0;
+        if (updateTimeLoopTimer >= UPDATE_TIME && player != null && player.hasMoved()) {
+            updateTimeLoopTimer = 0;
             JSONObject data = new JSONObject();
             try {
                 data.put("x", player.getPosition().x);
@@ -284,6 +289,18 @@ public class OnlinePlayState extends State {
                     Gdx.app.log("SocketIO", "Error Get Players");
                 }
             }
+        }).on("connectionTest", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                try {
+                    float t = (float) data.getDouble("t");
+                    connectionDelay = (connectionDelay + (timer - t)) / 2;
+                    Gdx.app.log("SocketIO", "connectionDelay - " + connectionDelay);
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error Get connectionTest");
+                }
+            }
         });
     }
 
@@ -291,13 +308,19 @@ public class OnlinePlayState extends State {
     protected void handleInput() {
         Vector3 touchPos = new Vector3();
         if (Gdx.input.isTouched(0)) {
-            int x = Gdx.input.getX(0);
-            int y = Gdx.input.getY(0);
+            final int x = Gdx.input.getX(0);
+            final int y = Gdx.input.getY(0);
             touchPos.set(x, y, 0);
             cam.unproject(touchPos);
 
             if (player != null) {
-                player.move(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        player.move(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
+                    }
+                }, connectionDelay);
+
             }
         }
         if (Gdx.input.isTouched(1) && lastShoot + 0.3 < timer) {
@@ -314,9 +337,13 @@ public class OnlinePlayState extends State {
                                     touchPos.x + 10, touchPos.y + 10,
                                     touchPos.x + 10, touchPos.y - 10
                             }))) {
-                shoot(player.getPosition().x, player.getPosition().y, player.getRotation(),
-                        player.directionX, player.directionY);
-
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        shoot(player.getPosition().x, player.getPosition().y, player.getRotation(),
+                                player.directionX, player.directionY);
+                    }
+                }, connectionDelay);
             }
         }
 
@@ -324,7 +351,7 @@ public class OnlinePlayState extends State {
 
     @Override
     public void update(float dt) {
-        loopTimer += dt;
+        updateTimeLoopTimer += dt;
         timer += dt;
         playerMoved(dt);
         handleInput();
@@ -336,10 +363,7 @@ public class OnlinePlayState extends State {
             Tank enemy = entry.getValue();
             enemy.update(dt);
         }
-        for (int i = 0; i < mEnemyBullets.size(); i++) {
-            Bullet bullet = mEnemyBullets.get(i);
-            bullet.update(dt);
-        }
+
         for (int i = 0; i < mMyBullets.size(); i++) {
             Bullet bullet = mMyBullets.get(i);
 
@@ -349,6 +373,13 @@ public class OnlinePlayState extends State {
             } else {
                 bullet.update(dt);
                 try {
+                    for (int j = 0; j < mEnemyBullets.size(); j++) {
+                        Bullet enemyBullet = mEnemyBullets.get(j);
+                        if (bullet.collides(enemyBullet.getBoundsPolygon())) {
+                            mMyBullets.remove(i);
+                            mEnemyBullets.remove(j);
+                        }
+                    }
                     for (Map.Entry<String, Tank> entry : enemies.entrySet()) {
 
                         if (bullet.collides(entry.getValue().getBoundsPolygon())) {
@@ -374,6 +405,10 @@ public class OnlinePlayState extends State {
             }
 
         }
+        for (int j = 0; j < mEnemyBullets.size(); j++) {
+            Bullet enemyBullet = mEnemyBullets.get(j);
+            enemyBullet.update(dt);
+        }
         if (player != null) {
             cam.position.x = player.getPosition().x
                     + player.getBoundsPolygon().getBoundingRectangle().height / 2;
@@ -384,15 +419,27 @@ public class OnlinePlayState extends State {
         mButton.update(dt);
         cam.update();
 
+        if (lastConnectionSpeed + 3 < timer && player.hasMoved()) {
+            lastConnectionSpeed = timer;
+            JSONObject data = new JSONObject();
+            try {
+                data.put("t", timer);
+                socket.emit("connectionTest", data);
+            } catch (Exception e) {
+                Gdx.app.log("SocketIO", "Error sending connectionTest data");
+            }
+        }
+
+
     }
 
-    private boolean isOutOfScreen(GameSprite gameSprite) {
-        return cam.position.x - (cam.viewportWidth / 2) > gameSprite.getPosition().x + gameSprite
+    private boolean isOutOfScreen(Entity entity) {
+        return cam.position.x - (cam.viewportWidth / 2) > entity.getPosition().x + entity
                 .getSprite().getWidth() ||
-                cam.position.x + (cam.viewportWidth / 2) < gameSprite.getPosition().x ||
-                cam.position.y - (cam.viewportHeight / 2) > gameSprite.getPosition().y + gameSprite
+                cam.position.x + (cam.viewportWidth / 2) < entity.getPosition().x ||
+                cam.position.y - (cam.viewportHeight / 2) > entity.getPosition().y + entity
                         .getSprite().getWidth() ||
-                cam.position.y + (cam.viewportHeight / 2) < gameSprite.getPosition().y;
+                cam.position.y + (cam.viewportHeight / 2) < entity.getPosition().y;
     }
 
     private void shoot(float x, float y, float rotation, float directionx, float directiony) {
