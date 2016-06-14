@@ -27,6 +27,8 @@ public class PlayState extends State {
 
     static public int GAME_HEIGHT = 500;
 
+    private float timer = 0;
+
     private final TextureRegion bgTextureRegion;
 
     BitmapFont font = new BitmapFont();
@@ -41,21 +43,22 @@ public class PlayState extends State {
 
     BulletPool bulletPool;
 
-    private Tank mTank;
+    private Tank player;
 
     private Button mButton;
 
     private Texture bg;
 
+    private float lastShoot = 0;
+
     public PlayState(com.tanks.game.states.GameStateManager gsm) {
         super(gsm);
 
-        mTank = new Tank(GAME_WIDTH / 2, GAME_HEIGHT / 2, new Texture("tank2.png"));
+        player = new Tank(GAME_WIDTH / 2, GAME_HEIGHT / 2, new Texture("tank2.png"));
         mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150);
         enemies = new ArrayList<Tank>();
         usedBullets = new ArrayList<Bullet>();
-        bulletPool = new BulletPool(
-                new Texture("bullet.png"),
+        bulletPool = new BulletPool(new Texture("bullet.png"),
                 Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")));
         for (int i = 0; i < 20; i++) {
             enemies.add(i, new Tank((int) (Math.random() * GAME_WIDTH),
@@ -71,39 +74,43 @@ public class PlayState extends State {
     @Override
     protected void handleInput() {
         Vector3 touchPos = new Vector3();
-        if (Gdx.input.isTouched()) {
-            int x = Gdx.input.getX();
-            int y = Gdx.input.getY();
-            touchPos.set(x, y,
-                    0); //when the screen is touched, the coordinates are inserted into the vector
+        if (Gdx.input.isTouched(0)) {
+            int x = Gdx.input.getX(0);
+            int y = Gdx.input.getY(0);
+            touchPos.set(x, y, 0);
             cam.unproject(touchPos);
 
+            if (player != null) {
+                player.move(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
+            }
+        }
+        if (Gdx.input.isTouched(1) && lastShoot + 0.3 < timer) {
+            lastShoot = timer;
+            int x = Gdx.input.getX(1);
+            int y = Gdx.input.getY(1);
+            touchPos.set(x, y, 0);
+            cam.unproject(touchPos);
             if (mButton.collides(
                     new com.badlogic.gdx.math.Polygon(
                             new float[]{
-                                    x, y,
-                                    x, y + 20,
-                                    x + 20, y + 20,
-                                    x + 20, y
+                                    touchPos.x - 10, touchPos.y - 10,
+                                    touchPos.x - 10, touchPos.y + 10,
+                                    touchPos.x + 10, touchPos.y + 10,
+                                    touchPos.x + 10, touchPos.y - 10
                             }))) {
+                shoot(player.getPosition().x, player.getPosition().y, player.getRotation(),
+                        player.directionX, player.directionY);
 
-            } else {
-                mTank.move(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
             }
-            if (x % 20 == 0) {
-                shoot(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
-            }
-
         }
-
-
     }
 
     @Override
     public void update(float dt) {
+        timer += dt;
         handleInput();
 
-        mTank.update(dt);
+        player.update(dt);
 
         for (int i = 0; i < enemies.size(); i++) {
             Tank enemy = enemies.get(i);
@@ -138,10 +145,10 @@ public class PlayState extends State {
             }
 
         }
-        cam.position.x = mTank.getPosition().x
-                + mTank.getBoundsPolygon().getBoundingRectangle().height / 2;
-        cam.position.y = mTank.getPosition().y
-                + mTank.getBoundsPolygon().getBoundingRectangle().width / 2;
+        cam.position.x = player.getPosition().x
+                + player.getBoundsPolygon().getBoundingRectangle().height / 2;
+        cam.position.y = player.getPosition().y
+                + player.getBoundsPolygon().getBoundingRectangle().width / 2;
 
         mButton.setPosition(cam.position.x - 100, cam.position.y - 170);
         mButton.update(dt);
@@ -158,11 +165,10 @@ public class PlayState extends State {
                 cam.position.y + (cam.viewportHeight / 2) < gameSprite.getPosition().y;
     }
 
-    private void shoot(int directionx, int directiony) {
+    private void shoot(float x, float y, float rotation, float directionX, float directionY) {
         if (usedBullets.size() < 5) {
-            Bullet bullet = bulletPool.obtainAndFire("Player", (int) mTank.getPosition().x,
-                    (int) mTank.getPosition().y,
-                    mTank.getRotation(), directionx, directiony);
+            Bullet bullet = bulletPool.obtainAndFire("Player", (int) x, (int) y,
+                    rotation, directionX, directionY);
             usedBullets.add(bullet);
         }
 
@@ -173,7 +179,7 @@ public class PlayState extends State {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(bgTextureRegion, 0, 0);
-        mTank.getSprite().draw(sb);
+        player.getSprite().draw(sb);
         mButton.getSprite().draw(sb);
 
         sb.setProjectionMatrix(cam.combined); //or your matrix to draw GAME WORLD, not UI
@@ -185,8 +191,8 @@ public class PlayState extends State {
             usedBullets.get(i).getSprite().draw(sb);
         }
 
-//        font.draw(sb, String.valueOf(mTank.getSprite().getRotation()), mTank.getPosition().x - 10,
-//                mTank.getPosition().y - 10);
+//        font.draw(sb, String.valueOf(player.getSprite().getRotation()), player.getPosition().x - 10,
+//                player.getPosition().y - 10);
 //        font.draw(sb, String.valueOf(Gdx.input.getX() - ANDROID_WIDTH / 2), cam.position.x,
 //                cam.position.y - 150);
 //        font.draw(sb, String.valueOf(Gdx.input.getY() - ANDROID_HEIGHT / 2), cam.position.x,
@@ -210,14 +216,14 @@ public class PlayState extends State {
             sr.polygon(usedBullets.get(i).getBoundsPolygon().getTransformedVertices());
         }
         sr.polygon(mButton.getBoundsPolygon().getTransformedVertices());
-        sr.polygon(mTank.getBoundsPolygon().getTransformedVertices());
+        sr.polygon(player.getBoundsPolygon().getTransformedVertices());
         sr.end();
     }
 
     @Override
     public void dispose() {
         bg.dispose();
-        mTank.dispose();
+        player.dispose();
         mButton.dispose();
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).dispose();
