@@ -1,81 +1,43 @@
 package com.tanks.game.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.tanks.game.utils.CollisionManager;
+import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.MathUtil;
+import com.tanks.game.utils.Type;
 
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Tank extends Entity {
+public class Tank extends Entity implements Collisionable {
 
+    protected boolean alive = true;
 
     public float directionX;//tmp for enemies
 
     public float directionY;//tmp for enemies
 
-    private int maxSpeed;
+    protected int maxSpeed;
 
-    private Animation birdAnimation;
+    protected Animation birdAnimation;
 
-    private Texture texture;
+    protected Texture texture;
 
-    private float speed;
+    protected float speed;
 
-    private boolean deceleration = false;
+    protected Type type;
 
-    public Tank(int x, int y, Texture texture) {
+    public Tank(int x, int y, Type type, CollisionManager collisionManager) {
+        super(collisionManager);
+        this.collisionManager.register(this);
+        this.type = type;
         position = new Vector2(x, y);
-
-        this.texture = texture;
-        glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
-        setPolygon();
-        boundsPoly.scale(-0.5f);
-        getSprite().scale(-0.5f);
-        birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
-
-        directionX = 1;
-        directionY = 1;
-
-        speed = 0.1f;
-        maxSpeed = 50;
-        deceleration = true;
     }
 
-    public Tank(int x, int y) {
-        position = new Vector2(x, y);
-        if (Math.random() < 0.5) {
-            texture = new Texture("tank.png");
-        } else {
-            texture = new Texture("tank2.png");
-        }
+    public boolean update(float dt) {
 
-        glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
-        setPolygon();
-        boundsPoly.scale(-0.5f);
-        getSprite().scale(-0.5f);
-        birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
-
-        directionX = (int) (Math.random() * 500) - 250;
-        directionY = (int) (Math.random() * 500) - 250;
-
-        double length = Math.sqrt((directionX * directionX) + (directionY * directionY));
-
-        this.directionX = (float) (directionX / length);
-        this.directionY = (float) (directionY / length);
-
-        speed = 50;
-        maxSpeed = 50;
-    }
-
-
-    public void update(float dt) {
-        if (deceleration && speed > 0) {
-            movement = true;
-            speed = speed - dt * 20;
-        }
         position.x = position.x + (directionX * dt * speed);
         position.y = position.y + (directionY * dt * speed);
 //        Gdx.app.log("SocketIO", "playerUpdate x" + position.x + " y" + position.y);
@@ -86,24 +48,12 @@ public class Tank extends Entity {
         glowSprite.setPosition(getPosition().x, getPosition().y);
         glowSprite.setRotation(rotation);
 
+        return true;
     }
 
-
-    public void move(int x, int y) {
-        if (speed < maxSpeed) {
-            speed = speed + 3f;
-        }
-        double length = Math.sqrt((x * x) + (y * y));
-        this.directionX = (float) (x / length);
-        this.directionY = (float) (y / length);
-
-    }
-
-    public void move(float directionX, float directionY, float speed) {
-        this.speed = speed;
-        this.directionX = directionX;
-        this.directionY = directionY;
-
+    @Override
+    public boolean hasMoved() {
+        return speed > 0;
     }
 
     public float getRotation() {
@@ -112,14 +62,33 @@ public class Tank extends Entity {
 
 
     public void dispose() {
+        alive= false;
         texture.dispose();
-    }
-
-    public void setPosition(Vector2 position) {
-        this.position = position;
+        collisionManager.unregister(this);
     }
 
     public float getSpeed() {
         return speed;
     }
+
+    @Override
+    public Polygon getCollisionBounds() {
+        return boundsPoly;
+    }
+
+    @Override
+    public boolean intersects(Type type) {
+        return type.equals(Type.TOP_WALL) || type.equals(Type.RIGHT_WALL) || type.equals(Type.LEFT_WALL) || type.equals(Type.BOTTOM_WALL);
+    }
+
+    @Override
+    public Type getType() {
+        return this.type;
+    }
+
+    @Override
+    public void collideWith(Collisionable collisionable) {
+
+    }
+
 }

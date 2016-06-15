@@ -3,13 +3,17 @@ package com.tanks.game.sprites;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
+import com.tanks.game.utils.CollisionManager;
+import com.tanks.game.utils.Collisionable;
+import com.tanks.game.utils.Type;
 
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Bullet extends Entity implements Pool.Poolable {
+public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     private String ownerId;
 
@@ -25,15 +29,24 @@ public class Bullet extends Entity implements Pool.Poolable {
 
     private float speed;
 
-    public Bullet(String ownerId, Texture texture, Sound fireSound) {
+    private float timer = 0f;
+
+    private float maxTime = 3f;
+
+    private boolean alive = true;
+
+    public Bullet(String ownerId, Texture texture, Sound fireSound,
+            CollisionManager collisionManager) {
+        super(collisionManager);
+
         position = new Vector2();
         this.ownerId = ownerId;
         this.texture = texture;
 
         glowSprite = new Sprite(texture);
-        getSprite().scale(-0.5f);
+        getSprite().scale(-0.8f);
         setPolygon();
-        boundsPoly.scale(-0.65f);
+        boundsPoly.scale(-1.1f);
         this.fireSound = fireSound;
 
         this.directionX = 0;
@@ -43,8 +56,8 @@ public class Bullet extends Entity implements Pool.Poolable {
         speed = 90;
     }
 
-    public void fire(String ownerId, int x, int y, float rotation, float directionX,
-            float directionY) {
+    public void fire(String ownerId, int x, int y, float rotation, float directionX, float directionY) {
+        this.collisionManager.register(this);
         this.ownerId = ownerId;
         position.set(x, y);
         this.directionX = directionX;
@@ -54,21 +67,33 @@ public class Bullet extends Entity implements Pool.Poolable {
 
     }
 
-    public void update(float dt) {
+    public boolean update(float dt) {
+        timer += dt;
         position.x = position.x + directionX * dt * speed;
         position.y = position.y + directionY * dt * speed;
-
         boundsPoly.setPosition(position.x, position.y);
         boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
         glowSprite.setRotation(rotation);
+        collisionManager.update(this);
+        if (timer > maxTime) {
+            dispose();
+            return false;
+        }
+        return alive;
+    }
 
+    public void dispose() {
+        collisionManager.unregister(this);
     }
 
     @Override
     public void reset() {
         //reset methods invoked when bullet is freed by pool
+        timer = 0f;
+        alive =true;
         position.set(0, 0);
+        boundsPoly.setPosition(0,0);
         ownerId = null;
     }
 
@@ -112,4 +137,35 @@ public class Bullet extends Entity implements Pool.Poolable {
         result = 31 * result + (int) directionY;
         return result;
     }
+
+    @Override
+    public Polygon getCollisionBounds() {
+        return boundsPoly;
+    }
+
+    @Override
+    public boolean intersects(Type type) {
+        if(ownerId == "Player") {
+            return type == Type.ENEMY || type == Type.SMART_PLAYER || type == Type.ENEMY_BULLET ;
+        }else {
+            return false;//type == Type.ENEMY || type == Type.PLAYER || type == Type.SMART_PLAYER ||  type == Type.PLAYER_BULLET;
+        }
+    }
+
+    @Override
+    public Type getType() {
+        if(ownerId == "Player") {
+            return Type.PLAYER_BULLET;
+        }else {
+            return Type.ENEMY_BULLET;
+        }
+
+    }
+
+    @Override
+    public void collideWith(Collisionable collisionable) {
+        dispose();
+        alive = false;
+    }
+
 }
