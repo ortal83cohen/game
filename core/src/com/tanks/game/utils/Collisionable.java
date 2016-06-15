@@ -13,4 +13,6 @@ public interface Collisionable {
 
     public Type getType();
 
+    public void collideWith(Collisionable collisionable);
+
 }

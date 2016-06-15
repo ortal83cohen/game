@@ -23,7 +23,9 @@ public class NaiveCollisionManager implements CollisionManager {
 
     @Override
     public void register(Collisionable c) {
-        collisionables.add(c);
+        if (!collisionables.contains(c)) {
+            collisionables.add(c);
+        }
     }
 
     @Override
@@ -37,19 +39,19 @@ public class NaiveCollisionManager implements CollisionManager {
 
     @Override
     public Collisionable checkCollision(Collisionable c) {
-        Collisionable collision = null;
+
         for (Collisionable collisionable : collisionables) {
-            if ((c.intersects(collisionable.getType()) && Intersector
-                    .overlapConvexPolygons(collisionable.getCollisionBounds(),
-                            c.getCollisionBounds()))) {
-                collision = collisionable;
+            if ((c.intersects(collisionable.getType()) && Intersector.overlapConvexPolygons(collisionable.getCollisionBounds(), c.getCollisionBounds()))) {
                 if (callBacks.containsKey(c.getType())) {
                     callBacks.get(c.getType()).collide(c, collisionable);
                 }
-                continue;
+                if(collisionable.intersects(c.getType())) {
+                    collisionable.collideWith(c);
+                }
+                return collisionable;
             }
         }
-        return collision;
+        return null;
     }
 
     @Override
@@ -63,7 +65,7 @@ public class NaiveCollisionManager implements CollisionManager {
         try {
             collisionables.set(collisionables.indexOf(c), c);
         } catch (Exception e) {
-            Gdx.app.log("NaiveCollisionManager", "cant update" + c.getType().toString());
+            Gdx.app.log("NaiveCollisionManager", "cant update " + c.getType().toString());
         }
     }
 }

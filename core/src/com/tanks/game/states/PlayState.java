@@ -12,7 +12,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.Bullet;
 import com.tanks.game.sprites.Button;
+import com.tanks.game.sprites.Enemy;
 import com.tanks.game.sprites.Entity;
+import com.tanks.game.sprites.Player;
+import com.tanks.game.sprites.SmartPlayer;
 import com.tanks.game.sprites.Tank;
 import com.tanks.game.sprites.Wall;
 import com.tanks.game.utils.BulletPool;
@@ -51,7 +54,7 @@ public class PlayState extends State {
 
     private float timer = 0;
 
-    private Tank player;
+    private Player player;
 
     private Button mButton;
 
@@ -64,17 +67,16 @@ public class PlayState extends State {
     public PlayState(com.tanks.game.states.GameStateManager gsm) {
         super(gsm);
         configCollisionManager();
-        player = new Tank(GAME_WIDTH / 2, GAME_HEIGHT / 2, new Texture("tank2.png"), Type.PLAYER,
-                collisionManager);
+        player = new Player(GAME_WIDTH / 2, GAME_HEIGHT / 2, collisionManager);
         mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150,
                 collisionManager);
         enemies = new ArrayList<Tank>();
         usedBullets = new ArrayList<Bullet>();
         bulletPool = new BulletPool(new Texture("bullet.png"),
                 Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")), collisionManager);
-        for (int i = 0; i < 1; i++) {
-            enemies.add(i, new Tank((int) (Math.random() * GAME_WIDTH),
-                    (int) (Math.random() * GAME_HEIGHT), Type.SMART_PLAYER, collisionManager));
+        for (int i = 0; i < 10; i++) {
+            enemies.add(i, new SmartPlayer((int) (Math.random() * GAME_WIDTH),
+                    (int) (Math.random() * GAME_HEIGHT), collisionManager));
         }
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
@@ -119,7 +121,7 @@ public class PlayState extends State {
             int y = Gdx.input.getY(1);
             touchPos.set(x, y, 0);
             cam.unproject(touchPos);
-            if (mButton.collides(
+            if (mButton.pressed(
                     new com.badlogic.gdx.math.Polygon(
                             new float[]{
                                     touchPos.x - 10, touchPos.y - 10,
@@ -143,35 +145,29 @@ public class PlayState extends State {
 
         for (int i = 0; i < enemies.size(); i++) {
             Tank enemy = enemies.get(i);
-//            if (enemy.getPosition().x < 0) {
-//                enemy.directionX = Math.abs(enemy.directionX);
-//            } else if (enemy.getPosition().x > GAME_WIDTH) {
-//                enemy.directionX = -Math.abs(enemy.directionX);
-//            } else if (enemy.getPosition().y < 0) {
-//                enemy.directionY = Math.abs(enemy.directionY);
-//            } else if (enemy.getPosition().y > GAME_HEIGHT) {
-//                enemy.directionY = -Math.abs(enemy.directionY);
-//            }
-            enemy.update(dt);
+            if(!enemy.update(dt)){
+                enemies.remove(i);
+            }
         }
         for (int i = 0; i < usedBullets.size(); i++) {
             Bullet bullet = usedBullets.get(i);
 
-            if (isOutOfScreen(bullet)) {
+            if ( !bullet.update(dt)) {
                 usedBullets.remove(i);
                 bulletPool.free(bullet);
-            } else {
-                bullet.update(dt);
-                for (int j = 0; j < enemies.size(); j++) {
-                    Tank enemy = enemies.get(j);
-                    if (bullet.collides(enemy.getBoundsPolygon())) {
-//                        enemies.remove(j);
-//                        usedBullets.remove(i);
-//                        bulletPool.free(bullet);
-                    }
-                }
-
             }
+//            else {
+//               ;
+//                for (int j = 0; j < enemies.size(); j++) {
+////                    Tank enemy = enemies.get(j);
+////                    if (bullet.collides(enemy.getBoundsPolygon())) {
+//////                        enemies.remove(j);
+//////                        usedBullets.remove(i);
+//////                        bulletPool.free(bullet);
+////                    }
+//                }
+//
+//            }
 
         }
         cam.position.x = player.getPosition().x
@@ -183,15 +179,6 @@ public class PlayState extends State {
         mButton.update(dt);
         cam.update();
 
-    }
-
-    private boolean isOutOfScreen(Entity entity) {
-        return cam.position.x - (cam.viewportWidth / 2) > entity.getPosition().x + entity
-                .getSprite().getWidth() ||
-                cam.position.x + (cam.viewportWidth / 2) < entity.getPosition().x ||
-                cam.position.y - (cam.viewportHeight / 2) > entity.getPosition().y + entity
-                        .getSprite().getWidth() ||
-                cam.position.y + (cam.viewportHeight / 2) < entity.getPosition().y;
     }
 
     private void shoot(float x, float y, float rotation, float directionX, float directionY) {

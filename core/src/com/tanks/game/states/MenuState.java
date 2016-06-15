@@ -62,10 +62,10 @@ public class MenuState extends State {
                     touchPos.x + 10, touchPos.y - 10
             });
 
-            if (mButton1.collides(touchPolygon)) {
+            if (mButton1.pressed(touchPolygon)) {
                 gsm.set(new PlayState(gsm));
             }
-            if (mButton2.collides(touchPolygon)) {
+            if (mButton2.pressed(touchPolygon)) {
                 gsm.set(new OnlinePlayState(gsm));
             }
 

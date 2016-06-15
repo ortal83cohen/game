@@ -34,6 +34,11 @@ public class Wall extends Entity implements Collisionable {
         return type;
     }
 
+    @Override
+    public void collideWith(Collisionable collisionable) {
+
+    }
+
     public void dispose() {
         collisionManager.unregister(this);
     }

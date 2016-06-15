@@ -45,11 +45,9 @@ public abstract class Entity {
         return boundsPoly;
     }
 
-    public boolean collides(Polygon polygon) {
-        return Intersector.overlapConvexPolygons(boundsPoly, polygon);
-    }
-
     public boolean hasMoved() {
         return movement;
     }
+
+   abstract public void dispose();
 }

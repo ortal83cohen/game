@@ -29,10 +29,14 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     private float speed;
 
+    private float timer = 0f;
+
+    private float maxTime = 3f;
+
     public Bullet(String ownerId, Texture texture, Sound fireSound,
             CollisionManager collisionManager) {
         super(collisionManager);
-        this.collisionManager.register(this);
+
         position = new Vector2();
         this.ownerId = ownerId;
         this.texture = texture;
@@ -50,8 +54,8 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
         speed = 90;
     }
 
-    public void fire(String ownerId, int x, int y, float rotation, float directionX,
-            float directionY) {
+    public void fire(String ownerId, int x, int y, float rotation, float directionX, float directionY) {
+        this.collisionManager.register(this);
         this.ownerId = ownerId;
         position.set(x, y);
         this.directionX = directionX;
@@ -61,20 +65,25 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     }
 
-    public void update(float dt) {
+    public boolean update(float dt) {
+        timer += dt;
         collisionManager.update(this);
         position.x = position.x + directionX * dt * speed;
         position.y = position.y + directionY * dt * speed;
-
         boundsPoly.setPosition(position.x, position.y);
         boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
         glowSprite.setRotation(rotation);
         Collisionable collision = collisionManager.checkCollision(this);
         if (collision != null) {
-            position.x = 9999;
-            position.y = 9999;
+            dispose();
+            return false;
         }
+        if (timer > maxTime) {
+            dispose();
+            return false;
+        }
+        return true;
     }
 
     public void dispose() {
@@ -84,6 +93,7 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
     @Override
     public void reset() {
         //reset methods invoked when bullet is freed by pool
+        timer = 0f;
         position.set(0, 0);
         ownerId = null;
     }
@@ -136,12 +146,26 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     @Override
     public boolean intersects(Type type) {
-        return type == Type.ENEMY;
+        if(ownerId == "Player") {
+            return type == Type.ENEMY || type == Type.SMART_PLAYER || type == Type.ENEMY_BULLET ;
+        }else {
+            return type == Type.ENEMY || type == Type.PLAYER || type == Type.SMART_PLAYER || type == Type.ENEMY_BULLET || type == Type.PLAYER_BULLET;
+        }
     }
 
     @Override
     public Type getType() {
-        return Type.ENEMY_BULLET;
+        if(ownerId == "Player") {
+            return Type.PLAYER_BULLET;
+        }else {
+            return Type.ENEMY_BULLET;
+        }
+
+    }
+
+    @Override
+    public void collideWith(Collisionable collisionable) {
+
     }
 
 }

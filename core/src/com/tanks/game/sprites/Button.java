@@ -2,6 +2,7 @@ package com.tanks.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.tanks.game.utils.CollisionManager;
@@ -34,6 +35,10 @@ public class Button extends Entity implements Collisionable {
 
     }
 
+    public boolean pressed(Polygon polygon) {
+        return Intersector.overlapConvexPolygons(boundsPoly, polygon);
+    }
+
 
     public void setPosition(float x, float y) {
         position.x = x;
@@ -59,6 +64,11 @@ public class Button extends Entity implements Collisionable {
     @Override
     public Type getType() {
         return Type.BUTTON;
+    }
+
+    @Override
+    public void collideWith(Collisionable collisionable) {
+
     }
 
 

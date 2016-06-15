@@ -1,7 +1,6 @@
 package com.tanks.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.tanks.game.utils.CollisionManager;
@@ -19,76 +18,25 @@ public class Tank extends Entity implements Collisionable {
 
     public float directionY;//tmp for enemies
 
-    private int maxSpeed;
+    protected int maxSpeed;
 
-    private Animation birdAnimation;
+    protected Animation birdAnimation;
 
-    private Texture texture;
+    protected Texture texture;
 
-    private float speed;
+    protected float speed;
 
-    private boolean deceleration = false;
-
-    private Type type;
-
-    public Tank(int x, int y, Texture texture, Type type, CollisionManager collisionManager) {
-        super(collisionManager);
-        this.collisionManager.register(this);
-        position = new Vector2(x, y);
-        this.type = type;
-        this.texture = texture;
-        glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
-        setPolygon();
-        boundsPoly.scale(-0.5f);
-        getSprite().scale(-0.5f);
-        birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
-
-        directionX = 1;
-        directionY = 1;
-
-        speed = 0.1f;
-        maxSpeed = 50;
-        deceleration = true;
-    }
+    protected Type type;
 
     public Tank(int x, int y, Type type, CollisionManager collisionManager) {
         super(collisionManager);
         this.collisionManager.register(this);
         this.type = type;
         position = new Vector2(x, y);
-        if (Math.random() < 0.5) {
-            texture = new Texture("tank.png");
-        } else {
-            texture = new Texture("tank2.png");
-        }
-
-        glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
-        setPolygon();
-        boundsPoly.scale(-0.5f);
-        getSprite().scale(-0.5f);
-        birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
-
-        directionX = (int) (Math.random() * 500) - 250;
-        directionY = (int) (Math.random() * 500) - 250;
-
-        double length = Math.sqrt((directionX * directionX) + (directionY * directionY));
-
-        this.directionX = (float) (directionX / length);
-        this.directionY = (float) (directionY / length);
-
-        speed = 50;
-        maxSpeed = 50;
     }
 
+    public boolean update(float dt) {
 
-    public void update(float dt) {
-        if (speed > 0) {
-            collisionManager.update(this);
-            movement = true;
-            if (deceleration) {
-                speed = speed - dt * 20;
-            }
-        }
         position.x = position.x + (directionX * dt * speed);
         position.y = position.y + (directionY * dt * speed);
 //        Gdx.app.log("SocketIO", "playerUpdate x" + position.x + " y" + position.y);
@@ -98,41 +46,8 @@ public class Tank extends Entity implements Collisionable {
         boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
         glowSprite.setRotation(rotation);
-        Collisionable collision = collisionManager.checkCollision(this);
-        if (collision != null) {
-            switch (collision.getType()) {
-                case TOP_WALL:
-                    position.y = collision.getCollisionBounds().getBoundingRectangle().getY() - boundsPoly.getBoundingRectangle().getHeight() * 3 / 2;
-                    break;
-                case BOTTOM_WALL:
-                    position.y = collision.getCollisionBounds().getBoundingRectangle().getY();
-                    break;
-                case LEFT_WALL:
-                    position.x = collision.getCollisionBounds().getBoundingRectangle().getX();
-                    break;
-                case RIGHT_WALL:
-                    position.x = collision.getCollisionBounds().getBoundingRectangle().getX() - boundsPoly.getBoundingRectangle().getWidth() * 3 / 2;
-                    break;
-            }
-        }
-    }
 
-
-    public void move(int x, int y) {
-        if (speed < maxSpeed) {
-            speed = speed + 3f;
-        }
-        double length = Math.sqrt((x * x) + (y * y));
-        this.directionX = (float) (x / length);
-        this.directionY = (float) (y / length);
-
-    }
-
-    public void move(float directionX, float directionY, float speed) {
-        this.speed = speed;
-        this.directionX = directionX;
-        this.directionY = directionY;
-
+        return true;
     }
 
     @Override
@@ -148,10 +63,6 @@ public class Tank extends Entity implements Collisionable {
     public void dispose() {
         texture.dispose();
         collisionManager.unregister(this);
-    }
-
-    public void setPosition(Vector2 position) {
-        this.position = position;
     }
 
     public float getSpeed() {
@@ -171,6 +82,11 @@ public class Tank extends Entity implements Collisionable {
     @Override
     public Type getType() {
         return this.type;
+    }
+
+    @Override
+    public void collideWith(Collisionable collisionable) {
+
     }
 
 }

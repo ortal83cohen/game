@@ -23,7 +23,7 @@ public interface CollisionManager {
 
     public interface CollisionManagerCallBack {
 
-        public void collide(Collisionable c1, Collisionable c2);
+        public void collide(Collisionable callbackRequest, Collisionable collideWith);
 
     }
 }
