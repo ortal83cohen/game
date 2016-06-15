@@ -9,7 +9,7 @@ public interface Collisionable {
 
     public Polygon getCollisionBounds();
 
-    public boolean intersects(Collisionable c);
+    public boolean intersects(Type type);
 
     public Type getType();
 

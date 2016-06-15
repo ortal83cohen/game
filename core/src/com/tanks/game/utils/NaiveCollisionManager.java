@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -11,13 +12,13 @@ import java.util.LinkedList;
  */
 public class NaiveCollisionManager implements CollisionManager {
 
-    ArrayList<Collisionable> collisionables = new ArrayList<Collisionable>();
+    private ArrayList<Collisionable> collisionables = new ArrayList<Collisionable>();
 
-    private CollisionManagerCallBack callBack;
+    private HashMap<Type, CollisionManagerCallBack> callBacks = new HashMap<Type, CollisionManagerCallBack>();
 
     @Override
-    public void setCallback(CollisionManagerCallBack callBack) {
-        this.callBack = callBack;
+    public void AddCallback(Type type, CollisionManagerCallBack callBack) {
+        this.callBacks.put(type, callBack);
     }
 
     @Override
@@ -38,14 +39,13 @@ public class NaiveCollisionManager implements CollisionManager {
     public Collisionable checkCollision(Collisionable c) {
         Collisionable collision = null;
         for (Collisionable collisionable : collisionables) {
-            if ((c.intersects(collisionable) && Intersector
-                    .overlapConvexPolygons(collisionable.getCollisionBounds(),
-                            c.getCollisionBounds())) || (collisionable.getType() == Type.GAME_WORLD
-                    && !Intersector
+            if ((c.intersects(collisionable.getType()) && Intersector
                     .overlapConvexPolygons(collisionable.getCollisionBounds(),
                             c.getCollisionBounds()))) {
                 collision = collisionable;
-                callBack.collide(c, collisionable);
+                if (callBacks.containsKey(c.getType())) {
+                    callBacks.get(c.getType()).collide(c, collisionable);
+                }
                 continue;
             }
         }

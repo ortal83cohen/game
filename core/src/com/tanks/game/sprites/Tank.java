@@ -31,11 +31,11 @@ public class Tank extends Entity implements Collisionable {
 
     private Type type;
 
-    public Tank(int x, int y, Texture texture, CollisionManager collisionManager) {
+    public Tank(int x, int y, Texture texture, Type type, CollisionManager collisionManager) {
         super(collisionManager);
         this.collisionManager.register(this);
         position = new Vector2(x, y);
-        this.type = Type.PLAYER;
+        this.type = type;
         this.texture = texture;
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
         setPolygon();
@@ -51,10 +51,10 @@ public class Tank extends Entity implements Collisionable {
         deceleration = true;
     }
 
-    public Tank(int x, int y, CollisionManager collisionManager) {
+    public Tank(int x, int y, Type type, CollisionManager collisionManager) {
         super(collisionManager);
         this.collisionManager.register(this);
-        this.type = Type.ENEMY;
+        this.type = type;
         position = new Vector2(x, y);
         if (Math.random() < 0.5) {
             texture = new Texture("tank.png");
@@ -100,9 +100,20 @@ public class Tank extends Entity implements Collisionable {
         glowSprite.setRotation(rotation);
         Collisionable collision = collisionManager.checkCollision(this);
         if (collision != null) {
-            collision.getCollisionBounds().getBoundingRectangle();
-            directionX = -directionX;
-            directionY = -directionY;
+            switch (collision.getType()) {
+                case TOP_WALL:
+                    position.y = collision.getCollisionBounds().getBoundingRectangle().getY() - boundsPoly.getBoundingRectangle().getHeight() * 3 / 2;
+                    break;
+                case BOTTOM_WALL:
+                    position.y = collision.getCollisionBounds().getBoundingRectangle().getY();
+                    break;
+                case LEFT_WALL:
+                    position.x = collision.getCollisionBounds().getBoundingRectangle().getX();
+                    break;
+                case RIGHT_WALL:
+                    position.x = collision.getCollisionBounds().getBoundingRectangle().getX() - boundsPoly.getBoundingRectangle().getWidth() * 3 / 2;
+                    break;
+            }
         }
     }
 
@@ -153,8 +164,8 @@ public class Tank extends Entity implements Collisionable {
     }
 
     @Override
-    public boolean intersects(Collisionable c) {
-        return false;
+    public boolean intersects(Type type) {
+        return type.equals(Type.TOP_WALL) || type.equals(Type.RIGHT_WALL) || type.equals(Type.LEFT_WALL) || type.equals(Type.BOTTOM_WALL);
     }
 
     @Override

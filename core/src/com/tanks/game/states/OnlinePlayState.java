@@ -19,6 +19,7 @@ import com.tanks.game.sprites.Tank;
 import com.tanks.game.utils.BulletPool;
 import com.tanks.game.utils.CollisionManager;
 import com.tanks.game.utils.NaiveCollisionManager;
+import com.tanks.game.utils.Type;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -158,7 +159,7 @@ public class OnlinePlayState extends State {
                 Gdx.app.log("SocketIO", "Connected");
 
                 player = new Tank((int) (Math.random() * GAME_WIDTH),
-                        (int) (Math.random() * GAME_HEIGHT), tankTexture, collisionManager);
+                        (int) (Math.random() * GAME_HEIGHT), tankTexture, Type.PLAYER, collisionManager);
                 JSONObject data = new JSONObject();
                 try {
                     data.put("x", player.getPosition().x);
@@ -187,7 +188,7 @@ public class OnlinePlayState extends State {
                 try {
                     String id = data.getString("id");
                     Gdx.app.log("SocketIO", "New Player Connect: " + id);
-                    enemies.put(id, new Tank(data.getInt("x"), data.getInt("y"), tankTexture,
+                    enemies.put(id, new Tank(data.getInt("x"), data.getInt("y"), tankTexture, Type.ENEMY,
                             collisionManager));
                     if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Vibrator)) {
                         Gdx.input.vibrate(new long[]{0, 2, 10, 2, 10, 2}, -1);
@@ -285,10 +286,8 @@ public class OnlinePlayState extends State {
                 try {
                     Gdx.app.log("SocketIO", "Get Players: " + objects.length());
                     for (int i = 0; i < objects.length(); i++) {
-                        enemies.put(objects.getJSONObject(i).getString("id"),
-                                new Tank(objects.getJSONObject(i).getInt("x"),
-                                        objects.getJSONObject(i).getInt("y"), tankTexture,
-                                        collisionManager));
+                        enemies.put(objects.getJSONObject(i).getString("id"), new Tank(objects.getJSONObject(i).getInt("x"),
+                                objects.getJSONObject(i).getInt("y"), tankTexture, Type.ENEMY, collisionManager));
                     }
                     if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Vibrator)) {
                         Gdx.input.vibrate(new long[]{0, 2, 10, 2, 10, 2}, -1);

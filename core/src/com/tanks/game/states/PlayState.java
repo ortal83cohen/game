@@ -14,6 +14,7 @@ import com.tanks.game.sprites.Bullet;
 import com.tanks.game.sprites.Button;
 import com.tanks.game.sprites.Entity;
 import com.tanks.game.sprites.Tank;
+import com.tanks.game.sprites.Wall;
 import com.tanks.game.utils.BulletPool;
 import com.tanks.game.utils.CollisionManager;
 import com.tanks.game.utils.Collisionable;
@@ -26,15 +27,13 @@ import java.util.List;
 /**
  * Created by Brent on 7/5/2015.
  */
-public class PlayState extends State implements Collisionable {
+public class PlayState extends State {
 
     static public int GAME_WIDTH = 400;
 
     static public int GAME_HEIGHT = 400;
 
     private final TextureRegion bgTextureRegion;
-
-    private final NaiveCollisionManager collisionManager;
 
     BitmapFont font = new BitmapFont();
 
@@ -48,6 +47,8 @@ public class PlayState extends State implements Collisionable {
 
     BulletPool bulletPool;
 
+    private NaiveCollisionManager collisionManager;
+
     private float timer = 0;
 
     private Tank player;
@@ -58,20 +59,12 @@ public class PlayState extends State implements Collisionable {
 
     private float lastShoot = 0;
 
-    private Polygon boundsPoly;
+    private ArrayList<Wall> walls;
 
     public PlayState(com.tanks.game.states.GameStateManager gsm) {
         super(gsm);
-        boundsPoly =  new Polygon(new float[]{0,0,0,GAME_HEIGHT,GAME_HEIGHT,GAME_WIDTH,GAME_WIDTH,0});
-        collisionManager = new NaiveCollisionManager();
-        collisionManager.register(this);
-        collisionManager.setCallback(new CollisionManager.CollisionManagerCallBack() {
-            @Override
-            public void collide(Collisionable c1, Collisionable c2) {
-
-            }
-        });
-        player = new Tank(GAME_WIDTH / 2, GAME_HEIGHT / 2, new Texture("tank2.png"),
+        configCollisionManager();
+        player = new Tank(GAME_WIDTH / 2, GAME_HEIGHT / 2, new Texture("tank2.png"), Type.PLAYER,
                 collisionManager);
         mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150,
                 collisionManager);
@@ -81,13 +74,30 @@ public class PlayState extends State implements Collisionable {
                 Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")), collisionManager);
         for (int i = 0; i < 1; i++) {
             enemies.add(i, new Tank((int) (Math.random() * GAME_WIDTH),
-                    (int) (Math.random() * GAME_HEIGHT), collisionManager));
+                    (int) (Math.random() * GAME_HEIGHT), Type.SMART_PLAYER, collisionManager));
         }
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
         bg.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         bgTextureRegion = new TextureRegion(bg);
-        bgTextureRegion.setRegion(0, 0, GAME_WIDTH , GAME_HEIGHT );
+        bgTextureRegion.setRegion(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    }
+
+    private void configCollisionManager() {
+        collisionManager = new NaiveCollisionManager();
+        walls = new ArrayList<Wall>();
+        walls.add(new Wall(collisionManager, Type.TOP_WALL,
+                new Polygon(new float[]{0, GAME_HEIGHT, GAME_WIDTH, GAME_WIDTH, 0, GAME_HEIGHT + 1, GAME_WIDTH, GAME_WIDTH + 1})));
+        walls.add(new Wall(collisionManager, Type.BOTTOM_WALL, new Polygon(new float[]{0, 0, GAME_WIDTH, 0, -1, 0, GAME_WIDTH - 1, 0})));
+        walls.add(new Wall(collisionManager, Type.LEFT_WALL, new Polygon(new float[]{0, 0, 0, GAME_HEIGHT, -1, GAME_HEIGHT, -1, 0})));
+        walls.add(new Wall(collisionManager, Type.RIGHT_WALL,
+                new Polygon(new float[]{GAME_WIDTH, 0, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH + 1, GAME_HEIGHT, GAME_WIDTH + 1, 0})));
+        collisionManager.AddCallback(Type.PLAYER, new CollisionManager.CollisionManagerCallBack() {
+            @Override
+            public void collide(Collisionable c1, Collisionable c2) {
+
+            }
+        });
     }
 
     @Override
@@ -236,7 +246,10 @@ public class PlayState extends State implements Collisionable {
         }
         sr.polygon(mButton.getBoundsPolygon().getTransformedVertices());
         sr.polygon(player.getBoundsPolygon().getTransformedVertices());
-        sr.polygon(boundsPoly.getTransformedVertices());
+        sr.setColor(Color.GREEN);
+        for (int i = 0; i < walls.size(); i++) {
+            sr.polygon(walls.get(i).getBoundsPolygon().getTransformedVertices());
+        }
         sr.end();
     }
 
@@ -248,23 +261,11 @@ public class PlayState extends State implements Collisionable {
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).dispose();
         }
+        for (int i = 0; i < walls.size(); i++) {
+            walls.get(i).dispose();
+        }
         bulletPool.dispose();
 
-    }
-
-    @Override
-    public Polygon getCollisionBounds() {
-        return boundsPoly;
-    }
-
-    @Override
-    public boolean intersects(Collisionable c) {
-        return true;
-    }
-
-    @Override
-    public Type getType() {
-        return Type.GAME_WORLD;
     }
 
 }

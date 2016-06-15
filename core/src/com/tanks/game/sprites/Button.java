@@ -52,7 +52,7 @@ public class Button extends Entity implements Collisionable {
     }
 
     @Override
-    public boolean intersects(Collisionable c) {
+    public boolean intersects(Type type) {
         return false;
     }
 

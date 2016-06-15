@@ -72,7 +72,8 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
         glowSprite.setRotation(rotation);
         Collisionable collision = collisionManager.checkCollision(this);
         if (collision != null) {
-            position.x=9999; position.y = 9999;
+            position.x = 9999;
+            position.y = 9999;
         }
     }
 
@@ -134,8 +135,8 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
     }
 
     @Override
-    public boolean intersects(Collisionable c) {
-        return c.getType() == Type.ENEMY ;
+    public boolean intersects(Type type) {
+        return type == Type.ENEMY;
     }
 
     @Override

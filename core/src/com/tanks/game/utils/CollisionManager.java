@@ -8,7 +8,7 @@ import java.util.LinkedList;
 public interface CollisionManager {
 
 
-    public void setCallback(CollisionManagerCallBack callBack);
+    public void AddCallback(Type type, CollisionManagerCallBack callBack);
 
 
     public void register(Collisionable c);
