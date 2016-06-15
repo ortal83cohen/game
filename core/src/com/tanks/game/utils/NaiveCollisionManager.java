@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Intersector;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -38,21 +39,26 @@ public class NaiveCollisionManager implements CollisionManager {
     }
 
     @Override
-    public Collisionable checkCollision(Collisionable c) {
-
-        for (Collisionable collisionable : collisionables) {
-            if ((c.intersects(collisionable.getType()) && Intersector.overlapConvexPolygons(collisionable.getCollisionBounds(), c.getCollisionBounds()))) {
-                if (callBacks.containsKey(c.getType())) {
-                    callBacks.get(c.getType()).collide(c, collisionable);
+    public void checkCollision(Collisionable c) {
+        try {
+            for (Collisionable collisionable : collisionables) {
+                if ((Intersector.overlapConvexPolygons(collisionable.getCollisionBounds(), c.getCollisionBounds()))) {
+                    if (callBacks.containsKey(c.getType())) {
+                        callBacks.get(c.getType()).collide(c, collisionable);
+                    }
+                    if (collisionable.intersects(c.getType())) {
+                        collisionable.collideWith(c);
+                    }
+                    if (c.intersects(collisionable.getType())) {
+                        c.collideWith(collisionable);
+                    }
                 }
-                if(collisionable.intersects(c.getType())) {
-                    collisionable.collideWith(c);
-                }
-                return collisionable;
             }
+        }catch (ConcurrentModificationException e){
+            Gdx.app.log("NaiveCollisionManager", "collisionables ConcurrentModificationException" );
         }
-        return null;
     }
+
 
     @Override
     public LinkedList<Collisionable> checkCollisions(Collisionable c) {

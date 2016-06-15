@@ -34,15 +34,9 @@ public class Enemy extends Tank {
 
     public boolean update(float dt) {
         super.update(dt);
-        Collisionable collision = collisionManager.checkCollision(this);
-        if(collision !=null) {
-            switch (collision.getType()) {
-                case PLAYER_BULLET:
-                    dispose();
-                    return false;
-            }
-        }
-        return true;
+        collisionManager.checkCollision(this);
+
+        return alive;
     }
 
     public void move(float directionX, float directionY, float speed) {
@@ -58,11 +52,17 @@ public class Enemy extends Tank {
 
     @Override
     public boolean intersects(Type type) {
-        return  super.intersects(type) || type.equals(Type.PLAYER)  ;
+        return super.intersects(type) || type.equals(Type.PLAYER)||type.equals(Type.PLAYER_BULLET);
     }
 
     @Override
     public void collideWith(Collisionable collisionable) {
+        switch (collisionable.getType()) {
+            case PLAYER_BULLET:
+                dispose();
+                alive = false;
+
+        }
 
     }
 }

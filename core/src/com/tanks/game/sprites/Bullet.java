@@ -33,6 +33,8 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     private float maxTime = 3f;
 
+    private boolean alive = true;
+
     public Bullet(String ownerId, Texture texture, Sound fireSound,
             CollisionManager collisionManager) {
         super(collisionManager);
@@ -67,23 +69,18 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     public boolean update(float dt) {
         timer += dt;
-        collisionManager.update(this);
         position.x = position.x + directionX * dt * speed;
         position.y = position.y + directionY * dt * speed;
         boundsPoly.setPosition(position.x, position.y);
         boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
         glowSprite.setRotation(rotation);
-        Collisionable collision = collisionManager.checkCollision(this);
-        if (collision != null) {
-            dispose();
-            return false;
-        }
+        collisionManager.update(this);
         if (timer > maxTime) {
             dispose();
             return false;
         }
-        return true;
+        return alive;
     }
 
     public void dispose() {
@@ -94,7 +91,9 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
     public void reset() {
         //reset methods invoked when bullet is freed by pool
         timer = 0f;
+        alive =true;
         position.set(0, 0);
+        boundsPoly.setPosition(0,0);
         ownerId = null;
     }
 
@@ -149,7 +148,7 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
         if(ownerId == "Player") {
             return type == Type.ENEMY || type == Type.SMART_PLAYER || type == Type.ENEMY_BULLET ;
         }else {
-            return type == Type.ENEMY || type == Type.PLAYER || type == Type.SMART_PLAYER || type == Type.ENEMY_BULLET || type == Type.PLAYER_BULLET;
+            return false;//type == Type.ENEMY || type == Type.PLAYER || type == Type.SMART_PLAYER ||  type == Type.PLAYER_BULLET;
         }
     }
 
@@ -165,7 +164,8 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     @Override
     public void collideWith(Collisionable collisionable) {
-
+        dispose();
+        alive = false;
     }
 
 }

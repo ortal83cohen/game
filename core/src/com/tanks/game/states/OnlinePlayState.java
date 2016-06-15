@@ -20,7 +20,6 @@ import com.tanks.game.sprites.Player;
 import com.tanks.game.sprites.Wall;
 import com.tanks.game.utils.BulletPool;
 import com.tanks.game.utils.CollisionManager;
-import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.NaiveCollisionManager;
 import com.tanks.game.utils.Type;
 
@@ -29,7 +28,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,9 +65,7 @@ public class OnlinePlayState extends State {
 
     BulletPool bulletPool;
 
-    List<Bullet> mMyBullets;
-
-    List<Bullet> mEnemyBullets;
+    List<Bullet> bullets;
 
     private Socket socket;
 
@@ -106,8 +102,7 @@ public class OnlinePlayState extends State {
         mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150,
                 collisionManager);
         enemies = new HashMap<String, Enemy>();
-        mMyBullets = new ArrayList<Bullet>();
-        mEnemyBullets = new ArrayList<Bullet>();
+        bullets = new ArrayList<Bullet>();
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
 
@@ -286,19 +281,19 @@ public class OnlinePlayState extends State {
                     final int x = data.getInt("x");
                     final int y = data.getInt("y");
                     final double rotation = data.getDouble("rotation");
-                    final float directionX = (float) data.getDouble("directionx");
-                    final float directionY = (float) data.getDouble("directiony");
+                    final float directionX = (float) data.getDouble("directionX");
+                    final float directionY = (float) data.getDouble("directionY");
 
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
                         public void run() {
                             Bullet bullet = bulletPool.obtainAndFire(enemyId, x, y,
                                     (float) rotation, directionX, directionY);
-                            mEnemyBullets.add(bullet);
+                            bullets.add(bullet);
                         }
                     });
                 } catch (JSONException e) {
-                    Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
+                    Gdx.app.log("SocketIO", "Error playerShoot");
                 }
             }
         }).on("getPlayers", new Emitter.Listener() {
@@ -413,25 +408,25 @@ public class OnlinePlayState extends State {
             }
         }
 
-        for (int i = 0; i < mMyBullets.size(); i++) {
-            if (! mMyBullets.get(i).update(dt)) {
-                bulletPool.free( mMyBullets.get(i));
-                mMyBullets.remove(i);
+        for (int i = 0; i < bullets.size(); i++) {
+            if (! bullets.get(i).update(dt)) {
+                bulletPool.free( bullets.get(i));
+                bullets.remove(i);
             }
         }
 //
-//        for (int i = 0; i < mMyBullets.size(); i++) {
-//            Bullet bullet = mMyBullets.get(i);
+//        for (int i = 0; i < bullets.size(); i++) {
+//            Bullet bullet = bullets.get(i);
 //
 //            if (!bullet.update(dt)) {
-//                mMyBullets.remove(i);
+//                bullets.remove(i);
 //                bulletPool.free(bullet);
 //            }
 //            try {
 //                for (int j = 0; j < mEnemyBullets.size(); j++) {
 //                    Bullet enemyBullet = mEnemyBullets.get(j);
 //                    if (bullet.collides(enemyBullet.getBoundsPolygon())) {
-//                        mMyBullets.remove(i);
+//                        bullets.remove(i);
 //                        mEnemyBullets.remove(j);
 //                    }
 //                }
@@ -450,7 +445,7 @@ public class OnlinePlayState extends State {
 //                        }
 //                        entry.getValue().dispose();
 //                        enemies.remove(entry.getKey());
-//                        mMyBullets.remove(i);
+//                        bullets.remove(i);
 //                        bulletPool.free(bullet);
 //                    }
 //                }
@@ -458,13 +453,13 @@ public class OnlinePlayState extends State {
 //                Gdx.app.log("SocketIO", "enemies updated in other process");
 //            }
 //        }
-        for (int j = 0; j < mEnemyBullets.size(); j++) {
-            Bullet enemyBullet = mEnemyBullets.get(j);
-            if (!enemyBullet.update(dt)) {
-                mEnemyBullets.remove(j);
-                bulletPool.free(enemyBullet);
-            }
-        }
+//        for (int j = 0; j < mEnemyBullets.size(); j++) {
+//            Bullet enemyBullet = mEnemyBullets.get(j);
+//            if (!enemyBullet.update(dt)) {
+//                mEnemyBullets.remove(j);
+//                bulletPool.free(enemyBullet);
+//            }
+//        }
         if (player != null) {
             cam.position.x = player.getPosition().x
                     + player.getBoundsPolygon().getBoundingRectangle().height / 2;
@@ -490,20 +485,20 @@ public class OnlinePlayState extends State {
     }
 
 
-    private void shoot(float x, float y, float rotation, float directionx, float directiony) {
+    private void shoot(float x, float y, float rotation, float directionX, float directionY) {
         if (player != null) {
-            if (mMyBullets.size() < 5) {
+            if (bullets.size() < 5) {
                 Bullet bullet = bulletPool.obtainAndFire("Player", (int) x, (int) y,
-                        player.getRotation(), directionx, directiony);
-                mMyBullets.add(bullet);
+                        player.getRotation(), directionX, directionY);
+                bullets.add(bullet);
 
                 JSONObject data = new JSONObject();
                 try {
                     data.put("x", x);
                     data.put("y", y);
                     data.put("rotation", rotation);
-                    data.put("directionx", directionx);
-                    data.put("directiony", directiony);
+                    data.put("directionX", directionX);
+                    data.put("directionY", directionY);
                     socket.emit("playerShoot", data);
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error sending update data");
@@ -526,11 +521,8 @@ public class OnlinePlayState extends State {
         for (Map.Entry<String, Enemy> entry : enemies.entrySet()) {
             entry.getValue().getSprite().draw(sb);
         }
-        for (int i = 0; i < mMyBullets.size(); i++) {
-            mMyBullets.get(i).getSprite().draw(sb);
-        }
-        for (int i = 0; i < mEnemyBullets.size(); i++) {
-            mEnemyBullets.get(i).getSprite().draw(sb);
+        for (int i = 0; i < bullets.size(); i++) {
+            bullets.get(i).getSprite().draw(sb);
         }
 
 //        font.draw(sb, String.valueOf(player.getSprite().getRotation()), player.getPosition().x - 10,
@@ -559,11 +551,8 @@ public class OnlinePlayState extends State {
         for (Map.Entry<String, Enemy> entry : enemies.entrySet()) {
             sr.polygon(entry.getValue().getBoundsPolygon().getTransformedVertices());
         }
-        for (int i = 0; i < mMyBullets.size(); i++) {
-            sr.polygon(mMyBullets.get(i).getBoundsPolygon().getTransformedVertices());
-        }
-        for (int i = 0; i < mEnemyBullets.size(); i++) {
-            sr.polygon(mEnemyBullets.get(i).getBoundsPolygon().getTransformedVertices());
+        for (int i = 0; i < bullets.size(); i++) {
+            sr.polygon(bullets.get(i).getBoundsPolygon().getTransformedVertices());
         }
         sr.polygon(mButton.getBoundsPolygon().getTransformedVertices());
         if (player != null) {

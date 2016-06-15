@@ -15,7 +15,7 @@ public interface CollisionManager {
 
     public void unregister(Collisionable c);
 
-    public Collisionable checkCollision(Collisionable c);
+    public void checkCollision(Collisionable c);
 
     public LinkedList<Collisionable> checkCollisions(Collisionable c);
 

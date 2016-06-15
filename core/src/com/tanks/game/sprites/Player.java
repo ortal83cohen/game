@@ -38,23 +38,8 @@ public class Player extends Tank {
             speed = speed - dt * 20;
         }
         super.update(dt);
-        Collisionable collision = collisionManager.checkCollision(this);
-        if (collision != null) {
-            switch (collision.getType()) {
-                case TOP_WALL:
-                    position.y = collision.getCollisionBounds().getBoundingRectangle().getY() - boundsPoly.getBoundingRectangle().getHeight() * 3 / 2;
-                    break;
-                case BOTTOM_WALL:
-                    position.y = collision.getCollisionBounds().getBoundingRectangle().getY();
-                    break;
-                case LEFT_WALL:
-                    position.x = collision.getCollisionBounds().getBoundingRectangle().getX();
-                    break;
-                case RIGHT_WALL:
-                    position.x = collision.getCollisionBounds().getBoundingRectangle().getX() - boundsPoly.getBoundingRectangle().getWidth() * 3 / 2;
-                    break;
-            }
-        }
+        collisionManager.checkCollision(this);
+
 
 //        Collisionable collision = collisionManager.checkCollision(this);
 //        if (collision != null) {
@@ -84,6 +69,20 @@ public class Player extends Tank {
 
     @Override
     public void collideWith(Collisionable collisionable) {
+            switch (collisionable.getType()) {
+                case TOP_WALL:
+                    position.y = collisionable.getCollisionBounds().getBoundingRectangle().getY() - boundsPoly.getBoundingRectangle().getHeight() * 3 / 2;
+                    break;
+                case BOTTOM_WALL:
+                    position.y = collisionable.getCollisionBounds().getBoundingRectangle().getY();
+                    break;
+                case LEFT_WALL:
+                    position.x = collisionable.getCollisionBounds().getBoundingRectangle().getX();
+                    break;
+                case RIGHT_WALL:
+                    position.x = collisionable.getCollisionBounds().getBoundingRectangle().getX() - boundsPoly.getBoundingRectangle().getWidth() * 3 / 2;
+                    break;
+            }
 
     }
 

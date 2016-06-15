@@ -11,8 +11,6 @@ import com.tanks.game.utils.Type;
  */
 public class SmartPlayer extends Tank {
 
-    private boolean alive = true;
-
     public SmartPlayer(int x, int y, CollisionManager collisionManager) {
         super(x, y, Type.SMART_PLAYER, collisionManager);
 
@@ -45,9 +43,21 @@ public class SmartPlayer extends Tank {
     public boolean update(float dt) {
         collisionManager.update(this);
         super.update(dt);
-        Collisionable collision = collisionManager.checkCollision(this);
-        if (collision != null) {
-            switch (collision.getType()) {
+         collisionManager.checkCollision(this);
+
+        return alive;
+    }
+
+
+    @Override
+    public boolean intersects(Type type) {
+        return super.intersects(type) || type.equals(Type.PLAYER) || type.equals(Type.PLAYER_BULLET);
+    }
+
+    @Override
+    public void collideWith(Collisionable collisionable) {
+        if (collisionable != null) {
+            switch (collisionable.getType()) {
                 case TOP_WALL:
                     directionY = -Math.abs(directionY);
                     break;
@@ -62,27 +72,10 @@ public class SmartPlayer extends Tank {
                     break;
                 case PLAYER_BULLET:
                     dispose();
-                    return false;
+                    alive = false;
             }
 
         }
-        return alive;
-    }
-
-
-    @Override
-    public boolean intersects(Type type) {
-        return super.intersects(type) || type.equals(Type.PLAYER) || type.equals(Type.PLAYER_BULLET);
-    }
-
-    @Override
-    public void collideWith(Collisionable collisionable) {
-        switch (collisionable.getType()) {
-            case PLAYER_BULLET:
-                dispose();
-                alive= false;
-        }
-
     }
 }
 

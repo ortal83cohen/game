@@ -13,6 +13,7 @@ import com.tanks.game.utils.Type;
  */
 public class Tank extends Entity implements Collisionable {
 
+    protected boolean alive = true;
 
     public float directionX;//tmp for enemies
 
@@ -61,6 +62,7 @@ public class Tank extends Entity implements Collisionable {
 
 
     public void dispose() {
+        alive= false;
         texture.dispose();
         collisionManager.unregister(this);
     }
