@@ -7,13 +7,22 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector3;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.Bullet;
 import com.tanks.game.sprites.Button;
-import com.tanks.game.sprites.GameSprite;
+import com.tanks.game.sprites.Enemy;
+import com.tanks.game.sprites.Entity;
+import com.tanks.game.sprites.Player;
+import com.tanks.game.sprites.SmartPlayer;
 import com.tanks.game.sprites.Tank;
+import com.tanks.game.sprites.Wall;
 import com.tanks.game.utils.BulletPool;
+import com.tanks.game.utils.CollisionManager;
+import com.tanks.game.utils.Collisionable;
+import com.tanks.game.utils.NaiveCollisionManager;
+import com.tanks.game.utils.Type;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +32,9 @@ import java.util.List;
  */
 public class PlayState extends State {
 
-    static public int GAME_WIDTH = 500;
+    static public int GAME_WIDTH = 400;
 
-    static public int GAME_HEIGHT = 500;
-
-    private float timer = 0;
+    static public int GAME_HEIGHT = 400;
 
     private final TextureRegion bgTextureRegion;
 
@@ -43,7 +50,11 @@ public class PlayState extends State {
 
     BulletPool bulletPool;
 
-    private Tank player;
+    private NaiveCollisionManager collisionManager;
+
+    private float timer = 0;
+
+    private Player player;
 
     private Button mButton;
 
@@ -51,24 +62,44 @@ public class PlayState extends State {
 
     private float lastShoot = 0;
 
+    private ArrayList<Wall> walls;
+
     public PlayState(com.tanks.game.states.GameStateManager gsm) {
         super(gsm);
-
-        player = new Tank(GAME_WIDTH / 2, GAME_HEIGHT / 2, new Texture("tank2.png"));
-        mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150);
+        configCollisionManager();
+        player = new Player(GAME_WIDTH / 2, GAME_HEIGHT / 2, collisionManager);
+        mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150,
+                collisionManager);
         enemies = new ArrayList<Tank>();
         usedBullets = new ArrayList<Bullet>();
         bulletPool = new BulletPool(new Texture("bullet.png"),
-                Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")));
-        for (int i = 0; i < 20; i++) {
-            enemies.add(i, new Tank((int) (Math.random() * GAME_WIDTH),
-                    (int) (Math.random() * GAME_HEIGHT)));
+                Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")), collisionManager);
+        for (int i = 0; i < 10; i++) {
+            enemies.add(i, new SmartPlayer((int) (Math.random() * GAME_WIDTH),
+                    (int) (Math.random() * GAME_HEIGHT), collisionManager));
         }
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
         bg.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         bgTextureRegion = new TextureRegion(bg);
-        bgTextureRegion.setRegion(0, 0, GAME_WIDTH + 50, GAME_HEIGHT + 50);
+        bgTextureRegion.setRegion(0, 0, GAME_WIDTH, GAME_HEIGHT);
+    }
+
+    private void configCollisionManager() {
+        collisionManager = new NaiveCollisionManager();
+        walls = new ArrayList<Wall>();
+        walls.add(new Wall(collisionManager, Type.TOP_WALL,
+                new Polygon(new float[]{0, GAME_HEIGHT, GAME_WIDTH, GAME_WIDTH, 0, GAME_HEIGHT + 1, GAME_WIDTH, GAME_WIDTH + 1})));
+        walls.add(new Wall(collisionManager, Type.BOTTOM_WALL, new Polygon(new float[]{0, 0, GAME_WIDTH, 0, -1, 0, GAME_WIDTH - 1, 0})));
+        walls.add(new Wall(collisionManager, Type.LEFT_WALL, new Polygon(new float[]{0, 0, 0, GAME_HEIGHT, -1, GAME_HEIGHT, -1, 0})));
+        walls.add(new Wall(collisionManager, Type.RIGHT_WALL,
+                new Polygon(new float[]{GAME_WIDTH, 0, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH + 1, GAME_HEIGHT, GAME_WIDTH + 1, 0})));
+        collisionManager.AddCallback(Type.PLAYER, new CollisionManager.CollisionManagerCallBack() {
+            @Override
+            public void collide(Collisionable c1, Collisionable c2) {
+
+            }
+        });
     }
 
     @Override
@@ -90,7 +121,7 @@ public class PlayState extends State {
             int y = Gdx.input.getY(1);
             touchPos.set(x, y, 0);
             cam.unproject(touchPos);
-            if (mButton.collides(
+            if (mButton.pressed(
                     new com.badlogic.gdx.math.Polygon(
                             new float[]{
                                     touchPos.x - 10, touchPos.y - 10,
@@ -114,35 +145,29 @@ public class PlayState extends State {
 
         for (int i = 0; i < enemies.size(); i++) {
             Tank enemy = enemies.get(i);
-            if (enemy.getPosition().x < 0) {
-                enemy.directionX = Math.abs(enemy.directionX);
-            } else if (enemy.getPosition().x > GAME_WIDTH) {
-                enemy.directionX = -Math.abs(enemy.directionX);
-            } else if (enemy.getPosition().y < 0) {
-                enemy.directionY = Math.abs(enemy.directionY);
-            } else if (enemy.getPosition().y > GAME_HEIGHT) {
-                enemy.directionY = -Math.abs(enemy.directionY);
+            if(!enemy.update(dt)){
+                enemies.remove(i);
             }
-            enemy.update(dt);
         }
         for (int i = 0; i < usedBullets.size(); i++) {
             Bullet bullet = usedBullets.get(i);
 
-            if (isOutOfScreen(bullet)) {
+            if ( !bullet.update(dt)) {
                 usedBullets.remove(i);
                 bulletPool.free(bullet);
-            } else {
-                bullet.update(dt);
-                for (int j = 0; j < enemies.size(); j++) {
-                    Tank enemy = enemies.get(j);
-                    if (bullet.collides(enemy.getBoundsPolygon())) {
-                        enemies.remove(j);
-                        usedBullets.remove(i);
-                        bulletPool.free(bullet);
-                    }
-                }
-
             }
+//            else {
+//               ;
+//                for (int j = 0; j < enemies.size(); j++) {
+////                    Tank enemy = enemies.get(j);
+////                    if (bullet.collides(enemy.getBoundsPolygon())) {
+//////                        enemies.remove(j);
+//////                        usedBullets.remove(i);
+//////                        bulletPool.free(bullet);
+////                    }
+//                }
+//
+//            }
 
         }
         cam.position.x = player.getPosition().x
@@ -154,15 +179,6 @@ public class PlayState extends State {
         mButton.update(dt);
         cam.update();
 
-    }
-
-    private boolean isOutOfScreen(GameSprite gameSprite) {
-        return cam.position.x - (cam.viewportWidth / 2) > gameSprite.getPosition().x + gameSprite
-                .getSprite().getWidth() ||
-                cam.position.x + (cam.viewportWidth / 2) < gameSprite.getPosition().x ||
-                cam.position.y - (cam.viewportHeight / 2) > gameSprite.getPosition().y + gameSprite
-                        .getSprite().getWidth() ||
-                cam.position.y + (cam.viewportHeight / 2) < gameSprite.getPosition().y;
     }
 
     private void shoot(float x, float y, float rotation, float directionX, float directionY) {
@@ -217,6 +233,10 @@ public class PlayState extends State {
         }
         sr.polygon(mButton.getBoundsPolygon().getTransformedVertices());
         sr.polygon(player.getBoundsPolygon().getTransformedVertices());
+        sr.setColor(Color.GREEN);
+        for (int i = 0; i < walls.size(); i++) {
+            sr.polygon(walls.get(i).getBoundsPolygon().getTransformedVertices());
+        }
         sr.end();
     }
 
@@ -228,9 +248,11 @@ public class PlayState extends State {
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).dispose();
         }
+        for (int i = 0; i < walls.size(); i++) {
+            walls.get(i).dispose();
+        }
         bulletPool.dispose();
 
     }
-
 
 }

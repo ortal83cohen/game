@@ -10,18 +10,21 @@ import com.tanks.game.sprites.Bullet;
  */
 public class BulletPool extends Pool<Bullet> {
 
+    private final CollisionManager collisionManager;
+
     private Texture bulletTexture;
 
     private Sound fireSound;
 
-    public BulletPool(Texture bulletTexture, Sound fireSound) {
+    public BulletPool(Texture bulletTexture, Sound fireSound, CollisionManager collisionManager) {
         this.bulletTexture = bulletTexture;
         this.fireSound = fireSound;
+        this.collisionManager = collisionManager;
     }
 
     @Override
     protected Bullet newObject() {
-        return new Bullet(null, bulletTexture, fireSound);
+        return new Bullet(null, bulletTexture, fireSound, collisionManager);
     }
 
     public Bullet obtainAndFire(String ownerId, int x, int y, float rotation, float directionX,

@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector3;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.Button;
+import com.tanks.game.utils.CollisionManager;
+import com.tanks.game.utils.NaiveCollisionManager;
 
 /**
  * Created by Brent on 6/26/2015.
@@ -17,8 +19,9 @@ public class MenuState extends State {
 
     private final Polygon touchPolygon;
 
-    private Texture background;
+    private final CollisionManager collisionManager;
 
+    private Texture background;
 
     private Button mButton1;
 
@@ -26,11 +29,12 @@ public class MenuState extends State {
 
     public MenuState(GameStateManager gsm) {
         super(gsm);
+        collisionManager = new NaiveCollisionManager();
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         background = new Texture("bg.png");
 //        playBtn = new Texture("button.png");
-        mButton1 = new Button((int) cam.position.x, (int) cam.position.y + 111);
-        mButton2 = new Button((int) cam.position.x, (int) cam.position.y - 111);
+        mButton1 = new Button((int) cam.position.x, (int) cam.position.y + 111, collisionManager);
+        mButton2 = new Button((int) cam.position.x, (int) cam.position.y - 111, collisionManager);
         touchPolygon = new com.badlogic.gdx.math.Polygon(
                 new float[]{
                         0, 0,
@@ -39,6 +43,7 @@ public class MenuState extends State {
                         0, 0
                 }
         );
+
     }
 
     @Override
@@ -57,10 +62,10 @@ public class MenuState extends State {
                     touchPos.x + 10, touchPos.y - 10
             });
 
-            if (mButton1.collides(touchPolygon)) {
+            if (mButton1.pressed(touchPolygon)) {
                 gsm.set(new PlayState(gsm));
             }
-            if (mButton2.collides(touchPolygon)) {
+            if (mButton2.pressed(touchPolygon)) {
                 gsm.set(new OnlinePlayState(gsm));
             }
 
