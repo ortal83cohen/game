@@ -146,7 +146,7 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
     @Override
     public boolean intersects(Type type) {
         if (ownerId == "Player") {
-            return type == Type.ENEMY || type == Type.SMART_PLAYER || type == Type.ENEMY_BULLET;
+            return type == Type.ENEMY || type == Type.SMART_PLAYER || type == Type.ENEMY_BULLET|| type == Type.STONE;
         } else {
             return false;//type == Type.ENEMY || type == Type.PLAYER || type == Type.SMART_PLAYER ||  type == Type.PLAYER_BULLET;
         }
