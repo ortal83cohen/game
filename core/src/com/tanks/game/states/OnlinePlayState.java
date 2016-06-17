@@ -55,8 +55,6 @@ public class OnlinePlayState extends State {
 
     private final com.tanks.game.utils.Persistent persistent;
 
-    private CollisionManager collisionManager;
-
     BitmapFont font;
 
     int ANDROID_WIDTH = Gdx.graphics.getWidth();
@@ -65,11 +63,13 @@ public class OnlinePlayState extends State {
 
     HashMap<String, Enemy> liveEnemies;
 
-    ArrayList<Tank> enemies= new ArrayList<Tank>();
+    ArrayList<Tank> enemies = new ArrayList<Tank>();
 
     BulletPool bulletPool;
 
     List<Bullet> bullets;
+
+    private CollisionManager collisionManager;
 
     private Socket socket;
 
@@ -97,7 +97,7 @@ public class OnlinePlayState extends State {
 
     private ArrayList<Wall> walls;
 
-    public OnlinePlayState(GameStateManager gsm,boolean addSmartPlayers) {
+    public OnlinePlayState(GameStateManager gsm, boolean addSmartPlayers) {
         super(gsm);
         configCollisionManager();
         connectSocket();
@@ -122,7 +122,7 @@ public class OnlinePlayState extends State {
         player = new Player((int) (Math.random() * GAME_WIDTH),
                 (int) (Math.random() * GAME_HEIGHT), collisionManager);
 
-        if(addSmartPlayers){
+        if (addSmartPlayers) {
             for (int i = 0; i < 10; i++) {
                 enemies.add(i, new SmartPlayer((int) (Math.random() * GAME_WIDTH),
                         (int) (Math.random() * GAME_HEIGHT), collisionManager));
@@ -367,7 +367,7 @@ public class OnlinePlayState extends State {
                 }
             }, connectionDelay);
         }
-        if (Gdx.input.isTouched(1) && lastShoot + 0.3 < timer) {
+        if ((Gdx.input.isTouched(1) || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && lastShoot + 0.3 < timer) {
             lastShoot = timer;
             int x = Gdx.input.getX(1);
             int y = Gdx.input.getY(1);
@@ -380,7 +380,7 @@ public class OnlinePlayState extends State {
                                     touchPos.x - 10, touchPos.y + 10,
                                     touchPos.x + 10, touchPos.y + 10,
                                     touchPos.x + 10, touchPos.y - 10
-                            }))) {
+                            })) || Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
@@ -404,7 +404,7 @@ public class OnlinePlayState extends State {
         }
 
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
-            if(!entry.getValue().update(dt)){
+            if (!entry.getValue().update(dt)) {
                 JSONObject data = new JSONObject();
                 try {
                     data.put("id", entry.getKey());
@@ -422,14 +422,14 @@ public class OnlinePlayState extends State {
 
         for (int i = 0; i < enemies.size(); i++) {
             Tank enemy = enemies.get(i);
-            if(!enemy.update(dt)){
+            if (!enemy.update(dt)) {
                 enemies.remove(i);
             }
         }
 
         for (int i = 0; i < bullets.size(); i++) {
-            if (! bullets.get(i).update(dt)) {
-                bulletPool.free( bullets.get(i));
+            if (!bullets.get(i).update(dt)) {
+                bulletPool.free(bullets.get(i));
                 bullets.remove(i);
             }
         }

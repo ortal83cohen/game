@@ -2,7 +2,6 @@ package com.tanks.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.tanks.game.utils.CollisionManager;
 import com.tanks.game.utils.Collisionable;
@@ -40,7 +39,6 @@ public class Player extends Tank {
         super.update(dt);
         collisionManager.checkCollision(this);
 
-
 //        Collisionable collision = collisionManager.checkCollision(this);
 //        if (collision != null) {
 //            dispose();
@@ -48,7 +46,6 @@ public class Player extends Tank {
 //        }
         return true;
     }
-
 
 
     public void move(int x, int y) {
@@ -64,25 +61,25 @@ public class Player extends Tank {
 
     @Override
     public boolean intersects(Type type) {
-        return  super.intersects(type) || type.equals(Type.ENEMY) || type.equals(Type.SMART_PLAYER) ;
+        return super.intersects(type) || type.equals(Type.ENEMY) || type.equals(Type.SMART_PLAYER);
     }
 
     @Override
     public void collideWith(Collisionable collisionable) {
-            switch (collisionable.getType()) {
-                case TOP_WALL:
-                    position.y = collisionable.getCollisionBounds().getBoundingRectangle().getY() - boundsPoly.getBoundingRectangle().getHeight() * 3 / 2;
-                    break;
-                case BOTTOM_WALL:
-                    position.y = collisionable.getCollisionBounds().getBoundingRectangle().getY();
-                    break;
-                case LEFT_WALL:
-                    position.x = collisionable.getCollisionBounds().getBoundingRectangle().getX();
-                    break;
-                case RIGHT_WALL:
-                    position.x = collisionable.getCollisionBounds().getBoundingRectangle().getX() - boundsPoly.getBoundingRectangle().getWidth() * 3 / 2;
-                    break;
-            }
+        switch (collisionable.getType()) {
+            case TOP_WALL:
+                position.y = collisionable.getCollisionBounds().getBoundingRectangle().getY() - boundsPoly.getBoundingRectangle().getHeight() * 3 / 2;
+                break;
+            case BOTTOM_WALL:
+                position.y = collisionable.getCollisionBounds().getBoundingRectangle().getY();
+                break;
+            case LEFT_WALL:
+                position.x = collisionable.getCollisionBounds().getBoundingRectangle().getX();
+                break;
+            case RIGHT_WALL:
+                position.x = collisionable.getCollisionBounds().getBoundingRectangle().getX() - boundsPoly.getBoundingRectangle().getWidth() * 3 / 2;
+                break;
+        }
 
     }
 

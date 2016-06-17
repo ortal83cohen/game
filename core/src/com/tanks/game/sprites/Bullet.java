@@ -91,9 +91,9 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
     public void reset() {
         //reset methods invoked when bullet is freed by pool
         timer = 0f;
-        alive =true;
+        alive = true;
         position.set(0, 0);
-        boundsPoly.setPosition(0,0);
+        boundsPoly.setPosition(0, 0);
         ownerId = null;
     }
 
@@ -145,18 +145,18 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     @Override
     public boolean intersects(Type type) {
-        if(ownerId == "Player") {
-            return type == Type.ENEMY || type == Type.SMART_PLAYER || type == Type.ENEMY_BULLET ;
-        }else {
+        if (ownerId == "Player") {
+            return type == Type.ENEMY || type == Type.SMART_PLAYER || type == Type.ENEMY_BULLET;
+        } else {
             return false;//type == Type.ENEMY || type == Type.PLAYER || type == Type.SMART_PLAYER ||  type == Type.PLAYER_BULLET;
         }
     }
 
     @Override
     public Type getType() {
-        if(ownerId == "Player") {
+        if (ownerId == "Player") {
             return Type.PLAYER_BULLET;
-        }else {
+        } else {
             return Type.ENEMY_BULLET;
         }
 

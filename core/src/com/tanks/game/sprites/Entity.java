@@ -1,7 +1,6 @@
 package com.tanks.game.sprites;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.tanks.game.utils.CollisionManager;
@@ -49,5 +48,5 @@ public abstract class Entity {
         return movement;
     }
 
-   abstract public void dispose();
+    abstract public void dispose();
 }
