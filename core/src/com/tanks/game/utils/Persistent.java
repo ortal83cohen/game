@@ -1,4 +1,4 @@
-package com.tanks.game.states;
+package com.tanks.game.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -24,14 +24,17 @@ public class Persistent {
         preferences.put(map);
         preferences.flush();
     }
+
     public void saveInt(Map<String, Integer> map) {
 
         preferences.put(map);
         preferences.flush();
     }
+
     public int LoadInt(String key) {
         return preferences.getInteger(key);
     }
+
     public String LoadString(String key) {
         return preferences.getString(key);
     }

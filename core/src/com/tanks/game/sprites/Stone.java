@@ -1,6 +1,7 @@
 package com.tanks.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.tanks.game.utils.CollisionManager;
@@ -11,7 +12,7 @@ import com.tanks.game.utils.Type;
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Tank extends Entity implements Collisionable {
+public class Stone extends Entity implements Collisionable {
 
     public float directionX;//tmp for enemies
 
@@ -21,33 +22,41 @@ public class Tank extends Entity implements Collisionable {
 
     protected int maxSpeed;
 
-    protected Animation birdAnimation;
-
     protected Texture texture;
 
     protected float speed;
 
-    protected Type type;
 
-    public Tank(int x, int y, Type type, CollisionManager collisionManager) {
+    public Stone(int x, int y, CollisionManager collisionManager) {
         super(collisionManager);
-        this.collisionManager.register(this);
-        this.type = type;
+        collisionManager.register(this);
+
         position = new Vector2(x, y);
+        this.texture = new Texture("stone.png");
+        glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
+        setPolygon();
+        boundsPoly.scale(-1.5f);
+        getSprite().scale(-1.5f);
+
+        directionX = 1;
+        directionY = 1;
+
+        speed = 0f;
+        maxSpeed = 5;
+
     }
 
     public boolean update(float dt) {
 
-        position.x = position.x + (directionX * dt * speed);
-        position.y = position.y + (directionY * dt * speed);
-//        Gdx.app.log("SocketIO", "playerUpdate x" + position.x + " y" + position.y);
-        float rotation = (float) MathUtil.getAngle(directionX, directionY);
-        birdAnimation.update(dt);//animation example
+//        position.x = position.x + (directionX * dt * speed);
+//        position.y = position.y + (directionY * dt * speed);
+//        float rotation = (float) MathUtil.getAngle(directionX, directionY);
         boundsPoly.setPosition(position.x, position.y);
-        boundsPoly.setRotation(rotation);
+//        boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
-        glowSprite.setRotation(rotation);
-
+//        glowSprite.setRotation(rotation);
+        collisionManager.update(this);
+        collisionManager.checkCollision(this);
         return true;
     }
 
@@ -77,13 +86,13 @@ public class Tank extends Entity implements Collisionable {
     }
 
     @Override
-    public boolean intersects(Type type) {
-        return type.equals(Type.TOP_WALL) || type.equals(Type.RIGHT_WALL) || type.equals(Type.LEFT_WALL) || type.equals(Type.BOTTOM_WALL);
+    public boolean intersects(Type type){
+        return false;
     }
 
     @Override
     public Type getType() {
-        return this.type;
+        return Type.STONE;
     }
 
     @Override
