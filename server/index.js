@@ -2,17 +2,25 @@ var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var players = [];
+var stones = [];
 
 server.listen(9000, function() {
     console.log("Server is now running...");
 });
 
 io.on('connection', function(socket) {
+if(!stones[0]){
+    console.log("stones null");
+   for (var i = 0; i < 10; i++) {
+             stones.push(new stone(i, randomInt(0, 400), randomInt(0, 400)));
+        }
+}
     console.log(socket.id + " Player Connected!");
     socket.emit('socketID', {
         id: socket.id
     });
     socket.emit('getPlayers', players);
+    socket.emit('getStones', stones);
     socket.on('playerMoved', function(data) {
         data.id = socket.id;
         socket.broadcast.emit('playerMoved', data);
@@ -66,7 +74,14 @@ function player(id, x, y) {
     this.x = x;
     this.y = y;
 }
-
+function stone(id, x, y) {
+    this.id = id;
+    this.x = x;
+    this.y = y;
+}
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 function printPlayers() {
     console.log("Players:");
     for (var i = 0; i < players.length; i++) {
