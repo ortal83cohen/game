@@ -1,8 +1,8 @@
 package com.tanks.game.sprites;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.tanks.game.utils.CollisionManager;
 import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.Type;
@@ -12,12 +12,9 @@ import com.tanks.game.utils.Type;
  */
 public class Player extends Tank {
 
-    public Player(int x, int y, CollisionManager collisionManager) {
-        super(x, y, Type.PLAYER, collisionManager);
+    public Player(World world, String id, int x, int y, CollisionManager collisionManager) {
+        super(world, id, "tank2.png", x, y, Type.PLAYER, collisionManager);
         position = new Vector2(x, y);
-        this.texture = new Texture("tank2.png");
-        glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
-        setPolygon();
         boundsPoly.scale(-0.5f);
         getSprite().scale(-0.5f);
         birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
@@ -32,12 +29,12 @@ public class Player extends Tank {
     @Override
     public boolean update(float dt) {
         if (speed > 0) {
-            collisionManager.update(this);
+//            collisionManager.update(this);
             movement = true;
             speed = speed - dt * 20;
         }
         super.update(dt);
-        collisionManager.checkCollision(this);
+//        collisionManager.checkCollision(this);
 
 //        Collisionable collision = collisionManager.checkCollision(this);
 //        if (collision != null) {
@@ -49,9 +46,23 @@ public class Player extends Tank {
 
 
     public void move(int x, int y) {
-        if (speed < maxSpeed) {
-            speed = speed + 3f;
-        }
+//        body.setLinearVelocity(x, y);
+        float SPEED_RATIO = 1;
+
+        // calculte the normalized direction from the body to the touch position
+        Vector2 direction = new Vector2(x, y);
+        direction.sub(body.getPosition());
+        direction.nor();
+
+        float speed = 100;
+        body.setLinearVelocity(direction.scl(speed));
+
+
+//        body.applyLinearImpulse(new Vector2((x-body.getPosition().x)/SPEED_RATIO, (y-body.getPosition().y)/SPEED_RATIO), body.getWorldCenter(), true);
+
+//        if (speed < maxSpeed) {
+//            speed = speed + 3f;
+//        }
         double length = Math.sqrt((x * x) + (y * y));
         this.directionX = (float) (x / length);
         this.directionY = (float) (y / length);
@@ -60,26 +71,26 @@ public class Player extends Tank {
 
 
     @Override
-    public boolean intersects(Type type) {
-        return super.intersects(type) || type.equals(Type.ENEMY) || type.equals(Type.SMART_PLAYER);
+    public boolean hasCollisionBehaviorWith(Type type) {
+        return super.hasCollisionBehaviorWith(type) || type.equals(Type.ENEMY) || type.equals(Type.SMART_PLAYER);
     }
 
     @Override
     public void collideWith(Collisionable collisionable) {
-        switch (collisionable.getType()) {
-            case TOP_WALL:
-                position.y = collisionable.getCollisionBounds().getBoundingRectangle().getY() - boundsPoly.getBoundingRectangle().getHeight() * 3 / 2;
-                break;
-            case BOTTOM_WALL:
-                position.y = collisionable.getCollisionBounds().getBoundingRectangle().getY();
-                break;
-            case LEFT_WALL:
-                position.x = collisionable.getCollisionBounds().getBoundingRectangle().getX();
-                break;
-            case RIGHT_WALL:
-                position.x = collisionable.getCollisionBounds().getBoundingRectangle().getX() - boundsPoly.getBoundingRectangle().getWidth() * 3 / 2;
-                break;
-        }
+//        switch (collisionable.getType()) {
+//            case TOP_WALL:
+//                position.y = collisionable.getCollisionBounds().getBoundingRectangle().getY() - boundsPoly.getBoundingRectangle().getHeight() * 3 / 2;
+//                break;
+//            case BOTTOM_WALL:
+//                position.y = collisionable.getCollisionBounds().getBoundingRectangle().getY();
+//                break;
+//            case LEFT_WALL:
+//                position.x = collisionable.getCollisionBounds().getBoundingRectangle().getX();
+//                break;
+//            case RIGHT_WALL:
+//                position.x = collisionable.getCollisionBounds().getBoundingRectangle().getX() - boundsPoly.getBoundingRectangle().getWidth() * 3 / 2;
+//                break;
+//        }
 
     }
 

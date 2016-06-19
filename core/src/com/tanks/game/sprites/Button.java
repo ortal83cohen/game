@@ -17,8 +17,8 @@ public class Button extends Entity implements Collisionable {
     private Texture texture;
 
     public Button(int x, int y, CollisionManager collisionManager) {
-        super(collisionManager);
-        this.collisionManager.register(this);
+        super();
+//        this.collisionManager.register(this);
         position = new Vector2(x, y);
 
         texture = new Texture("button.png");
@@ -29,7 +29,7 @@ public class Button extends Entity implements Collisionable {
 
 
     public void update(float dt) {
-        collisionManager.update(this);
+//        collisionManager.update(this);
         boundsPoly.setPosition(position.x, position.y);
         glowSprite.setPosition(getPosition().x, getPosition().y);
 
@@ -48,16 +48,11 @@ public class Button extends Entity implements Collisionable {
 
     public void dispose() {
         texture.dispose();
-        collisionManager.unregister(this);
+//        collisionManager.unregister(this);
     }
 
     @Override
-    public Polygon getCollisionBounds() {
-        return boundsPoly;
-    }
-
-    @Override
-    public boolean intersects(Type type) {
+    public boolean hasCollisionBehaviorWith(Type type) {
         return false;
     }
 

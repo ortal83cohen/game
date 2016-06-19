@@ -42,17 +42,17 @@ public class NaiveCollisionManager implements CollisionManager {
     public void checkCollision(Collisionable c) {
         try {
             for (Collisionable collisionable : collisionables) {
-                if ((Intersector.overlapConvexPolygons(collisionable.getCollisionBounds(), c.getCollisionBounds()))) {
-                    if (callBacks.containsKey(c.getType())) {
-                        callBacks.get(c.getType()).collide(c, collisionable);
-                    }
-                    if (collisionable.intersects(c.getType())) {
-                        collisionable.collideWith(c);
-                    }
-                    if (c.intersects(collisionable.getType())) {
-                        c.collideWith(collisionable);
-                    }
-                }
+//                if ((Intersector.overlapConvexPolygons(collisionable.getCollisionBounds(), c.getCollisionBounds()))) {
+//                    if (callBacks.containsKey(c.getType())) {
+//                        callBacks.get(c.getType()).collide(c, collisionable);
+//                    }
+//                    if (collisionable.hasCollisionBehaviorWith(c.getType())) {
+//                        collisionable.collideWith(c);
+//                    }
+//                    if (c.hasCollisionBehaviorWith(collisionable.getType())) {
+//                        c.collideWith(collisionable);
+//                    }
+//                }
             }
         } catch (ConcurrentModificationException e) {
             Gdx.app.log("NaiveCollisionManager", "collisionables ConcurrentModificationException");

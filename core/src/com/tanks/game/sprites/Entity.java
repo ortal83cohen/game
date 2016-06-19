@@ -10,7 +10,7 @@ import com.tanks.game.utils.CollisionManager;
  */
 public abstract class Entity {
 
-    protected final CollisionManager collisionManager;
+//    private String id;
 
     protected Sprite glowSprite;
 
@@ -20,9 +20,6 @@ public abstract class Entity {
 
     protected boolean movement = false;
 
-    protected Entity(CollisionManager collisionManager) {
-        this.collisionManager = collisionManager;
-    }
 
     public void setPolygon() {
         boundsPoly = new Polygon(new float[]{
