@@ -15,11 +15,8 @@ public class Enemy extends Tank {
     public Enemy(int x, int y, CollisionManager collisionManager) {
         super(x, y, Type.ENEMY, collisionManager);
 
-        if (Math.random() < 0.5) {
-            texture = new Texture("tank.png");
-        } else {
-            texture = new Texture("tank2.png");
-        }
+        texture = new Texture("tank.png");
+
         position = new Vector2(x, y);
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
         setPolygon();
@@ -52,7 +49,7 @@ public class Enemy extends Tank {
 
     @Override
     public boolean intersects(Type type) {
-        return super.intersects(type) || type.equals(Type.PLAYER)||type.equals(Type.PLAYER_BULLET);
+        return super.intersects(type) || type.equals(Type.PLAYER) || type.equals(Type.PLAYER_BULLET);
     }
 
     @Override

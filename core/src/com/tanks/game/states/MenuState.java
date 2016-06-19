@@ -63,10 +63,11 @@ public class MenuState extends State {
             });
 
             if (mButton1.pressed(touchPolygon)) {
-                gsm.set(new PlayState(gsm));
+//                gsm.set(new PlayState(gsm));
+                gsm.set(new OnlinePlayState(gsm, true));
             }
             if (mButton2.pressed(touchPolygon)) {
-                gsm.set(new OnlinePlayState(gsm));
+                gsm.set(new OnlinePlayState(gsm, false));
             }
 
 

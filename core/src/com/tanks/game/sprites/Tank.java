@@ -13,11 +13,11 @@ import com.tanks.game.utils.Type;
  */
 public class Tank extends Entity implements Collisionable {
 
-    protected boolean alive = true;
-
     public float directionX;//tmp for enemies
 
     public float directionY;//tmp for enemies
+
+    protected boolean alive = true;
 
     protected int maxSpeed;
 
@@ -62,7 +62,7 @@ public class Tank extends Entity implements Collisionable {
 
 
     public void dispose() {
-        alive= false;
+        alive = false;
         texture.dispose();
         collisionManager.unregister(this);
     }

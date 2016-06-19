@@ -54,8 +54,8 @@ public class NaiveCollisionManager implements CollisionManager {
                     }
                 }
             }
-        }catch (ConcurrentModificationException e){
-            Gdx.app.log("NaiveCollisionManager", "collisionables ConcurrentModificationException" );
+        } catch (ConcurrentModificationException e) {
+            Gdx.app.log("NaiveCollisionManager", "collisionables ConcurrentModificationException");
         }
     }
 

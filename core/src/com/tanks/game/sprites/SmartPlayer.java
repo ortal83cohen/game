@@ -43,7 +43,7 @@ public class SmartPlayer extends Tank {
     public boolean update(float dt) {
         collisionManager.update(this);
         super.update(dt);
-         collisionManager.checkCollision(this);
+        collisionManager.checkCollision(this);
 
         return alive;
     }

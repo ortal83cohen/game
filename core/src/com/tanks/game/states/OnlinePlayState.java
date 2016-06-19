@@ -17,6 +17,9 @@ import com.tanks.game.sprites.Bullet;
 import com.tanks.game.sprites.Button;
 import com.tanks.game.sprites.Enemy;
 import com.tanks.game.sprites.Player;
+import com.tanks.game.sprites.SmartPlayer;
+import com.tanks.game.sprites.Stone;
+import com.tanks.game.sprites.Tank;
 import com.tanks.game.sprites.Wall;
 import com.tanks.game.utils.BulletPool;
 import com.tanks.game.utils.CollisionManager;
@@ -29,6 +32,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -43,9 +47,9 @@ public class OnlinePlayState extends State {
 
     private static final float UPDATE_TIME = 1 / 30f;
 
-    static public int GAME_WIDTH = 300;
+    static public int GAME_WIDTH = 400;
 
-    static public int GAME_HEIGHT = 300;
+    static public int GAME_HEIGHT = 400;
 
     private final TextureRegion bgTextureRegion;
 
@@ -53,19 +57,23 @@ public class OnlinePlayState extends State {
 
     private final com.tanks.game.utils.Persistent persistent;
 
-    private CollisionManager collisionManager;
-
     BitmapFont font;
 
     int ANDROID_WIDTH = Gdx.graphics.getWidth();
 
     int ANDROID_HEIGHT = Gdx.graphics.getHeight();
 
-    HashMap<String, Enemy> enemies;
+    HashMap<String, Enemy> liveEnemies;
+
+    ArrayList<Tank> enemies = new ArrayList<Tank>();
+
+    private HashMap<String, Stone> stones;
 
     BulletPool bulletPool;
 
     List<Bullet> bullets;
+
+    private CollisionManager collisionManager;
 
     private Socket socket;
 
@@ -93,7 +101,7 @@ public class OnlinePlayState extends State {
 
     private ArrayList<Wall> walls;
 
-    public OnlinePlayState(GameStateManager gsm) {
+    public OnlinePlayState(GameStateManager gsm, boolean addSmartPlayers) {
         super(gsm);
         configCollisionManager();
         connectSocket();
@@ -101,7 +109,8 @@ public class OnlinePlayState extends State {
 
         mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150,
                 collisionManager);
-        enemies = new HashMap<String, Enemy>();
+        liveEnemies = new HashMap<String, Enemy>();
+        stones = new HashMap<String, Stone>();
         bullets = new ArrayList<Bullet>();
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
@@ -115,6 +124,15 @@ public class OnlinePlayState extends State {
 
         persistent = new com.tanks.game.utils.Persistent();
 
+        player = new Player((int) (Math.random() * GAME_WIDTH),
+                (int) (Math.random() * GAME_HEIGHT), collisionManager);
+
+        if (addSmartPlayers) {
+            for (int i = 0; i < 10; i++) {
+                enemies.add(i, new SmartPlayer((int) (Math.random() * GAME_WIDTH),
+                        (int) (Math.random() * GAME_HEIGHT), collisionManager));
+            }
+        }
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear,
                 Texture.TextureFilter.Linear);
@@ -157,8 +175,7 @@ public class OnlinePlayState extends State {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run() {
-                        player = new Player((int) (Math.random() * GAME_WIDTH),
-                                (int) (Math.random() * GAME_HEIGHT), collisionManager);
+
                         JSONObject data = new JSONObject();
                         try {
                             data.put("x", player.getPosition().x);
@@ -195,7 +212,7 @@ public class OnlinePlayState extends State {
                         @Override
                         public void run() {
                             try {
-                                enemies.put(id, new Enemy(data.getInt("x"), data.getInt("y"), collisionManager));
+                                liveEnemies.put(id, new Enemy(data.getInt("x"), data.getInt("y"), collisionManager));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -215,7 +232,7 @@ public class OnlinePlayState extends State {
                 JSONObject data = (JSONObject) args[0];
                 try {
                     String id = data.getString("id");
-                    enemies.remove(id);
+                    liveEnemies.remove(id);
                     Gdx.app.log("SocketIO", "player Disconnected: " + id);
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
@@ -240,7 +257,7 @@ public class OnlinePlayState extends State {
                         });
 
                     } else {
-                        enemies.remove(id);
+                        liveEnemies.remove(id);
                     }
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error PlayerHit");
@@ -262,9 +279,9 @@ public class OnlinePlayState extends State {
                     float dx = (float) data.getDouble("dx");
                     float dy = (float) data.getDouble("dy");
                     float s = (float) data.getDouble("s");
-                    if (enemies.containsKey(enemyId)) {
-                        enemies.get(enemyId).setPosition(new Vector2((float) x, (float) y));
-                        enemies.get(enemyId).move(dx, dy, s - 0.5f);
+                    if (liveEnemies.containsKey(enemyId)) {
+                        liveEnemies.get(enemyId).setPosition(new Vector2((float) x, (float) y));
+                        liveEnemies.get(enemyId).move(dx, dy, s - 0.5f);
                         Gdx.app.log("SocketIO", "playerMoved x" + x + " y" + y + " s" + s);
                     }
                 } catch (JSONException e) {
@@ -309,7 +326,7 @@ public class OnlinePlayState extends State {
                             @Override
                             public void run() {
                                 try {
-                                    enemies.put(object.getString("id"), new Enemy(object.getInt("x"),
+                                    liveEnemies.put(object.getString("id"), new Enemy(object.getInt("x"),
                                             object.getInt("y"), collisionManager));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -320,6 +337,30 @@ public class OnlinePlayState extends State {
                     }
                     if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Vibrator)) {
                         Gdx.input.vibrate(new long[]{0, 2, 10, 2, 10, 2}, -1);
+                    }
+                } catch (JSONException e) {
+                    Gdx.app.log("SocketIO", "Error Get Players");
+                }
+            }
+        }).on("getStones", new Emitter.Listener() {
+            @Override
+            public void call(Object... args) {
+                final JSONArray objects = (JSONArray) args[0];
+                try {
+                    Gdx.app.log("SocketIO", "Get Stone: " + objects.length());
+                    for (int i = 0; i < objects.length(); i++) {
+                        final JSONObject object = objects.getJSONObject(i);
+                        Gdx.app.postRunnable(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    stones.put(object.getString("id"), new Stone(object.getInt("x"),
+                                            object.getInt("y"), collisionManager));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                     }
                 } catch (JSONException e) {
                     Gdx.app.log("SocketIO", "Error Get Players");
@@ -355,7 +396,7 @@ public class OnlinePlayState extends State {
                 }
             }, connectionDelay);
         }
-        if (Gdx.input.isTouched(1) && lastShoot + 0.3 < timer) {
+        if ((Gdx.input.isTouched(1) || Gdx.input.isKeyPressed(Input.Keys.SPACE)) && lastShoot + 0.3 < timer) {
             lastShoot = timer;
             int x = Gdx.input.getX(1);
             int y = Gdx.input.getY(1);
@@ -368,7 +409,7 @@ public class OnlinePlayState extends State {
                                     touchPos.x - 10, touchPos.y + 10,
                                     touchPos.x + 10, touchPos.y + 10,
                                     touchPos.x + 10, touchPos.y - 10
-                            }))) {
+                            })) || Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
@@ -391,8 +432,8 @@ public class OnlinePlayState extends State {
             playerMoved(dt);
         }
 
-        for (Map.Entry<String, Enemy> entry : enemies.entrySet()) {
-            if(!entry.getValue().update(dt)){
+        for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
+            if (!entry.getValue().update(dt)) {
                 JSONObject data = new JSONObject();
                 try {
                     data.put("id", entry.getKey());
@@ -404,62 +445,40 @@ public class OnlinePlayState extends State {
                     Gdx.app.log("SocketIO", "Error sending playerHit data");
                 }
                 entry.getValue().dispose();
-                enemies.remove(entry.getKey());
+                liveEnemies.remove(entry.getKey());
+            }
+        }
+        for (Map.Entry<String, Stone> entry : stones.entrySet()) {
+            if (!entry.getValue().update(dt)) {
+//                JSONObject data = new JSONObject();
+//                try {
+//                    data.put("id", entry.getKey());
+//                    socket.emit("playerHit", data);
+//                    HashMap map = new HashMap();
+//                    map.put("kill1", persistent.LoadInt("kill1") + 1);
+//                    persistent.saveInt(map);
+//                } catch (JSONException e) {
+//                    Gdx.app.log("SocketIO", "Error sending playerHit data");
+//                }
+//                entry.getValue().dispose();
+//                liveEnemies.remove(entry.getKey());
+            }
+        }
+
+        for (int i = 0; i < enemies.size(); i++) {
+            Tank enemy = enemies.get(i);
+            if (!enemy.update(dt)) {
+                enemies.remove(i);
             }
         }
 
         for (int i = 0; i < bullets.size(); i++) {
-            if (! bullets.get(i).update(dt)) {
-                bulletPool.free( bullets.get(i));
+            if (!bullets.get(i).update(dt)) {
+                bulletPool.free(bullets.get(i));
                 bullets.remove(i);
             }
         }
-//
-//        for (int i = 0; i < bullets.size(); i++) {
-//            Bullet bullet = bullets.get(i);
-//
-//            if (!bullet.update(dt)) {
-//                bullets.remove(i);
-//                bulletPool.free(bullet);
-//            }
-//            try {
-//                for (int j = 0; j < mEnemyBullets.size(); j++) {
-//                    Bullet enemyBullet = mEnemyBullets.get(j);
-//                    if (bullet.collides(enemyBullet.getBoundsPolygon())) {
-//                        bullets.remove(i);
-//                        mEnemyBullets.remove(j);
-//                    }
-//                }
-//                for (Map.Entry<String, Enemy> entry : enemies.entrySet()) {
-//
-//                    if (bullet.collides(entry.getValue().getBoundsPolygon())) {
-//                        JSONObject data = new JSONObject();
-//                        try {
-//                            data.put("id", entry.getKey());
-//                            socket.emit("playerHit", data);
-//                            HashMap map = new HashMap();
-//                            map.put("kill1", persistent.LoadInt("kill1") + 1);
-//                            persistent.saveInt(map);
-//                        } catch (JSONException e) {
-//                            Gdx.app.log("SocketIO", "Error sending playerHit data");
-//                        }
-//                        entry.getValue().dispose();
-//                        enemies.remove(entry.getKey());
-//                        bullets.remove(i);
-//                        bulletPool.free(bullet);
-//                    }
-//                }
-//            } catch (ConcurrentModificationException e) {
-//                Gdx.app.log("SocketIO", "enemies updated in other process");
-//            }
-//        }
-//        for (int j = 0; j < mEnemyBullets.size(); j++) {
-//            Bullet enemyBullet = mEnemyBullets.get(j);
-//            if (!enemyBullet.update(dt)) {
-//                mEnemyBullets.remove(j);
-//                bulletPool.free(enemyBullet);
-//            }
-//        }
+
         if (player != null) {
             cam.position.x = player.getPosition().x
                     + player.getBoundsPolygon().getBoundingRectangle().height / 2;
@@ -518,11 +537,17 @@ public class OnlinePlayState extends State {
         }
         mButton.getSprite().draw(sb);
 
-        for (Map.Entry<String, Enemy> entry : enemies.entrySet()) {
+        for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
             entry.getValue().getSprite().draw(sb);
         }
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).getSprite().draw(sb);
+        }
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).getSprite().draw(sb);
+        }
+        for (Map.Entry<String, Stone> entry : stones.entrySet()) {
+            entry.getValue().getSprite().draw(sb);
         }
 
 //        font.draw(sb, String.valueOf(player.getSprite().getRotation()), player.getPosition().x - 10,
@@ -536,7 +561,7 @@ public class OnlinePlayState extends State {
         font.draw(sb, "killed -" + persistent.LoadInt("killed1"), cam.position.x - 35,
                 cam.position.y + 185);
 
-        font.draw(sb, "enemies " + enemies.size(), cam.position.x - 35, cam.position.y - 170);
+        font.draw(sb, "liveEnemies " + liveEnemies.size(), cam.position.x - 35, cam.position.y - 170);
         font.draw(sb, "my id  " + myId, cam.position.x - 115, cam.position.y - 185);
 
         sb.end();
@@ -548,7 +573,10 @@ public class OnlinePlayState extends State {
         sr.setAutoShapeType(true);
         sr.begin();
         sr.setColor(Color.BLACK);
-        for (Map.Entry<String, Enemy> entry : enemies.entrySet()) {
+        for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
+            sr.polygon(entry.getValue().getBoundsPolygon().getTransformedVertices());
+        }
+        for (Map.Entry<String, Stone> entry : stones.entrySet()) {
             sr.polygon(entry.getValue().getBoundsPolygon().getTransformedVertices());
         }
         for (int i = 0; i < bullets.size(); i++) {
@@ -557,6 +585,9 @@ public class OnlinePlayState extends State {
         sr.polygon(mButton.getBoundsPolygon().getTransformedVertices());
         if (player != null) {
             sr.polygon(player.getBoundsPolygon().getTransformedVertices());
+        }
+        for (int i = 0; i < enemies.size(); i++) {
+            sr.polygon(enemies.get(i).getBoundsPolygon().getTransformedVertices());
         }
         sr.setColor(Color.GREEN);
         for (int i = 0; i < walls.size(); i++) {
@@ -573,8 +604,14 @@ public class OnlinePlayState extends State {
         bg.dispose();
         player.dispose();
         mButton.dispose();
-        for (Map.Entry<String, Enemy> entry : enemies.entrySet()) {
+        for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
             entry.getValue().dispose();
+        }
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).dispose();
+        }
+        for (int i = 0; i < stones.size(); i++) {
+            stones.get(i).dispose();
         }
         bulletPool.dispose();
     }
