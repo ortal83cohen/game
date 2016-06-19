@@ -28,7 +28,7 @@ public class Stone extends Entity implements Collisionable {
 
 
     public Stone(int x, int y, CollisionManager collisionManager) {
-        super(collisionManager);
+        super();
         collisionManager.register(this);
 
         position = new Vector2(x, y);
@@ -55,8 +55,8 @@ public class Stone extends Entity implements Collisionable {
 //        boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
 //        glowSprite.setRotation(rotation);
-        collisionManager.update(this);
-        collisionManager.checkCollision(this);
+//        collisionManager.update(this);
+//        collisionManager.checkCollision(this);
         return true;
     }
 
@@ -73,20 +73,20 @@ public class Stone extends Entity implements Collisionable {
     public void dispose() {
         alive = false;
         texture.dispose();
-        collisionManager.unregister(this);
+//        collisionManager.unregister(this);
     }
 
     public float getSpeed() {
         return speed;
     }
 
-    @Override
-    public Polygon getCollisionBounds() {
-        return boundsPoly;
-    }
+//    @Override
+//    public Polygon getCollisionBounds() {
+//        return boundsPoly;
+//    }
 
     @Override
-    public boolean intersects(Type type){
+    public boolean hasCollisionBehaviorWith(Type type){
         return false;
     }
 

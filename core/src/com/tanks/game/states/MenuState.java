@@ -9,8 +9,12 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector3;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.Button;
+import com.tanks.game.utils.Assets;
 import com.tanks.game.utils.CollisionManager;
 import com.tanks.game.utils.NaiveCollisionManager;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Brent on 6/26/2015.
@@ -27,11 +31,15 @@ public class MenuState extends State {
 
     private Button mButton2;
 
+    private static final List<String> requiredTextures = Arrays.asList(new String[] {
+            "bg.png",
+    });
+
     public MenuState(GameStateManager gsm) {
         super(gsm);
         collisionManager = new NaiveCollisionManager();
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
-        background = new Texture("bg.png");
+        loadAssets();
 //        playBtn = new Texture("button.png");
         mButton1 = new Button((int) cam.position.x, (int) cam.position.y + 111, collisionManager);
         mButton2 = new Button((int) cam.position.x, (int) cam.position.y - 111, collisionManager);
@@ -44,6 +52,13 @@ public class MenuState extends State {
                 }
         );
 
+    }
+
+    private void loadAssets() {
+        Assets.getInstance().getManager().load("bg.png", Texture.class);
+        //load all assets in queue, block until finished
+        Assets.getInstance().getManager().finishLoading();
+        background = Assets.getInstance().getManager().get("bg.png");
     }
 
     @Override
