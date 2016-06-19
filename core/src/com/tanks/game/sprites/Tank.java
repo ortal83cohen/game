@@ -49,6 +49,7 @@ public class Tank extends Entity {
     }
 
     private void createBody(World world, int x, int y,short type) {
+        this.world = world;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
@@ -98,7 +99,7 @@ public class Tank extends Entity {
 
 
     public void dispose() {
-
+//        world.destroyBody(body);
     }
 
     public float getSpeed() {

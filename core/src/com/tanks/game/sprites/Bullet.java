@@ -47,7 +47,7 @@ public class Bullet extends Entity implements Pool.Poolable{
         position = new Vector2();
         this.ownerId = ownerId;
         this.texture = texture;
-
+this.world = world;
         glowSprite = new Sprite(texture);
         createBody(world, 0, 0);
         getSprite().scale(-0.8f);
@@ -128,6 +128,7 @@ public class Bullet extends Entity implements Pool.Poolable{
 
     public void dispose() {
 //        collisionManager.unregister(this);
+//        world.destroyBody(body);
         body.setAwake(false);
     }
 
