@@ -2,11 +2,11 @@
 <items version="2" >
 
     <item
-        jar="/Users/ortalcohen/Documents/tanks.io-client/core/build/libs/core-1.0.jar"
+        jar="C:\Users\cohenort\Documents\tanks.io-client\core\build\libs\core-1.0.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="421451a3260c52df9677ad0075d36b5452c42890">
-        <dex dex="/Users/ortalcohen/Documents/tanks.io-client/android/build/intermediates/pre-dexed/debug/core-1.0_b8e9b0ab876721f8ac58dcf88ab1c98941c1a0d1.jar" />
+        sha1="27cb6d5292451dc76bbdddd627aa8078b7959ae2">
+        <dex dex="C:\Users\cohenort\Documents\tanks.io-client\android\build\intermediates\pre-dexed\debug\core-1.0_34ce1594d3df909c547f2f730ef106b6129b53bc.jar" />
     </item>
 
 </items>

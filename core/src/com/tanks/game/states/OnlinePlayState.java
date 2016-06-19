@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
 import com.google.gson.JsonArray;
@@ -32,6 +33,9 @@ import com.tanks.game.utils.CollisionManager;
 import com.tanks.game.utils.NaiveCollisionManager;
 import com.tanks.game.utils.Type;
 
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,14 +111,15 @@ public class OnlinePlayState extends State {
 
     private List<Wall> walls;
 
+    private Box2DDebugRenderer b2dr;
     public OnlinePlayState(GameStateManager gsm, boolean addSmartPlayers) {
         super(gsm);
 
         loadAssets();
         Box2D.init();
+        b2dr = new Box2DDebugRenderer();
         world = new World(new Vector2(0f,0f), true);
         world.setContactListener(new BasicContactListener());
-
         configCollisionManager();
         connectSocket();
         configSocketEvents();
@@ -212,10 +217,10 @@ public class OnlinePlayState extends State {
         }).on("socketID", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                JsonObject data = (JsonObject) args[0];
+                JSONObject data = (JSONObject) args[0];
                 try {
 
-                    myId = data.get("id").getAsString();
+                    myId = data.getString("id");
                     Gdx.app.log("SocketIO", "My ID: " + myId);
                 } catch (Exception e) {
                     Gdx.app.log("SocketIO", "Error getting ID");
@@ -336,18 +341,18 @@ public class OnlinePlayState extends State {
         }).on("getPlayers", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                final JsonArray objects = (JsonArray) args[0];
+                final JSONArray objects = (JSONArray) args[0];
 
                 try {
-                    Gdx.app.log("SocketIO", "Get Players: " + objects.size());
-                    for (int i = 0; i < objects.size(); i++) {
-                        final JsonObject object = objects.get(i).getAsJsonObject();
+                    Gdx.app.log("SocketIO", "Get Players: " + objects.length());
+                    for (int i = 0; i < objects.length(); i++) {
+                        final JSONObject object = objects.getJSONObject(i);
                         Gdx.app.postRunnable(new Runnable() {
                             @Override
                             public void run() {
                                 try {
-                                    liveEnemies.put(object.get("id").getAsString(), new Enemy(world, object.get("id").getAsString(), object.get("x").getAsInt(),
-                                            object.get("y").getAsInt(), collisionManager));
+                                    liveEnemies.put(object.getString("id"), new Enemy(world, object.getString("id"), object.getInt("x"),
+                                            object.getInt("y"), collisionManager));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -365,17 +370,17 @@ public class OnlinePlayState extends State {
         }).on("getStones", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                final JsonArray objects = (JsonArray) args[0];
+                final JSONArray objects = (JSONArray) args[0];
                 try {
-                    Gdx.app.log("SocketIO", "Get Stone: " + objects.size());
-                    for (int i = 0; i < objects.size(); i++) {
-                        final JsonObject object = objects.get(i).getAsJsonObject();
+                    Gdx.app.log("SocketIO", "Get Stone: " + objects.length());
+                    for (int i = 0; i < objects.length(); i++) {
+                        final JSONObject object = objects.getJSONObject(i);
                         Gdx.app.postRunnable(new Runnable() {
                             @Override
                             public void run() {
                                 try {
-                                    stones.put(object.get("id").getAsString(), new Stone(object.get("x").getAsInt(),
-                                            object.get("y").getAsInt(), collisionManager));
+                                    stones.put(object.getString("id"), new Stone(object.getInt("x"),
+                                            object.getInt("y"), collisionManager));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -620,6 +625,7 @@ public class OnlinePlayState extends State {
         for (int i = 0; i < walls.size(); i++) {
             sr.polygon(walls.get(i).getBoundsPolygon().getTransformedVertices());
         }
+        b2dr.render(world, cam.combined);
         sr.end();
     }
 
