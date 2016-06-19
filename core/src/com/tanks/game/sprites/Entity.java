@@ -3,7 +3,8 @@ package com.tanks.game.sprites;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.tanks.game.utils.CollisionManager;
+import com.badlogic.gdx.physics.box2d.Filter;
+import com.badlogic.gdx.physics.box2d.Fixture;
 
 /**
  * Created by ortalcohen on 03/06/2016.
@@ -11,6 +12,8 @@ import com.tanks.game.utils.CollisionManager;
 public abstract class Entity {
 
 //    private String id;
+
+    protected Fixture fixture;
 
     protected Sprite glowSprite;
 
@@ -46,4 +49,10 @@ public abstract class Entity {
     }
 
     abstract public void dispose();
+
+    public void setCategoryFilter(short filterBit){
+        Filter filter = new Filter();
+        filter.categoryBits = filterBit;
+        fixture.setFilterData(filter);
+    }
 }

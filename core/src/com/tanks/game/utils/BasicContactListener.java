@@ -5,10 +5,11 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.tanks.game.sprites.Bullet;
+import com.tanks.game.sprites.Tank;
 
 /**
  * Created by chovel on 18/06/2016.
- *
  */
 public class BasicContactListener implements ContactListener {
 
@@ -16,21 +17,42 @@ public class BasicContactListener implements ContactListener {
     public void beginContact(Contact contact) {
         Fixture fixtureA = contact.getFixtureA();
         Fixture fixtureB = contact.getFixtureB();
-        if (fixtureA == null || fixtureA.getUserData() == null || fixtureB == null || fixtureB.getUserData() == null) {
+        if (fixtureA == null || fixtureA.getUserData() == null || fixtureB == null
+                || fixtureB.getUserData() == null) {
             return;
         }
 
-        if (fixtureA.getUserData() instanceof Collisionable && fixtureB.getUserData() instanceof Collisionable) {
-            //temporarily keep collisionable behaviour
-            Collisionable collisionableA = (Collisionable) fixtureA.getUserData();
-            Collisionable collisionableB = (Collisionable) fixtureB.getUserData();
-            if (collisionableA.hasCollisionBehaviorWith(collisionableB.getType())) {
-                collisionableA.collideWith(collisionableB);
-            }
-            if (collisionableB.hasCollisionBehaviorWith(collisionableA.getType())) {
-                collisionableB.collideWith(collisionableA);
-            }
+        int cDef = fixtureA.getFilterData().categoryBits | fixtureB.getFilterData().categoryBits;
+
+        switch (cDef){
+            case Type.PLAYER_BULLET | Type.ENEMY:
+            case Type.PLAYER_BULLET | Type.AI_ENEMY:
+
+                if(fixtureA.getFilterData().categoryBits == Type.PLAYER_BULLET) {
+                    ((Bullet)fixtureA.getUserData()).hit();
+                    ((Tank)fixtureB.getUserData()).hit();
+
+                }else{
+                    ((Tank)fixtureA.getUserData()).hit();
+                    ((Bullet)fixtureB.getUserData()).hit();
+                }
+
+                break;
+
         }
+
+//        if (fixtureA.getUserData() instanceof Collisionable && fixtureB
+//                .getUserData() instanceof Collisionable) {
+//            //temporarily keep collisionable behaviour
+//            Collisionable collisionableA = (Collisionable) fixtureA.getUserData();
+//            Collisionable collisionableB = (Collisionable) fixtureB.getUserData();
+//            if (collisionableA.hasCollisionBehaviorWith(collisionableB.getType())) {
+//                collisionableA.collideWith(collisionableB);
+//            }
+//            if (collisionableB.hasCollisionBehaviorWith(collisionableA.getType())) {
+//                collisionableB.collideWith(collisionableA);
+//            }
+//        }
 
     }
 

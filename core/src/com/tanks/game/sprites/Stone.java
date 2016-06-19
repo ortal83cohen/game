@@ -1,18 +1,13 @@
 package com.tanks.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.tanks.game.utils.CollisionManager;
-import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.MathUtil;
-import com.tanks.game.utils.Type;
 
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Stone extends Entity implements Collisionable {
+public class Stone extends Entity {
 
     public float directionX;//tmp for enemies
 
@@ -27,9 +22,8 @@ public class Stone extends Entity implements Collisionable {
     protected float speed;
 
 
-    public Stone(int x, int y, CollisionManager collisionManager) {
+    public Stone(int x, int y) {
         super();
-        collisionManager.register(this);
 
         position = new Vector2(x, y);
         this.texture = new Texture("stone.png");
@@ -80,24 +74,5 @@ public class Stone extends Entity implements Collisionable {
         return speed;
     }
 
-//    @Override
-//    public Polygon getCollisionBounds() {
-//        return boundsPoly;
-//    }
-
-    @Override
-    public boolean hasCollisionBehaviorWith(Type type){
-        return false;
-    }
-
-    @Override
-    public Type getType() {
-        return Type.STONE;
-    }
-
-    @Override
-    public void collideWith(Collisionable collisionable) {
-
-    }
 
 }

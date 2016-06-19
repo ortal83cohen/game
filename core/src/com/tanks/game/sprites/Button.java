@@ -5,20 +5,17 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
-import com.tanks.game.utils.CollisionManager;
-import com.tanks.game.utils.Collisionable;
-import com.tanks.game.utils.Type;
+
 
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Button extends Entity implements Collisionable {
+public class Button extends Entity  {
 
     private Texture texture;
 
-    public Button(int x, int y, CollisionManager collisionManager) {
+    public Button(int x, int y) {
         super();
-//        this.collisionManager.register(this);
         position = new Vector2(x, y);
 
         texture = new Texture("button.png");
@@ -29,7 +26,6 @@ public class Button extends Entity implements Collisionable {
 
 
     public void update(float dt) {
-//        collisionManager.update(this);
         boundsPoly.setPosition(position.x, position.y);
         glowSprite.setPosition(getPosition().x, getPosition().y);
 
@@ -48,22 +44,6 @@ public class Button extends Entity implements Collisionable {
 
     public void dispose() {
         texture.dispose();
-//        collisionManager.unregister(this);
-    }
-
-    @Override
-    public boolean hasCollisionBehaviorWith(Type type) {
-        return false;
-    }
-
-    @Override
-    public Type getType() {
-        return Type.BUTTON;
-    }
-
-    @Override
-    public void collideWith(Collisionable collisionable) {
-
     }
 
 
