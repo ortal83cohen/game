@@ -6,19 +6,18 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.tanks.game.utils.CollisionManager;
-import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.Type;
 
 /**
  * Created by ortal on 6/15/2016.
  */
-public class Wall extends Entity implements Collisionable {
+public class Wall extends Entity {
 
-    private final Type type;
+    private final short type;
+
     private Body body;
 
-    public Wall(World world, Type type, Polygon polygon) {
+    public Wall(World world, short type, Polygon polygon) {
         this.type = type;
         this.boundsPoly = polygon;
         createBody(world, polygon.getX(), polygon.getY());
@@ -33,7 +32,8 @@ public class Wall extends Entity implements Collisionable {
         PolygonShape shape = new PolygonShape();
         //bounds poly not initialized yet!
 //        shape.set(boundsPoly.getVertices());
-        shape.setAsBox(boundsPoly.getBoundingRectangle().getWidth() * 0.5f , boundsPoly.getBoundingRectangle().getHeight() * 0.5f);
+        shape.setAsBox(boundsPoly.getBoundingRectangle().getWidth() * 0.5f,
+                boundsPoly.getBoundingRectangle().getHeight() * 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
@@ -43,20 +43,6 @@ public class Wall extends Entity implements Collisionable {
         shape.dispose();
     }
 
-    @Override
-    public boolean hasCollisionBehaviorWith(Type type) {
-        return true;
-    }
-
-    @Override
-    public Type getType() {
-        return type;
-    }
-
-    @Override
-    public void collideWith(Collisionable collisionable) {
-
-    }
 
     public void dispose() {
 

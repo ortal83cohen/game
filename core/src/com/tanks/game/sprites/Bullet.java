@@ -3,22 +3,20 @@ package com.tanks.game.sprites;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Pool;
-import com.tanks.game.utils.CollisionManager;
-import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.Type;
 
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Bullet extends Entity implements Pool.Poolable, Collisionable {
+public class Bullet extends Entity implements Pool.Poolable{
 
     private String ownerId;
 
@@ -42,12 +40,14 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     private Body body;
 
+
+
     public Bullet(World world, String ownerId, Texture texture, Sound fireSound) {
         super();
         position = new Vector2();
         this.ownerId = ownerId;
         this.texture = texture;
-
+this.world = world;
         glowSprite = new Sprite(texture);
         createBody(world, 0, 0);
         getSprite().scale(-0.8f);
@@ -72,27 +72,36 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
         PolygonShape shape = new PolygonShape();
         //bounds poly not initialized yet!
 //        shape.set(boundsPoly.getVertices());
-        shape.setAsBox(glowSprite.getWidth() * 0.5f , glowSprite.getHeight() * 0.5f);
+        shape.setAsBox(glowSprite.getWidth() * 0.5f, glowSprite.getHeight() * 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
 
         body = world.createBody(bodyDef);
-        body.setBullet(true);
-        body.createFixture(fixtureDef).setUserData(this);
+            body.setBullet(true);
+        fixture = body.createFixture(fixtureDef);
+        fixture.setUserData(this);
         shape.dispose();
 
         //linear damping to slow down when applying force
         body.setLinearDamping(4f);
     }
 
-    public void fire(String ownerId, int x, int y, float rotation, float directionX, float directionY) {
+    public void fire(String ownerId, int x, int y, float rotation, float directionX,
+            float directionY) {
 //        this.collisionManager.register(this);
         this.ownerId = ownerId;
         position.set(x, y);
         body.setTransform(x, y, rotation);
 
-        body.applyLinearImpulse(directionX*speed, directionY*speed, body.getWorldCenter().x, body.getWorldCenter().y, true);
+        body.applyLinearImpulse(directionX * speed, directionY * speed, body.getWorldCenter().x,
+                body.getWorldCenter().y, true);
+
+        if (ownerId == "Player") {
+            setCategoryFilter( Type.PLAYER_BULLET);
+        }else {
+            setCategoryFilter( Type.ENEMY_BULLET);
+        }
 
         this.directionX = directionX;
         this.directionY = directionY;
@@ -119,6 +128,7 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     public void dispose() {
 //        collisionManager.unregister(this);
+//        world.destroyBody(body);
         body.setAwake(false);
     }
 
@@ -173,29 +183,8 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
         return result;
     }
 
-    @Override
-    public boolean hasCollisionBehaviorWith(Type type) {
-        if (ownerId == "Player") {
-            return type == Type.ENEMY || type == Type.SMART_PLAYER || type == Type.ENEMY_BULLET|| type == Type.STONE;
-        } else {
-            return false;//type == Type.ENEMY || type == Type.PLAYER || type == Type.SMART_PLAYER ||  type == Type.PLAYER_BULLET;
-        }
-    }
-
-    @Override
-    public Type getType() {
-        if (ownerId == "Player") {
-            return Type.PLAYER_BULLET;
-        } else {
-            return Type.ENEMY_BULLET;
-        }
-
-    }
-
-    @Override
-    public void collideWith(Collisionable collisionable) {
+    public void hit() {
         dispose();
         alive = false;
     }
-
 }
