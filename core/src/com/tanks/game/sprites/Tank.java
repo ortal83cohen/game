@@ -55,8 +55,7 @@ public class Tank extends Entity {
         bodyDef.fixedRotation = false;
 
         PolygonShape shape = new PolygonShape();
-        //bounds poly not initialized yet!
-//        shape.set(boundsPoly.getVertices());
+
         shape.setAsBox(glowSprite.getWidth() * 0.5f, glowSprite.getHeight() * 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;

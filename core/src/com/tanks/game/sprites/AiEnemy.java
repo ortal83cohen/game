@@ -34,7 +34,7 @@ public class AiEnemy extends Tank {
 
     @Override
     public boolean update(float dt) {
-//        collisionManager.update(this);
+
         super.update(dt);
 
         return alive;

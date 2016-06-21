@@ -29,8 +29,7 @@ public class Wall extends Entity {
         bodyDef.fixedRotation = false;
 
         PolygonShape shape = new PolygonShape();
-        //bounds poly not initialized yet!
-//        shape.set(boundsPoly.getVertices());
+
         shape.setAsBox( x * 0.5f,
                 y * 0.5f);
         FixtureDef fixtureDef = new FixtureDef();

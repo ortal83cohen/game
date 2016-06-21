@@ -30,13 +30,7 @@ public class Player extends Tank {
             speed = speed - dt * 20;
         }
         super.update(dt);
-//        collisionManager.checkCollision(this);
 
-//        Collisionable collision = collisionManager.checkCollision(this);
-//        if (collision != null) {
-//            dispose();
-//            return false;
-//        }
         return true;
     }
 

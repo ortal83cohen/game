@@ -654,30 +654,6 @@ public class OnlinePlayState extends State {
                 new Polygon(new float[]{GAME_WIDTH, 0, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH + 1,
                         GAME_HEIGHT, GAME_WIDTH + 1, 0})));
 
-//
-//        walls = new ArrayList<Wall>();
-//        walls.add(new Wall(collisionManager, Type.TOP_WALL,
-//                new Polygon(new float[]{0, GAME_HEIGHT, GAME_WIDTH, GAME_WIDTH, 0, GAME_HEIGHT + 1, GAME_WIDTH, GAME_WIDTH + 1})));
-//        walls.add(new Wall(collisionManager, Type.BOTTOM_WALL, new Polygon(new float[]{0, 0, GAME_WIDTH, 0, -1, 0, GAME_WIDTH - 1, 0})));
-//        walls.add(new Wall(collisionManager, Type.LEFT_WALL, new Polygon(new float[]{0, 0, 0, GAME_HEIGHT, -1, GAME_HEIGHT, -1, 0})));
-//        walls.add(new Wall(collisionManager, Type.RIGHT_WALL,
-//                new Polygon(new float[]{GAME_WIDTH, 0, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH + 1, GAME_HEIGHT, GAME_WIDTH + 1, 0})));
-
-//        collisionManager.AddCallback(Type.ENEMY_BULLET, new CollisionManager.CollisionManagerCallBack() {
-//            @Override
-//            public void collide(Collisionable c1, Collisionable c2) {
-//                switch (c2.getType()) {
-//                    case PLAYER:
-//
-//                        break;
-//                    case ENEMY:
-//
-//                        break;
-//                    default:
-//                        Gdx.app.log("collide", "collide unknown " + c2.getType());
-//                }
-//            }
-//        });
     }
 
 }

@@ -44,11 +44,8 @@ public class Stone extends Entity {
 //        position.x = position.x + (directionX * dt * speed);
 //        position.y = position.y + (directionY * dt * speed);
 //        float rotation = (float) MathUtil.getAngle(directionX, directionY);
-//        boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
 //        glowSprite.setRotation(rotation);
-//        collisionManager.update(this);
-//        collisionManager.checkCollision(this);
         return true;
     }
 
@@ -65,7 +62,6 @@ public class Stone extends Entity {
     public void dispose() {
         alive = false;
         texture.dispose();
-//        collisionManager.unregister(this);
     }
 
     public float getSpeed() {

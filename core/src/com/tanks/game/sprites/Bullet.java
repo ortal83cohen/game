@@ -68,8 +68,7 @@ this.world = world;
         bodyDef.fixedRotation = false;
 
         PolygonShape shape = new PolygonShape();
-        //bounds poly not initialized yet!
-//        shape.set(boundsPoly.getVertices());
+
         shape.setAsBox(glowSprite.getWidth() * 0.5f, glowSprite.getHeight() * 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
@@ -87,7 +86,7 @@ this.world = world;
 
     public void fire(String ownerId, int x, int y, float rotation, float directionX,
             float directionY) {
-//        this.collisionManager.register(this);
+
         this.ownerId = ownerId;
         position.set(x, y);
         body.setTransform(x, y, rotation);
@@ -123,7 +122,6 @@ this.world = world;
     }
 
     public void dispose() {
-//        collisionManager.unregister(this);
 //        world.destroyBody(body);
         body.setAwake(false);
     }
