@@ -43,12 +43,12 @@ public class Tank extends Entity {
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
         setPolygon();
         position = new Vector2(x, y);
-        createBody(world, x, y,type);
+        createBody(world, x, y, type);
 
 
     }
 
-    private void createBody(World world, int x, int y,short type) {
+    private void createBody(World world, int x, int y, short type) {
         this.world = world;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -62,7 +62,7 @@ public class Tank extends Entity {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
-        fixtureDef.filter.categoryBits =type;
+        fixtureDef.filter.categoryBits = type;
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef).setUserData(this);
         shape.dispose();
@@ -82,7 +82,7 @@ public class Tank extends Entity {
         birdAnimation.update(dt);//animation example
         boundsPoly.setPosition(position.x, position.y);
         boundsPoly.setRotation(rotation);
-        glowSprite.setPosition(getPosition().x, getPosition().y);
+        glowSprite.setPosition(getPosition().x - glowSprite.getWidth()/2, getPosition().y- glowSprite.getHeight()/2);
         glowSprite.setRotation(rotation);
 
         return true;
@@ -111,9 +111,11 @@ public class Tank extends Entity {
 //
 //    }
 
-    public void hit() {
+    public void hit(int damage) {
+        resistant = resistant - damage;
+        if (resistant <= 0) {
             dispose();
             alive = false;
-
+        }
     }
 }

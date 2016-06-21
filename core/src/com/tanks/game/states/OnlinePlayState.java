@@ -71,7 +71,7 @@ public class OnlinePlayState extends State {
 
     Map<String, Enemy> liveEnemies;
 
-    List<Tank> enemies = new ArrayList<Tank>();
+    List<Tank> aiEnemies = new ArrayList<Tank>();
 
     BulletPool bulletPool;
 
@@ -142,7 +142,7 @@ public class OnlinePlayState extends State {
 
         if (addSmartPlayers) {
             for (int i = 0; i < 10; i++) {
-                enemies.add(i, new AiEnemy(world, "Enemy_" + i, (int) (Math.random() * GAME_WIDTH),
+                aiEnemies.add(i, new AiEnemy(world, "Enemy_" + i, (int) (Math.random() * GAME_WIDTH),
                         (int) (Math.random() * GAME_HEIGHT)));
             }
         }
@@ -494,10 +494,10 @@ public class OnlinePlayState extends State {
             }
         }
 
-        for (int i = 0; i < enemies.size(); i++) {
-            Tank enemy = enemies.get(i);
+        for (int i = 0; i < aiEnemies.size(); i++) {
+            Tank enemy = aiEnemies.get(i);
             if (!enemy.update(dt)) {
-                enemies.remove(i);
+                aiEnemies.remove(i);
             }
         }
 
@@ -575,13 +575,13 @@ public class OnlinePlayState extends State {
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).getSprite().draw(sb);
         }
-        for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).getSprite().draw(sb);
+        for (int i = 0; i < aiEnemies.size(); i++) {
+            aiEnemies.get(i).getSprite().draw(sb);
         }
         for (Map.Entry<String, Stone> entry : stones.entrySet()) {
             entry.getValue().getSprite().draw(sb);
         }
-
+        b2dr.render(world, cam.combined);
 //        font.draw(sb, String.valueOf(player.getSprite().getRotation()), player.getPosition().x - 10,
 //                player.getPosition().y - 10);
 //        font.draw(sb, String.valueOf(Gdx.input.getX() - ANDROID_WIDTH / 2), cam.position.x,
@@ -596,38 +596,46 @@ public class OnlinePlayState extends State {
         font.draw(sb, "liveEnemies " + liveEnemies.size(), cam.position.x - 35,
                 cam.position.y - 170);
         font.draw(sb, "my id  " + myId, cam.position.x - 115, cam.position.y - 185);
-        b2dr.render(world, cam.combined);
+
         sb.end();
     }
 
     @Override
     public void render(ShapeRenderer sr) {
-//        sr.setProjectionMatrix(cam.combined);
-//        sr.setAutoShapeType(true);
-//        sr.begin();
-//        sr.setColor(Color.BLACK);
-//        for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
-//            sr.polygon(entry.getValue().getBoundsPolygon().getTransformedVertices());
-//        }
-//        for (Map.Entry<String, Stone> entry : stones.entrySet()) {
-//            sr.polygon(entry.getValue().getBoundsPolygon().getTransformedVertices());
-//        }
-//        for (int i = 0; i < bullets.size(); i++) {
-//            sr.polygon(bullets.get(i).getBoundsPolygon().getTransformedVertices());
-//        }
-//        sr.polygon(mButton.getBoundsPolygon().getTransformedVertices());
-//        if (player != null) {
-//            sr.polygon(player.getBoundsPolygon().getTransformedVertices());
-//        }
-//        for (int i = 0; i < enemies.size(); i++) {
-//            sr.polygon(enemies.get(i).getBoundsPolygon().getTransformedVertices());
-//        }
-//        sr.setColor(Color.GREEN);
-//        for (int i = 0; i < walls.size(); i++) {
-//            sr.polygon(walls.get(i).getBoundsPolygon().getTransformedVertices());
-//        }
-//        b2dr.render(world, cam.combined);
-//        sr.end();
+        sr.setProjectionMatrix(cam.combined);
+        sr.setAutoShapeType(true);
+        sr.begin();
+        sr.setColor(Color.BLACK);
+        if (player != null) {
+            sr.circle(player.getPosition().x,player.getPosition().y,player.resistant/10);
+        }
+
+        for (int i = 0; i < aiEnemies.size(); i++) {
+            sr.circle( aiEnemies.get(i).getPosition().x, aiEnemies.get(i).getPosition().y, aiEnemies.get(i).resistant/10);
+        }
+
+        for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
+            sr.polygon(entry.getValue().getBoundsPolygon().getTransformedVertices());
+        }
+        for (Map.Entry<String, Stone> entry : stones.entrySet()) {
+            sr.polygon(entry.getValue().getBoundsPolygon().getTransformedVertices());
+        }
+        for (int i = 0; i < bullets.size(); i++) {
+            sr.polygon(bullets.get(i).getBoundsPolygon().getTransformedVertices());
+        }
+        sr.polygon(mButton.getBoundsPolygon().getTransformedVertices());
+        if (player != null) {
+            sr.polygon(player.getBoundsPolygon().getTransformedVertices());
+        }
+        for (int i = 0; i < aiEnemies.size(); i++) {
+            sr.polygon(aiEnemies.get(i).getBoundsPolygon().getTransformedVertices());
+        }
+        sr.setColor(Color.GREEN);
+        for (int i = 0; i < walls.size(); i++) {
+            sr.polygon(walls.get(i).getBoundsPolygon().getTransformedVertices());
+        }
+
+        sr.end();
     }
 
     @Override
@@ -641,8 +649,8 @@ public class OnlinePlayState extends State {
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
             entry.getValue().dispose();
         }
-        for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).dispose();
+        for (int i = 0; i < aiEnemies.size(); i++) {
+            aiEnemies.get(i).dispose();
         }
         for (int i = 0; i < stones.size(); i++) {
             stones.get(i).dispose();

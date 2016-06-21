@@ -187,4 +187,8 @@ this.world = world;
         dispose();
         alive = false;
     }
+
+    public int getDamaging(){
+        return 10;
+    }
 }

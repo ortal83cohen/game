@@ -26,6 +26,8 @@ public abstract class Entity {
 
     public World world;
 
+    public int resistant = 100;
+
 
     public void setPolygon() {
         boundsPoly = new Polygon(new float[]{
@@ -57,5 +59,9 @@ public abstract class Entity {
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
         fixture.setFilterData(filter);
+    }
+
+    public int getResistant() {
+        return resistant;
     }
 }
