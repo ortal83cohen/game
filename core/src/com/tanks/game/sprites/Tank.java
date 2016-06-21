@@ -3,15 +3,26 @@ package com.tanks.game.sprites;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
+import com.tanks.game.utils.Assets;
 import com.tanks.game.utils.CollisionManager;
 import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.MathUtil;
 import com.tanks.game.utils.Type;
 
 /**
- * Created by Brent on 7/5/2015.
+ *
  */
 public class Tank extends Entity implements Collisionable {
+
+    private final String id;
+    protected final String textureFileName;
+    protected final Texture texture;
 
     public float directionX;//tmp for enemies
 
@@ -23,23 +34,54 @@ public class Tank extends Entity implements Collisionable {
 
     protected Animation birdAnimation;
 
-    protected Texture texture;
-
     protected float speed;
 
     protected Type type;
 
-    public Tank(int x, int y, Type type, CollisionManager collisionManager) {
-        super(collisionManager);
-        this.collisionManager.register(this);
+    protected Body body;
+
+    public Tank(World world, String id, String textureFileName, int x, int y, Type type, CollisionManager collisionManager) {
+//        super(id, collisionManager);
+        super();
+        this.id = id;
+        this.textureFileName = textureFileName;
+        texture = Assets.getInstance().getManager().get(textureFileName);
+        glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
+        setPolygon();
+//        this.collisionManager.register(this);
         this.type = type;
         position = new Vector2(x, y);
+        createBody(world, x, y);
+    }
+
+    private void createBody(World world, int x, int y) {
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(x, y);
+        bodyDef.fixedRotation = false;
+
+        PolygonShape shape = new PolygonShape();
+        //bounds poly not initialized yet!
+//        shape.set(boundsPoly.getVertices());
+        shape.setAsBox(glowSprite.getWidth() * 0.5f , glowSprite.getHeight() * 0.5f);
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 1f;
+
+        body = world.createBody(bodyDef);
+        body.createFixture(fixtureDef).setUserData(this);
+        shape.dispose();
+
+        //linear damping to slow down when applying force
+        body.setLinearDamping(4f);
     }
 
     public boolean update(float dt) {
 
-        position.x = position.x + (directionX * dt * speed);
-        position.y = position.y + (directionY * dt * speed);
+        position.x = body.getPosition().x;
+        position.y = body.getPosition().y;
+//        position.x = position.x + (directionX * dt * speed);
+//        position.y = position.y + (directionY * dt * speed);
 //        Gdx.app.log("SocketIO", "playerUpdate x" + position.x + " y" + position.y);
         float rotation = (float) MathUtil.getAngle(directionX, directionY);
         birdAnimation.update(dt);//animation example
@@ -63,8 +105,7 @@ public class Tank extends Entity implements Collisionable {
 
     public void dispose() {
         alive = false;
-        texture.dispose();
-        collisionManager.unregister(this);
+//        collisionManager.unregister(this);
     }
 
     public float getSpeed() {
@@ -72,12 +113,7 @@ public class Tank extends Entity implements Collisionable {
     }
 
     @Override
-    public Polygon getCollisionBounds() {
-        return boundsPoly;
-    }
-
-    @Override
-    public boolean intersects(Type type) {
+    public boolean hasCollisionBehaviorWith(Type type) {
         return type.equals(Type.TOP_WALL) || type.equals(Type.RIGHT_WALL) || type.equals(Type.LEFT_WALL) || type.equals(Type.BOTTOM_WALL);
     }
 

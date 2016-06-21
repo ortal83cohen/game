@@ -11,28 +11,31 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Box2D;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Timer;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.Bullet;
 import com.tanks.game.sprites.Button;
 import com.tanks.game.sprites.Enemy;
 import com.tanks.game.sprites.Player;
-import com.tanks.game.sprites.SmartPlayer;
+import com.tanks.game.sprites.AiEnemy;
 import com.tanks.game.sprites.Stone;
 import com.tanks.game.sprites.Tank;
 import com.tanks.game.sprites.Wall;
+import com.tanks.game.utils.Assets;
+import com.tanks.game.utils.BasicContactListener;
 import com.tanks.game.utils.BulletPool;
 import com.tanks.game.utils.CollisionManager;
 import com.tanks.game.utils.NaiveCollisionManager;
 import com.tanks.game.utils.Type;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +47,9 @@ import io.socket.emitter.Emitter;
  * Created by Brent on 7/5/2015.
  */
 public class OnlinePlayState extends State {
+
+    public static final List<String> textureFiles = Arrays.asList("tank.png", "tank2.png", "bullet.png");
+    private World world;
 
     private static final float UPDATE_TIME = 1 / 30f;
 
@@ -63,11 +69,11 @@ public class OnlinePlayState extends State {
 
     int ANDROID_HEIGHT = Gdx.graphics.getHeight();
 
-    HashMap<String, Enemy> liveEnemies;
+    Map<String, Enemy> liveEnemies;
 
-    ArrayList<Tank> enemies = new ArrayList<Tank>();
+    List<Tank> enemies = new ArrayList<Tank>();
 
-    private HashMap<String, Stone> stones;
+    private Map<String, Stone> stones;
 
     BulletPool bulletPool;
 
@@ -99,10 +105,16 @@ public class OnlinePlayState extends State {
 
     private float connectionDelay = 0;
 
-    private ArrayList<Wall> walls;
+    private List<Wall> walls;
 
     public OnlinePlayState(GameStateManager gsm, boolean addSmartPlayers) {
         super(gsm);
+
+        loadAssets();
+        Box2D.init();
+        world = new World(new Vector2(0f,0f), true);
+        world.setContactListener(new BasicContactListener());
+
         configCollisionManager();
         connectSocket();
         configSocketEvents();
@@ -118,18 +130,18 @@ public class OnlinePlayState extends State {
         bg.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         bgTextureRegion = new TextureRegion(bg);
         bgTextureRegion.setRegion(0, 0, GAME_WIDTH, GAME_HEIGHT);
-        bulletTexture = new Texture("bullet.png");
-        bulletPool = new BulletPool(bulletTexture,
+        bulletTexture = Assets.getInstance().getManager().get("bullet.png");
+        bulletPool = new BulletPool(world, bulletTexture,
                 Gdx.audio.newSound(Gdx.files.internal("sfx_wing.ogg")), collisionManager);
 
         persistent = new com.tanks.game.utils.Persistent();
 
-        player = new Player((int) (Math.random() * GAME_WIDTH),
+        player = new Player(world, "Player", (int) (Math.random() * GAME_WIDTH),
                 (int) (Math.random() * GAME_HEIGHT), collisionManager);
 
         if (addSmartPlayers) {
             for (int i = 0; i < 10; i++) {
-                enemies.add(i, new SmartPlayer((int) (Math.random() * GAME_WIDTH),
+                enemies.add(i, new AiEnemy(world, "Enemy_" + i, (int) (Math.random() * GAME_WIDTH),
                         (int) (Math.random() * GAME_HEIGHT), collisionManager));
             }
         }
@@ -138,18 +150,26 @@ public class OnlinePlayState extends State {
                 Texture.TextureFilter.Linear);
     }
 
+    private void loadAssets() {
+        Assets.getInstance().loadSingleTypeAssetList(
+                textureFiles,
+                Texture.class
+        );
+        Assets.getInstance().getManager().finishLoading();
+    }
+
     public void playerMoved(float dt) {
         if (updateTimeLoopTimer >= UPDATE_TIME && player != null && player.hasMoved()) {
             updateTimeLoopTimer = 0;
-            JSONObject data = new JSONObject();
+            JsonObject data = new JsonObject();
             try {
-                data.put("x", player.getPosition().x);
-                data.put("y", player.getPosition().y);
-                data.put("dx", player.directionX);
-                data.put("dy", player.directionY);
-                data.put("s", player.getSpeed());
+                data.addProperty("x", player.getPosition().x);
+                data.addProperty("y", player.getPosition().y);
+                data.addProperty("dx", player.directionX);
+                data.addProperty("dy", player.directionY);
+                data.addProperty("s", player.getSpeed());
                 socket.emit("playerMoved", data);
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 Gdx.app.log("SocketIO", "Error sending update data");
             }
         }
@@ -176,12 +196,12 @@ public class OnlinePlayState extends State {
                     @Override
                     public void run() {
 
-                        JSONObject data = new JSONObject();
+                        JsonObject data = new JsonObject();
                         try {
-                            data.put("x", player.getPosition().x);
-                            data.put("y", player.getPosition().y);
+                            data.addProperty("x", player.getPosition().x);
+                            data.addProperty("y", player.getPosition().y);
                             socket.emit("newPlayer", data);
-                        } catch (JSONException e) {
+                        } catch (Exception e) {
                             Gdx.app.log("SocketIO", "Error sending update data");
                         }
                     }
@@ -192,28 +212,28 @@ public class OnlinePlayState extends State {
         }).on("socketID", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
+                JsonObject data = (JsonObject) args[0];
                 try {
 
-                    myId = data.getString("id");
+                    myId = data.get("id").getAsString();
                     Gdx.app.log("SocketIO", "My ID: " + myId);
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Gdx.app.log("SocketIO", "Error getting ID");
                 }
             }
         }).on("newPlayer", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                final JSONObject data = (JSONObject) args[0];
+                final JsonObject data = (JsonObject) args[0];
                 try {
-                    final String id = data.getString("id");
+                    final String id = data.get("id").getAsString();
                     Gdx.app.log("SocketIO", "New Player Connect: " + id);
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
                         public void run() {
                             try {
-                                liveEnemies.put(id, new Enemy(data.getInt("x"), data.getInt("y"), collisionManager));
-                            } catch (JSONException e) {
+                                liveEnemies.put(id, new Enemy(world, id, data.get("x").getAsInt(), data.get("y").getAsInt(), collisionManager));
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
@@ -222,28 +242,28 @@ public class OnlinePlayState extends State {
                     if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Vibrator)) {
                         Gdx.input.vibrate(new long[]{0, 2, 10, 2, 10, 2}, -1);
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Gdx.app.log("SocketIO", "Error getting New PlayerID");
                 }
             }
         }).on("playerDisconnected", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
+                JsonObject data = (JsonObject) args[0];
                 try {
-                    String id = data.getString("id");
+                    String id = data.get("id").getAsString();
                     liveEnemies.remove(id);
                     Gdx.app.log("SocketIO", "player Disconnected: " + id);
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
                 }
             }
         }).on("playerHit", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
+                JsonObject data = (JsonObject) args[0];
                 try {
-                    String id = data.getString("id");
+                    String id = data.get("id").getAsString();
                     if (id.equals(myId)) {
                         HashMap map = new HashMap();
                         map.put("killed1", persistent.LoadInt("killed1") + 1);
@@ -259,32 +279,32 @@ public class OnlinePlayState extends State {
                     } else {
                         liveEnemies.remove(id);
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Gdx.app.log("SocketIO", "Error PlayerHit");
                 }
             }
         }).on("playerMoved", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
+                JsonObject data = (JsonObject) args[0];
                 try {
                     if (lastUpdate == timer) {
                         Gdx.app.log("SocketIO", "SKIPED " + (skipCounter++) + " at " + timer);
 //                        return;
                     }
                     lastUpdate = timer;
-                    String enemyId = data.getString("id");
-                    double x = data.getDouble("x");
-                    double y = data.getDouble("y");
-                    float dx = (float) data.getDouble("dx");
-                    float dy = (float) data.getDouble("dy");
-                    float s = (float) data.getDouble("s");
+                    String enemyId = data.get("id").getAsString();
+                    double x = data.get("x").getAsDouble();
+                    double y = data.get("y").getAsDouble();
+                    float dx = (float) data.get("dx").getAsDouble();
+                    float dy = (float) data.get("dy").getAsDouble();
+                    float s = (float) data.get("s").getAsDouble();
                     if (liveEnemies.containsKey(enemyId)) {
                         liveEnemies.get(enemyId).setPosition(new Vector2((float) x, (float) y));
                         liveEnemies.get(enemyId).move(dx, dy, s - 0.5f);
                         Gdx.app.log("SocketIO", "playerMoved x" + x + " y" + y + " s" + s);
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
                 }
             }
@@ -292,14 +312,14 @@ public class OnlinePlayState extends State {
             @Override
             public void call(Object... args) {
 
-                final JSONObject data = (JSONObject) args[0];
+                final JsonObject data = (JsonObject) args[0];
                 try {
-                    final String enemyId = data.getString("id");
-                    final int x = data.getInt("x");
-                    final int y = data.getInt("y");
-                    final double rotation = data.getDouble("rotation");
-                    final float directionX = (float) data.getDouble("directionX");
-                    final float directionY = (float) data.getDouble("directionY");
+                    final String enemyId = data.get("id").getAsString();
+                    final int x = data.get("x").getAsInt();
+                    final int y = data.get("y").getAsInt();
+                    final double rotation = data.get("rotation").getAsDouble();
+                    final float directionX = (float) data.get("directionX").getAsDouble();
+                    final float directionY = (float) data.get("directionY").getAsDouble();
 
                     Gdx.app.postRunnable(new Runnable() {
                         @Override
@@ -309,26 +329,26 @@ public class OnlinePlayState extends State {
                             bullets.add(bullet);
                         }
                     });
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Gdx.app.log("SocketIO", "Error playerShoot");
                 }
             }
         }).on("getPlayers", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                final JSONArray objects = (JSONArray) args[0];
+                final JsonArray objects = (JsonArray) args[0];
 
                 try {
-                    Gdx.app.log("SocketIO", "Get Players: " + objects.length());
-                    for (int i = 0; i < objects.length(); i++) {
-                        final JSONObject object = objects.getJSONObject(i);
+                    Gdx.app.log("SocketIO", "Get Players: " + objects.size());
+                    for (int i = 0; i < objects.size(); i++) {
+                        final JsonObject object = objects.get(i).getAsJsonObject();
                         Gdx.app.postRunnable(new Runnable() {
                             @Override
                             public void run() {
                                 try {
-                                    liveEnemies.put(object.getString("id"), new Enemy(object.getInt("x"),
-                                            object.getInt("y"), collisionManager));
-                                } catch (JSONException e) {
+                                    liveEnemies.put(object.get("id").getAsString(), new Enemy(world, object.get("id").getAsString(), object.get("x").getAsInt(),
+                                            object.get("y").getAsInt(), collisionManager));
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
@@ -338,43 +358,43 @@ public class OnlinePlayState extends State {
                     if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Vibrator)) {
                         Gdx.input.vibrate(new long[]{0, 2, 10, 2, 10, 2}, -1);
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Gdx.app.log("SocketIO", "Error Get Players");
                 }
             }
         }).on("getStones", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                final JSONArray objects = (JSONArray) args[0];
+                final JsonArray objects = (JsonArray) args[0];
                 try {
-                    Gdx.app.log("SocketIO", "Get Stone: " + objects.length());
-                    for (int i = 0; i < objects.length(); i++) {
-                        final JSONObject object = objects.getJSONObject(i);
+                    Gdx.app.log("SocketIO", "Get Stone: " + objects.size());
+                    for (int i = 0; i < objects.size(); i++) {
+                        final JsonObject object = objects.get(i).getAsJsonObject();
                         Gdx.app.postRunnable(new Runnable() {
                             @Override
                             public void run() {
                                 try {
-                                    stones.put(object.getString("id"), new Stone(object.getInt("x"),
-                                            object.getInt("y"), collisionManager));
-                                } catch (JSONException e) {
+                                    stones.put(object.get("id").getAsString(), new Stone(object.get("x").getAsInt(),
+                                            object.get("y").getAsInt(), collisionManager));
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }
                         });
                     }
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Gdx.app.log("SocketIO", "Error Get Players");
                 }
             }
         }).on("connectionTest", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                JSONObject data = (JSONObject) args[0];
+                JsonObject data = (JsonObject) args[0];
                 try {
-                    float t = (float) data.getDouble("t");
+                    float t = (float) data.get("t").getAsDouble();
                     connectionDelay = (connectionDelay + (timer - t)) / 2;
                     Gdx.app.log("SocketIO", "connectionDelay - " + connectionDelay);
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Gdx.app.log("SocketIO", "Error Get connectionTest");
                 }
             }
@@ -393,6 +413,7 @@ public class OnlinePlayState extends State {
                 @Override
                 public void run() {
                     player.move(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
+//                    player.move(x, y);
                 }
             }, connectionDelay);
         }
@@ -424,6 +445,8 @@ public class OnlinePlayState extends State {
 
     @Override
     public void update(float dt) {
+        int velocityIterations = 6;
+        int positionIterations = 2;
         updateTimeLoopTimer += dt;
         timer += dt;
         if (player != null) {
@@ -431,17 +454,18 @@ public class OnlinePlayState extends State {
             player.update(dt);
             playerMoved(dt);
         }
+        world.step(dt, velocityIterations, positionIterations);
 
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
             if (!entry.getValue().update(dt)) {
-                JSONObject data = new JSONObject();
+                JsonObject data = new JsonObject();
                 try {
-                    data.put("id", entry.getKey());
+                    data.addProperty("id", entry.getKey());
                     socket.emit("playerHit", data);
                     HashMap map = new HashMap();
                     map.put("kill1", persistent.LoadInt("kill1") + 1);
                     persistent.saveInt(map);
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Gdx.app.log("SocketIO", "Error sending playerHit data");
                 }
                 entry.getValue().dispose();
@@ -491,9 +515,9 @@ public class OnlinePlayState extends State {
 
         if (lastConnectionSpeed + 3 < timer && player != null && player.hasMoved()) {
             lastConnectionSpeed = timer;
-            JSONObject data = new JSONObject();
+            JsonObject data = new JsonObject();
             try {
-                data.put("t", timer);
+                data.addProperty("t", timer);
                 socket.emit("connectionTest", data);
             } catch (Exception e) {
                 Gdx.app.log("SocketIO", "Error sending connectionTest data");
@@ -511,15 +535,15 @@ public class OnlinePlayState extends State {
                         player.getRotation(), directionX, directionY);
                 bullets.add(bullet);
 
-                JSONObject data = new JSONObject();
+                JsonObject data = new JsonObject();
                 try {
-                    data.put("x", x);
-                    data.put("y", y);
-                    data.put("rotation", rotation);
-                    data.put("directionX", directionX);
-                    data.put("directionY", directionY);
+                    data.addProperty("x", x);
+                    data.addProperty("y", y);
+                    data.addProperty("rotation", rotation);
+                    data.addProperty("directionX", directionX);
+                    data.addProperty("directionY", directionY);
                     socket.emit("playerShoot", data);
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     Gdx.app.log("SocketIO", "Error sending update data");
                 }
             }
@@ -528,6 +552,9 @@ public class OnlinePlayState extends State {
 
     @Override
     public void render(SpriteBatch sb) {
+
+        //load all assets in queue
+        Assets.getInstance().getManager().update();
 
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
@@ -614,18 +641,31 @@ public class OnlinePlayState extends State {
             stones.get(i).dispose();
         }
         bulletPool.dispose();
+        for (String textureFile : textureFiles) {
+            Assets.getInstance().getManager().unload(textureFile);
+        }
     }
 
 
     private void configCollisionManager() {
         collisionManager = new NaiveCollisionManager();
+
         walls = new ArrayList<Wall>();
-        walls.add(new Wall(collisionManager, Type.TOP_WALL,
+        walls.add(new Wall(world, Type.TOP_WALL,
                 new Polygon(new float[]{0, GAME_HEIGHT, GAME_WIDTH, GAME_WIDTH, 0, GAME_HEIGHT + 1, GAME_WIDTH, GAME_WIDTH + 1})));
-        walls.add(new Wall(collisionManager, Type.BOTTOM_WALL, new Polygon(new float[]{0, 0, GAME_WIDTH, 0, -1, 0, GAME_WIDTH - 1, 0})));
-        walls.add(new Wall(collisionManager, Type.LEFT_WALL, new Polygon(new float[]{0, 0, 0, GAME_HEIGHT, -1, GAME_HEIGHT, -1, 0})));
-        walls.add(new Wall(collisionManager, Type.RIGHT_WALL,
+        walls.add(new Wall(world, Type.BOTTOM_WALL, new Polygon(new float[]{0, 0, GAME_WIDTH, 0, -1, 0, GAME_WIDTH - 1, 0})));
+        walls.add(new Wall(world, Type.LEFT_WALL, new Polygon(new float[]{0, 0, 0, GAME_HEIGHT, -1, GAME_HEIGHT, -1, 0})));
+        walls.add(new Wall(world, Type.RIGHT_WALL,
                 new Polygon(new float[]{GAME_WIDTH, 0, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH + 1, GAME_HEIGHT, GAME_WIDTH + 1, 0})));
+
+//
+//        walls = new ArrayList<Wall>();
+//        walls.add(new Wall(collisionManager, Type.TOP_WALL,
+//                new Polygon(new float[]{0, GAME_HEIGHT, GAME_WIDTH, GAME_WIDTH, 0, GAME_HEIGHT + 1, GAME_WIDTH, GAME_WIDTH + 1})));
+//        walls.add(new Wall(collisionManager, Type.BOTTOM_WALL, new Polygon(new float[]{0, 0, GAME_WIDTH, 0, -1, 0, GAME_WIDTH - 1, 0})));
+//        walls.add(new Wall(collisionManager, Type.LEFT_WALL, new Polygon(new float[]{0, 0, 0, GAME_HEIGHT, -1, GAME_HEIGHT, -1, 0})));
+//        walls.add(new Wall(collisionManager, Type.RIGHT_WALL,
+//                new Polygon(new float[]{GAME_WIDTH, 0, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH + 1, GAME_HEIGHT, GAME_WIDTH + 1, 0})));
 
 //        collisionManager.AddCallback(Type.ENEMY_BULLET, new CollisionManager.CollisionManagerCallBack() {
 //            @Override

@@ -1,8 +1,8 @@
 package com.tanks.game.sprites;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.tanks.game.utils.CollisionManager;
 import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.Type;
@@ -12,13 +12,9 @@ import com.tanks.game.utils.Type;
  */
 public class Enemy extends Tank {
 
-    public Enemy(int x, int y, CollisionManager collisionManager) {
-        super(x, y, Type.ENEMY, collisionManager);
-
-        texture = new Texture("tank.png");
-
+    public Enemy(World world, String id, int x, int y, CollisionManager collisionManager) {
+        super(world, id, "tank.png", x, y, Type.ENEMY, collisionManager);
         position = new Vector2(x, y);
-        glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
         setPolygon();
         boundsPoly.scale(-0.5f);
         getSprite().scale(-0.5f);
@@ -31,7 +27,7 @@ public class Enemy extends Tank {
 
     public boolean update(float dt) {
         super.update(dt);
-        collisionManager.checkCollision(this);
+//        collisionManager.checkCollision(this);
 
         return alive;
     }
@@ -48,8 +44,8 @@ public class Enemy extends Tank {
     }
 
     @Override
-    public boolean intersects(Type type) {
-        return super.intersects(type) || type.equals(Type.PLAYER) || type.equals(Type.PLAYER_BULLET);
+    public boolean hasCollisionBehaviorWith(Type type) {
+        return super.hasCollisionBehaviorWith(type) || type.equals(Type.PLAYER) || type.equals(Type.PLAYER_BULLET);
     }
 
     @Override

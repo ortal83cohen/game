@@ -31,4 +31,5 @@ public abstract class State {
     public abstract void render(ShapeRenderer pb);
 
     public abstract void dispose();
+
 }

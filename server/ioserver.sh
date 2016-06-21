@@ -4,7 +4,7 @@ case "$1" in
 start)
    kill -9 `cat /var/run/ioserver.pid`
    rm /var/run/index.pid
-   node /usr/node/tmp/index.js &
+   nohup  node /usr/node/tmp/index.js &
    echo $!>/var/run/ioserver.pid
    ;;
 stop)
