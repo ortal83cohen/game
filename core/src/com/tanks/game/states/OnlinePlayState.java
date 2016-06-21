@@ -571,7 +571,7 @@ public class OnlinePlayState extends State {
         }
 //        mButton.getSprite().draw(sb);
 
-        stage.draw();
+
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
             entry.getValue().getSprite().draw(sb);
         }
@@ -599,7 +599,7 @@ public class OnlinePlayState extends State {
         font.draw(sb, "liveEnemies " + liveEnemies.size(), cam.position.x - 35,
                 cam.position.y - 170);
         font.draw(sb, "my id  " + myId, cam.position.x - 115, cam.position.y - 185);
-
+        stage.draw();
         sb.end();
     }
 
