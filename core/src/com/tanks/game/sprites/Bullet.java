@@ -51,8 +51,6 @@ this.world = world;
         glowSprite = new Sprite(texture);
         createBody(world, 0, 0);
         getSprite().scale(-0.8f);
-        setPolygon();
-        boundsPoly.scale(-1.1f);
         this.fireSound = fireSound;
 
         this.directionX = 0;
@@ -114,11 +112,9 @@ this.world = world;
         timer += dt;
         position.x = position.x + directionX * dt * speed;
         position.y = position.y + directionY * dt * speed;
-        boundsPoly.setPosition(position.x, position.y);
-        boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
         glowSprite.setRotation(rotation);
-//        collisionManager.update(this);
+
         if (timer > maxTime) {
             dispose();
             return false;
@@ -138,7 +134,6 @@ this.world = world;
         timer = 0f;
         alive = true;
         position.set(0, 0);
-        boundsPoly.setPosition(0, 0);
         ownerId = null;
     }
 

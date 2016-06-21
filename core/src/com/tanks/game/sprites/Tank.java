@@ -41,7 +41,6 @@ public class Tank extends Entity {
         this.textureFileName = textureFileName;
         texture = Assets.getInstance().getManager().get(textureFileName);
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
-        setPolygon();
         position = new Vector2(x, y);
         createBody(world, x, y, type);
 
@@ -75,13 +74,8 @@ public class Tank extends Entity {
 
         position.x = body.getPosition().x;
         position.y = body.getPosition().y;
-//        position.x = position.x + (directionX * dt * speed);
-//        position.y = position.y + (directionY * dt * speed);
-//        Gdx.app.log("SocketIO", "playerUpdate x" + position.x + " y" + position.y);
         float rotation = (float) MathUtil.getAngle(directionX, directionY);
         birdAnimation.update(dt);//animation example
-        boundsPoly.setPosition(position.x, position.y);
-        boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x - glowSprite.getWidth()/2, getPosition().y- glowSprite.getHeight()/2);
         glowSprite.setRotation(rotation);
 

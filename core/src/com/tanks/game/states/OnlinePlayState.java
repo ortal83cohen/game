@@ -510,9 +510,9 @@ public class OnlinePlayState extends State {
 
         if (player != null) {
             cam.position.x = player.getPosition().x
-                    + player.getBoundsPolygon().getBoundingRectangle().height / 2;
+                    + player.getSprite().getHeight() / 2;
             cam.position.y = player.getPosition().y
-                    + player.getBoundsPolygon().getBoundingRectangle().width / 2;
+                    + player.getSprite().getWidth() / 2;
         }
         mButton.setPosition(cam.position.x - 100, cam.position.y - 170);
         mButton.update(dt);
@@ -613,28 +613,6 @@ public class OnlinePlayState extends State {
         for (int i = 0; i < aiEnemies.size(); i++) {
             sr.circle( aiEnemies.get(i).getPosition().x, aiEnemies.get(i).getPosition().y, aiEnemies.get(i).resistant/10);
         }
-
-        for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
-            sr.polygon(entry.getValue().getBoundsPolygon().getTransformedVertices());
-        }
-        for (Map.Entry<String, Stone> entry : stones.entrySet()) {
-            sr.polygon(entry.getValue().getBoundsPolygon().getTransformedVertices());
-        }
-        for (int i = 0; i < bullets.size(); i++) {
-            sr.polygon(bullets.get(i).getBoundsPolygon().getTransformedVertices());
-        }
-        sr.polygon(mButton.getBoundsPolygon().getTransformedVertices());
-        if (player != null) {
-            sr.polygon(player.getBoundsPolygon().getTransformedVertices());
-        }
-        for (int i = 0; i < aiEnemies.size(); i++) {
-            sr.polygon(aiEnemies.get(i).getBoundsPolygon().getTransformedVertices());
-        }
-        sr.setColor(Color.GREEN);
-        for (int i = 0; i < walls.size(); i++) {
-            sr.polygon(walls.get(i).getBoundsPolygon().getTransformedVertices());
-        }
-
         sr.end();
     }
 

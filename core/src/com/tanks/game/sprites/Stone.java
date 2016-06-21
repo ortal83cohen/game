@@ -28,8 +28,7 @@ public class Stone extends Entity {
         position = new Vector2(x, y);
         this.texture = new Texture("stone.png");
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
-        setPolygon();
-        boundsPoly.scale(-1.5f);
+
         getSprite().scale(-1.5f);
 
         directionX = 1;
@@ -45,7 +44,6 @@ public class Stone extends Entity {
 //        position.x = position.x + (directionX * dt * speed);
 //        position.y = position.y + (directionY * dt * speed);
 //        float rotation = (float) MathUtil.getAngle(directionX, directionY);
-        boundsPoly.setPosition(position.x, position.y);
 //        boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
 //        glowSprite.setRotation(rotation);

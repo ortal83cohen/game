@@ -20,22 +20,11 @@ public abstract class Entity {
 
     protected Vector2 position;
 
-    protected Polygon boundsPoly;
-
     protected boolean movement = false;
 
     public World world;
 
     public int resistant = 100;
-
-
-    public void setPolygon() {
-        boundsPoly = new Polygon(new float[]{
-                0, 0, glowSprite.getWidth(), 0, glowSprite.getWidth(), glowSprite.getHeight(), 0,
-                glowSprite.getHeight()
-        });
-        boundsPoly.setOrigin(glowSprite.getWidth() / 2, glowSprite.getHeight() / 2);
-    }
 
     public Vector2 getPosition() {
         return position;
@@ -45,9 +34,7 @@ public abstract class Entity {
         return glowSprite;
     }
 
-    public Polygon getBoundsPolygon() {
-        return boundsPoly;
-    }
+
 
     public boolean hasMoved() {
         return movement;

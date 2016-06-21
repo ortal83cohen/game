@@ -10,7 +10,9 @@ import com.badlogic.gdx.math.Vector2;
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Button extends Entity  {
+public class Button extends Entity {
+
+    protected Polygon boundsPoly;
 
     private Texture texture;
 
@@ -35,6 +37,17 @@ public class Button extends Entity  {
         return Intersector.overlapConvexPolygons(boundsPoly, polygon);
     }
 
+    public void setPolygon() {
+        boundsPoly = new Polygon(new float[]{
+                0, 0, glowSprite.getWidth(), 0, glowSprite.getWidth(), glowSprite.getHeight(), 0,
+                glowSprite.getHeight()
+        });
+        boundsPoly.setOrigin(glowSprite.getWidth() / 2, glowSprite.getHeight() / 2);
+    }
+
+    public Polygon getBoundsPolygon() {
+        return boundsPoly;
+    }
 
     public void setPosition(float x, float y) {
         position.x = x;

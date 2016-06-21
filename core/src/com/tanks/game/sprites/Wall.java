@@ -19,7 +19,6 @@ public class Wall extends Entity {
 
     public Wall(World world, short type, Polygon polygon) {
         this.type = type;
-        this.boundsPoly = polygon;
         createBody(world, polygon.getX(), polygon.getY());
     }
 
@@ -32,8 +31,8 @@ public class Wall extends Entity {
         PolygonShape shape = new PolygonShape();
         //bounds poly not initialized yet!
 //        shape.set(boundsPoly.getVertices());
-        shape.setAsBox(boundsPoly.getBoundingRectangle().getWidth() * 0.5f,
-                boundsPoly.getBoundingRectangle().getHeight() * 0.5f);
+        shape.setAsBox( x * 0.5f,
+                y * 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
