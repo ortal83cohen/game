@@ -12,7 +12,6 @@ public class Player extends Tank {
 
     public Player(World world, String id, int x, int y) {
         super(world, id, "tank2.png", x, y, Type.PLAYER);
-        position = new Vector2(x, y);
         getSprite().scale(-0.5f);
         birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
 

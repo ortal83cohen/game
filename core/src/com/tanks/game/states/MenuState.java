@@ -1,16 +1,11 @@
 package com.tanks.game.states;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Polygon;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Timer;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.Button;
 import com.tanks.game.utils.Assets;
@@ -23,11 +18,11 @@ import java.util.List;
  */
 public class MenuState extends State {
 
-    private final Stage stage;
-
     private static final List<String> requiredTextures = Arrays.asList(new String[]{
             "bg.png",
     });
+
+    private final Stage stage;
 
     private Texture background;
 
@@ -42,18 +37,18 @@ public class MenuState extends State {
 //        playBtn = new Texture("button.png");
 
         stage = new Stage();
-        mButton1 = new Button(stage,200, 200);
-        mButton2 = new Button(stage,200,500);
+        mButton1 = new Button(stage, 200, 200);
+        mButton2 = new Button(stage, 200, 500);
 
         mButton1.getButton().addListener(new ChangeListener() {
             @Override
-            public void changed (ChangeEvent event, Actor actor) {
+            public void changed(ChangeEvent event, Actor actor) {
                 gsm.set(new OnlinePlayState(gsm, true));
             }
         });
         mButton2.getButton().addListener(new ChangeListener() {
             @Override
-            public void changed (ChangeEvent event, Actor actor) {
+            public void changed(ChangeEvent event, Actor actor) {
                 gsm.set(new OnlinePlayState(gsm, false));
             }
         });
@@ -100,7 +95,6 @@ public class MenuState extends State {
 //        sr.polygon(touchPolygon.getTransformedVertices());
 //
 //        sr.end();
-
 
     }
 

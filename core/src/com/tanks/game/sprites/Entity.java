@@ -1,8 +1,8 @@
 package com.tanks.game.sprites;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.World;
@@ -14,30 +14,29 @@ public abstract class Entity {
 
 //    private String id;
 
-    public Entity(World world) {
-        this.world = world;
-    }
+    public World world;
+
+    public int resistant = 100;
 
     protected Fixture fixture;
 
     protected Sprite glowSprite;
 
-    protected Vector2 position;
-
     protected boolean movement = false;
 
-    public World world;
+    protected Body body;
 
-    public int resistant = 100;
+    public Entity(World world) {
+        this.world = world;
+    }
 
     public Vector2 getPosition() {
-        return position;
+        return body.getPosition();
     }
 
     public Sprite getSprite() {
         return glowSprite;
     }
-
 
 
     public boolean hasMoved() {
@@ -46,7 +45,7 @@ public abstract class Entity {
 
     abstract public void dispose();
 
-    public void setCategoryFilter(short filterBit){
+    public void setCategoryFilter(short filterBit) {
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
         fixture.setFilterData(filter);

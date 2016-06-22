@@ -24,17 +24,17 @@ public class BasicContactListener implements ContactListener {
 
         int cDef = fixtureA.getFilterData().categoryBits | fixtureB.getFilterData().categoryBits;
 
-        switch (cDef){
+        switch (cDef) {
             case Type.PLAYER_BULLET | Type.ENEMY:
             case Type.PLAYER_BULLET | Type.AI_ENEMY:
 
-                if(fixtureA.getFilterData().categoryBits == Type.PLAYER_BULLET) {
-                    ((Bullet)fixtureA.getUserData()).hit();
-                    ((Tank)fixtureB.getUserData()).hit(((Bullet)fixtureA.getUserData()).getDamaging());
+                if (fixtureA.getFilterData().categoryBits == Type.PLAYER_BULLET) {
+                    ((Bullet) fixtureA.getUserData()).hit();
+                    ((Tank) fixtureB.getUserData()).hit(((Bullet) fixtureA.getUserData()).getDamaging());
 
-                }else{
-                    ((Tank)fixtureA.getUserData()).hit(((Bullet)fixtureB.getUserData()).getDamaging());
-                    ((Bullet)fixtureB.getUserData()).hit();
+                } else {
+                    ((Tank) fixtureA.getUserData()).hit(((Bullet) fixtureB.getUserData()).getDamaging());
+                    ((Bullet) fixtureB.getUserData()).hit();
                 }
 
                 break;

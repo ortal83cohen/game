@@ -1,13 +1,11 @@
 package com.tanks.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.tanks.game.utils.MathUtil;
 import com.tanks.game.utils.Type;
 
 /**
@@ -23,27 +21,24 @@ public class Stone extends Entity {
 
     protected float speed;
 
-    private Body body;
-
-
-    public Stone(World world,int x, int y) {
+    public Stone(World world, int x, int y) {
         super(world);
 
-        position = new Vector2(x, y);
         this.texture = new Texture("stone.png");
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
-
-        getSprite().scale(-1.5f);
-        createBody( x,y, Type.STONE);
+        glowSprite.setPosition(x, y);
+        glowSprite.scale(-1.5f);
+        createBody(x, y, Type.STONE);
 
         speed = 0f;
         maxSpeed = 5;
 
     }
-    private void createBody( int x, int y, short type) {
+
+    private void createBody(int x, int y, short type) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(x, y);
+        bodyDef.position.set(x + glowSprite.getWidth() * 0.5f, y + glowSprite.getHeight() * 0.5f);
         bodyDef.fixedRotation = false;
 
         PolygonShape shape = new PolygonShape();
@@ -63,13 +58,9 @@ public class Stone extends Entity {
         //linear damping to slow down when applying force
         body.setLinearDamping(4f);
     }
+
     public boolean update(float dt) {
 
-//        position.x = position.x + (directionX * dt * speed);
-//        position.y = position.y + (directionY * dt * speed);
-//        float rotation = (float) MathUtil.getAngle(directionX, directionY);
-        glowSprite.setPosition(getPosition().x, getPosition().y);
-//        glowSprite.setRotation(rotation);
         return true;
     }
 

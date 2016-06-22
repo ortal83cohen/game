@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -16,7 +15,7 @@ import com.tanks.game.utils.Type;
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Bullet extends Entity implements Pool.Poolable{
+public class Bullet extends Entity implements Pool.Poolable {
 
     private String ownerId;
 
@@ -38,18 +37,17 @@ public class Bullet extends Entity implements Pool.Poolable{
 
     private boolean alive = true;
 
-    private Body body;
 
 
 
     public Bullet(World world, String ownerId, Texture texture, Sound fireSound) {
         super(world);
-        position = new Vector2();
+
         this.ownerId = ownerId;
         this.texture = texture;
 
         glowSprite = new Sprite(texture);
-        createBody( 0, 0);
+        createBody(0, 0);
         getSprite().scale(-0.8f);
         this.fireSound = fireSound;
 
@@ -61,7 +59,7 @@ public class Bullet extends Entity implements Pool.Poolable{
     }
 
 
-    private void createBody( int x, int y) {
+    private void createBody(int x, int y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
@@ -75,7 +73,7 @@ public class Bullet extends Entity implements Pool.Poolable{
         fixtureDef.density = 1f;
 
         body = world.createBody(bodyDef);
-            body.setBullet(true);
+        body.setBullet(true);
         fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);
         shape.dispose();
@@ -88,16 +86,16 @@ public class Bullet extends Entity implements Pool.Poolable{
             float directionY) {
 
         this.ownerId = ownerId;
-        position.set(x, y);
+        getPosition().set(x, y);
         body.setTransform(x, y, rotation);
 
         body.applyLinearImpulse(directionX * speed, directionY * speed, body.getWorldCenter().x,
                 body.getWorldCenter().y, true);
 
         if (ownerId == "Player") {
-            setCategoryFilter( Type.PLAYER_BULLET);
-        }else {
-            setCategoryFilter( Type.ENEMY_BULLET);
+            setCategoryFilter(Type.PLAYER_BULLET);
+        } else {
+            setCategoryFilter(Type.ENEMY_BULLET);
         }
 
         this.directionX = directionX;
@@ -109,8 +107,8 @@ public class Bullet extends Entity implements Pool.Poolable{
 
     public boolean update(float dt) {
         timer += dt;
-        position.x = position.x + directionX * dt * speed;
-        position.y = position.y + directionY * dt * speed;
+        getPosition().x = getPosition().x + directionX * dt * speed;
+        getPosition().y = getPosition().y + directionY * dt * speed;
         glowSprite.setPosition(getPosition().x, getPosition().y);
         glowSprite.setRotation(rotation);
 
@@ -131,7 +129,7 @@ public class Bullet extends Entity implements Pool.Poolable{
         //reset methods invoked when bullet is freed by pool
         timer = 0f;
         alive = true;
-        position.set(0, 0);
+        getPosition().set(0, 0);
         ownerId = null;
     }
 
@@ -181,7 +179,7 @@ public class Bullet extends Entity implements Pool.Poolable{
         alive = false;
     }
 
-    public int getDamaging(){
+    public int getDamaging() {
         return 10;
     }
 }

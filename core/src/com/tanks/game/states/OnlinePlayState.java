@@ -50,8 +50,6 @@ import io.socket.emitter.Emitter;
  */
 public class OnlinePlayState extends State {
 
-    private final Stage stage;
-
     public static final List<String> textureFiles = Arrays
             .asList("tank.png", "tank2.png", "bullet.png");
 
@@ -60,6 +58,8 @@ public class OnlinePlayState extends State {
     static public int GAME_WIDTH = 400;
 
     static public int GAME_HEIGHT = 400;
+
+    private final Stage stage;
 
     private final TextureRegion bgTextureRegion;
 
@@ -121,7 +121,7 @@ public class OnlinePlayState extends State {
         b2dr = new Box2DDebugRenderer();
         world = new World(new Vector2(0f, 0f), true);
         world.setContactListener(new BasicContactListener());
-        configCollisionManager();
+        addWalls();
         connectSocket();
         configSocketEvents();
 
@@ -459,11 +459,9 @@ public class OnlinePlayState extends State {
         int positionIterations = 2;
         updateTimeLoopTimer += dt;
         timer += dt;
-        if (player != null) {
-            handleInput();
-            player.update(dt);
-            playerMoved(dt);
-        }
+        handleInput();
+        player.update(dt);
+        playerMoved(dt);
         world.step(dt, velocityIterations, positionIterations);
 
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
@@ -513,12 +511,11 @@ public class OnlinePlayState extends State {
             }
         }
 
-        if (player != null) {
-            cam.position.x = player.getPosition().x
-                    + player.getSprite().getHeight() / 2;
-            cam.position.y = player.getPosition().y
-                    + player.getSprite().getWidth() / 2;
-        }
+        cam.position.x = player.getPosition().x
+                + player.getSprite().getHeight() / 2;
+        cam.position.y = player.getPosition().y
+                + player.getSprite().getWidth() / 2;
+
         cam.update();
 
         if (lastConnectionSpeed + 3 < timer && player != null && player.hasMoved()) {
@@ -567,9 +564,9 @@ public class OnlinePlayState extends State {
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
         sb.draw(bgTextureRegion, 0, 0);
-        if (player != null) {
-            player.getSprite().draw(sb);
-        }
+
+        player.getSprite().draw(sb);
+
 //        mButton.getSprite().draw(sb);
 
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
@@ -609,9 +606,9 @@ public class OnlinePlayState extends State {
         sr.setAutoShapeType(true);
         sr.begin();
         sr.setColor(Color.BLACK);
-        if (player != null) {
-            sr.circle(player.getPosition().x, player.getPosition().y, player.resistant / 10);
-        }
+
+        sr.circle(player.getPosition().x, player.getPosition().y, player.resistant / 10);
+
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
             sr.circle(entry.getValue().getPosition().x, entry.getValue().getPosition().y,
                     entry.getValue().resistant / 10);
@@ -641,6 +638,9 @@ public class OnlinePlayState extends State {
         for (int i = 0; i < stones.size(); i++) {
             stones.get(i).dispose();
         }
+        for (int i = 0; i < walls.size(); i++) {
+            walls.get(i).dispose();
+        }
         bulletPool.dispose();
         for (String textureFile : textureFiles) {
             Assets.getInstance().getManager().unload(textureFile);
@@ -648,14 +648,14 @@ public class OnlinePlayState extends State {
     }
 
 
-    private void configCollisionManager() {
+    private void addWalls() {
 
         walls = new ArrayList<Wall>();
         walls.add(new Wall(world,
-                new Polygon(new float[]{0, GAME_HEIGHT, GAME_WIDTH, GAME_WIDTH, 0, GAME_HEIGHT + 1,
-                        GAME_WIDTH, GAME_WIDTH + 1})));
+                new Polygon(new float[]{0, GAME_HEIGHT, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH, GAME_HEIGHT + 1,
+                        0, GAME_HEIGHT + 1})));
         walls.add(new Wall(world,
-                new Polygon(new float[]{0, 0, GAME_WIDTH, 0, -1, 0, GAME_WIDTH - 1, 0})));
+                new Polygon(new float[]{0, 0, GAME_WIDTH, 0, GAME_WIDTH, -1, 0, -1})));
         walls.add(new Wall(world,
                 new Polygon(new float[]{0, 0, 0, GAME_HEIGHT, -1, GAME_HEIGHT, -1, 0})));
         walls.add(new Wall(world,

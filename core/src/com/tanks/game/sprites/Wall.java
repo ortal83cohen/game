@@ -13,19 +13,16 @@ import com.tanks.game.utils.Type;
  */
 public class Wall extends Entity {
 
-
-    private Body body;
-
     public Wall(World world, Polygon polygon) {
         super(world);
 
-        createBody( polygon,Type.WALL);
+        createBody(polygon, Type.WALL);
     }
 
     private void createBody(Polygon polygon, short type) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set((int)polygon.getX(), (int) polygon.getY());
+        bodyDef.position.set((int) polygon.getX(), (int) polygon.getY());
         bodyDef.fixedRotation = false;
 
         PolygonShape shape = new PolygonShape();

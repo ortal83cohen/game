@@ -12,7 +12,7 @@ import com.tanks.game.utils.Type;
 public class AiEnemy extends Tank {
 
     public AiEnemy(World world, String id, int x, int y) {
-        super(world, id,"tank.png" , x, y, Type.AI_ENEMY);
+        super(world, id, "tank.png", x, y, Type.AI_ENEMY);
 
         getSprite().scale(-0.5f);
         birdAnimation = new Animation(new TextureRegion(
