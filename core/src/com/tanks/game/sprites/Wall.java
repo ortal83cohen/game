@@ -6,57 +6,40 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.tanks.game.utils.CollisionManager;
-import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.Type;
 
 /**
  * Created by ortal on 6/15/2016.
  */
-public class Wall extends Entity implements Collisionable {
+public class Wall extends Entity {
 
-    private final Type type;
+
     private Body body;
 
-    public Wall(World world, Type type, Polygon polygon) {
-        this.type = type;
-        this.boundsPoly = polygon;
-        createBody(world, polygon.getX(), polygon.getY());
+    public Wall(World world, Polygon polygon) {
+        super(world);
+
+        createBody( polygon,Type.WALL);
     }
 
-    private void createBody(World world, float x, float y) {
+    private void createBody(Polygon polygon, short type) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(x, y);
+        bodyDef.position.set((int)polygon.getX(), (int) polygon.getY());
         bodyDef.fixedRotation = false;
 
         PolygonShape shape = new PolygonShape();
-        //bounds poly not initialized yet!
-//        shape.set(boundsPoly.getVertices());
-        shape.setAsBox(boundsPoly.getBoundingRectangle().getWidth() * 0.5f , boundsPoly.getBoundingRectangle().getHeight() * 0.5f);
+
+        shape.set(polygon.getTransformedVertices());
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
-
+        fixtureDef.filter.categoryBits = type;
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef).setUserData(this);
         shape.dispose();
     }
 
-    @Override
-    public boolean hasCollisionBehaviorWith(Type type) {
-        return true;
-    }
-
-    @Override
-    public Type getType() {
-        return type;
-    }
-
-    @Override
-    public void collideWith(Collisionable collisionable) {
-
-    }
 
     public void dispose() {
 

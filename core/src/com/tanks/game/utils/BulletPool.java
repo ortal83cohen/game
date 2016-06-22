@@ -11,18 +11,16 @@ import com.tanks.game.sprites.Bullet;
  */
 public class BulletPool extends Pool<Bullet> {
 
-    private final CollisionManager collisionManager;
     private final World world;
 
     private Texture bulletTexture;
 
     private Sound fireSound;
 
-    public BulletPool(World world, Texture bulletTexture, Sound fireSound, CollisionManager collisionManager) {
+    public BulletPool(World world, Texture bulletTexture, Sound fireSound) {
         this.world = world;
         this.bulletTexture = bulletTexture;
         this.fireSound = fireSound;
-        this.collisionManager = collisionManager;
     }
 
     @Override

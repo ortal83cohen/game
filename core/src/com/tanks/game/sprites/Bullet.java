@@ -3,22 +3,20 @@ package com.tanks.game.sprites;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Pool;
-import com.tanks.game.utils.CollisionManager;
-import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.Type;
 
 /**
  * Created by Brent on 7/5/2015.
  */
-public class Bullet extends Entity implements Pool.Poolable, Collisionable {
+public class Bullet extends Entity implements Pool.Poolable{
 
     private String ownerId;
 
@@ -42,17 +40,17 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
 
     private Body body;
 
+
+
     public Bullet(World world, String ownerId, Texture texture, Sound fireSound) {
-        super();
+        super(world);
         position = new Vector2();
         this.ownerId = ownerId;
         this.texture = texture;
 
         glowSprite = new Sprite(texture);
-        createBody(world, 0, 0);
+        createBody( 0, 0);
         getSprite().scale(-0.8f);
-        setPolygon();
-        boundsPoly.scale(-1.1f);
         this.fireSound = fireSound;
 
         this.directionX = 0;
@@ -63,36 +61,44 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
     }
 
 
-    private void createBody(World world, int x, int y) {
+    private void createBody( int x, int y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
         bodyDef.fixedRotation = false;
 
         PolygonShape shape = new PolygonShape();
-        //bounds poly not initialized yet!
-//        shape.set(boundsPoly.getVertices());
-        shape.setAsBox(glowSprite.getWidth() * 0.5f , glowSprite.getHeight() * 0.5f);
+
+        shape.setAsBox(glowSprite.getWidth() * 0.5f, glowSprite.getHeight() * 0.5f);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
 
         body = world.createBody(bodyDef);
-        body.setBullet(true);
-        body.createFixture(fixtureDef).setUserData(this);
+            body.setBullet(true);
+        fixture = body.createFixture(fixtureDef);
+        fixture.setUserData(this);
         shape.dispose();
 
         //linear damping to slow down when applying force
         body.setLinearDamping(4f);
     }
 
-    public void fire(String ownerId, int x, int y, float rotation, float directionX, float directionY) {
-//        this.collisionManager.register(this);
+    public void fire(String ownerId, int x, int y, float rotation, float directionX,
+            float directionY) {
+
         this.ownerId = ownerId;
         position.set(x, y);
         body.setTransform(x, y, rotation);
 
-        body.applyLinearImpulse(directionX*speed, directionY*speed, body.getWorldCenter().x, body.getWorldCenter().y, true);
+        body.applyLinearImpulse(directionX * speed, directionY * speed, body.getWorldCenter().x,
+                body.getWorldCenter().y, true);
+
+        if (ownerId == "Player") {
+            setCategoryFilter( Type.PLAYER_BULLET);
+        }else {
+            setCategoryFilter( Type.ENEMY_BULLET);
+        }
 
         this.directionX = directionX;
         this.directionY = directionY;
@@ -105,11 +111,9 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
         timer += dt;
         position.x = position.x + directionX * dt * speed;
         position.y = position.y + directionY * dt * speed;
-        boundsPoly.setPosition(position.x, position.y);
-        boundsPoly.setRotation(rotation);
         glowSprite.setPosition(getPosition().x, getPosition().y);
         glowSprite.setRotation(rotation);
-//        collisionManager.update(this);
+
         if (timer > maxTime) {
             dispose();
             return false;
@@ -118,7 +122,7 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
     }
 
     public void dispose() {
-//        collisionManager.unregister(this);
+//        world.destroyBody(body);
         body.setAwake(false);
     }
 
@@ -128,7 +132,6 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
         timer = 0f;
         alive = true;
         position.set(0, 0);
-        boundsPoly.setPosition(0, 0);
         ownerId = null;
     }
 
@@ -173,29 +176,12 @@ public class Bullet extends Entity implements Pool.Poolable, Collisionable {
         return result;
     }
 
-    @Override
-    public boolean hasCollisionBehaviorWith(Type type) {
-        if (ownerId == "Player") {
-            return type == Type.ENEMY || type == Type.SMART_PLAYER || type == Type.ENEMY_BULLET|| type == Type.STONE;
-        } else {
-            return false;//type == Type.ENEMY || type == Type.PLAYER || type == Type.SMART_PLAYER ||  type == Type.PLAYER_BULLET;
-        }
-    }
-
-    @Override
-    public Type getType() {
-        if (ownerId == "Player") {
-            return Type.PLAYER_BULLET;
-        } else {
-            return Type.ENEMY_BULLET;
-        }
-
-    }
-
-    @Override
-    public void collideWith(Collisionable collisionable) {
+    public void hit() {
         dispose();
         alive = false;
     }
 
+    public int getDamaging(){
+        return 10;
+    }
 }
