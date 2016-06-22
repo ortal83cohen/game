@@ -14,6 +14,10 @@ public abstract class Entity {
 
 //    private String id;
 
+    public Entity(World world) {
+        this.world = world;
+    }
+
     protected Fixture fixture;
 
     protected Sprite glowSprite;

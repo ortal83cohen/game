@@ -31,7 +31,6 @@ import com.tanks.game.sprites.Wall;
 import com.tanks.game.utils.Assets;
 import com.tanks.game.utils.BasicContactListener;
 import com.tanks.game.utils.BulletPool;
-import com.tanks.game.utils.Type;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -127,10 +126,10 @@ public class OnlinePlayState extends State {
         configSocketEvents();
 
         stage = new Stage();
-        mButton = new Button(stage,50, 50);
+        mButton = new Button(stage, 50, 50);
         mButton.getButton().addListener(new ChangeListener() {
             @Override
-            public void changed (ChangeEvent event, Actor actor) {
+            public void changed(ChangeEvent event, Actor actor) {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
@@ -160,8 +159,9 @@ public class OnlinePlayState extends State {
 
         if (addSmartPlayers) {
             for (int i = 0; i < 10; i++) {
-                aiEnemies.add(i, new AiEnemy(world, "Enemy_" + i, (int) (Math.random() * GAME_WIDTH),
-                        (int) (Math.random() * GAME_HEIGHT)));
+                aiEnemies
+                        .add(i, new AiEnemy(world, "Enemy_" + i, (int) (Math.random() * GAME_WIDTH),
+                                (int) (Math.random() * GAME_HEIGHT)));
             }
         }
         font = new BitmapFont();
@@ -396,8 +396,9 @@ public class OnlinePlayState extends State {
                             @Override
                             public void run() {
                                 try {
-                                    stones.put(String.valueOf(object.getInt("id")), new Stone(object.getInt("x"),
-                                            object.getInt("y")));
+                                    stones.put(String.valueOf(object.getInt("id")),
+                                            new Stone(world, object.getInt("x"),
+                                                    object.getInt("y")));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -439,7 +440,7 @@ public class OnlinePlayState extends State {
                 }
             }, connectionDelay);
         }
-        if ( Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 
             Timer.schedule(new Timer.Task() {
                 @Override
@@ -571,7 +572,6 @@ public class OnlinePlayState extends State {
         }
 //        mButton.getSprite().draw(sb);
 
-
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
             entry.getValue().getSprite().draw(sb);
         }
@@ -610,14 +610,16 @@ public class OnlinePlayState extends State {
         sr.begin();
         sr.setColor(Color.BLACK);
         if (player != null) {
-            sr.circle(player.getPosition().x,player.getPosition().y,player.resistant/10);
+            sr.circle(player.getPosition().x, player.getPosition().y, player.resistant / 10);
         }
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
-            sr.circle(entry.getValue().getPosition().x,entry.getValue().getPosition().y,entry.getValue().resistant/10);;
+            sr.circle(entry.getValue().getPosition().x, entry.getValue().getPosition().y,
+                    entry.getValue().resistant / 10);
         }
 
         for (int i = 0; i < aiEnemies.size(); i++) {
-            sr.circle( aiEnemies.get(i).getPosition().x, aiEnemies.get(i).getPosition().y, aiEnemies.get(i).resistant/10);
+            sr.circle(aiEnemies.get(i).getPosition().x, aiEnemies.get(i).getPosition().y,
+                    aiEnemies.get(i).resistant / 10);
         }
         sr.end();
     }
@@ -649,14 +651,14 @@ public class OnlinePlayState extends State {
     private void configCollisionManager() {
 
         walls = new ArrayList<Wall>();
-        walls.add(new Wall(world, Type.WALL,
+        walls.add(new Wall(world,
                 new Polygon(new float[]{0, GAME_HEIGHT, GAME_WIDTH, GAME_WIDTH, 0, GAME_HEIGHT + 1,
                         GAME_WIDTH, GAME_WIDTH + 1})));
-        walls.add(new Wall(world, Type.WALL,
+        walls.add(new Wall(world,
                 new Polygon(new float[]{0, 0, GAME_WIDTH, 0, -1, 0, GAME_WIDTH - 1, 0})));
-        walls.add(new Wall(world, Type.WALL,
+        walls.add(new Wall(world,
                 new Polygon(new float[]{0, 0, 0, GAME_HEIGHT, -1, GAME_HEIGHT, -1, 0})));
-        walls.add(new Wall(world, Type.WALL,
+        walls.add(new Wall(world,
                 new Polygon(new float[]{GAME_WIDTH, 0, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH + 1,
                         GAME_HEIGHT, GAME_WIDTH + 1, 0})));
 

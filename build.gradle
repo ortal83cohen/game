@@ -74,7 +74,7 @@ project(":core") {
 
     dependencies {
         compile group: 'org.json', name: 'json', version: '20160212'
-        compile "io.socket:socket.io-client:0.6.2"
+        compile "io.socket:socket.io-client:0.7.0"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
 

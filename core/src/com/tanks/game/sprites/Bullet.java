@@ -43,13 +43,13 @@ public class Bullet extends Entity implements Pool.Poolable{
 
 
     public Bullet(World world, String ownerId, Texture texture, Sound fireSound) {
-        super();
+        super(world);
         position = new Vector2();
         this.ownerId = ownerId;
         this.texture = texture;
-this.world = world;
+
         glowSprite = new Sprite(texture);
-        createBody(world, 0, 0);
+        createBody( 0, 0);
         getSprite().scale(-0.8f);
         this.fireSound = fireSound;
 
@@ -61,7 +61,7 @@ this.world = world;
     }
 
 
-    private void createBody(World world, int x, int y) {
+    private void createBody( int x, int y) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);

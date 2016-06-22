@@ -36,7 +36,7 @@ public class Tank extends Entity {
     protected Body body;
 
     public Tank(World world, String id, String textureFileName, int x, int y, short type) {
-        super();
+        super(world);
         this.id = id;
         this.textureFileName = textureFileName;
         texture = Assets.getInstance().getManager().get(textureFileName);
@@ -48,7 +48,6 @@ public class Tank extends Entity {
     }
 
     private void createBody(World world, int x, int y, short type) {
-        this.world = world;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);

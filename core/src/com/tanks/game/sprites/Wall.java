@@ -13,29 +13,28 @@ import com.tanks.game.utils.Type;
  */
 public class Wall extends Entity {
 
-    private final short type;
 
     private Body body;
 
-    public Wall(World world, short type, Polygon polygon) {
-        this.type = type;
-        createBody(world, polygon.getX(), polygon.getY());
+    public Wall(World world, Polygon polygon) {
+        super(world);
+
+        createBody( polygon,Type.WALL);
     }
 
-    private void createBody(World world, float x, float y) {
+    private void createBody(Polygon polygon, short type) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set(x, y);
+        bodyDef.position.set((int)polygon.getX(), (int) polygon.getY());
         bodyDef.fixedRotation = false;
 
         PolygonShape shape = new PolygonShape();
 
-        shape.setAsBox( x * 0.5f,
-                y * 0.5f);
+        shape.set(polygon.getTransformedVertices());
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
-
+        fixtureDef.filter.categoryBits = type;
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef).setUserData(this);
         shape.dispose();
