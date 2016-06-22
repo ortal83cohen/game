@@ -15,6 +15,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.AiEnemy;
@@ -47,6 +50,8 @@ import io.socket.emitter.Emitter;
  * Created by Brent on 7/5/2015.
  */
 public class OnlinePlayState extends State {
+
+    private final Stage stage;
 
     public static final List<String> textureFiles = Arrays
             .asList("tank.png", "tank2.png", "bullet.png");
@@ -121,7 +126,20 @@ public class OnlinePlayState extends State {
         connectSocket();
         configSocketEvents();
 
-        mButton = new Button((int) cam.position.x - 100, (int) cam.position.y - 150);
+        stage = new Stage();
+        mButton = new Button(stage,50, 50);
+        mButton.getButton().addListener(new ChangeListener() {
+            @Override
+            public void changed (ChangeEvent event, Actor actor) {
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        shoot(player.getPosition().x, player.getPosition().y, player.getRotation(),
+                                player.directionX, player.directionY);
+                    }
+                }, connectionDelay);
+            }
+        });
         liveEnemies = new HashMap<String, Enemy>();
         stones = new HashMap<String, Stone>();
         bullets = new ArrayList<Bullet>();
@@ -421,29 +439,15 @@ public class OnlinePlayState extends State {
                 }
             }, connectionDelay);
         }
-        if ((Gdx.input.isTouched(1) || Gdx.input.isKeyPressed(Input.Keys.SPACE))
-                && lastShoot + 0.3 < timer) {
-            lastShoot = timer;
-            int x = Gdx.input.getX(1);
-            int y = Gdx.input.getY(1);
-            touchPos.set(x, y, 0);
-            cam.unproject(touchPos);
-            if (mButton.pressed(
-                    new com.badlogic.gdx.math.Polygon(
-                            new float[]{
-                                    touchPos.x - 10, touchPos.y - 10,
-                                    touchPos.x - 10, touchPos.y + 10,
-                                    touchPos.x + 10, touchPos.y + 10,
-                                    touchPos.x + 10, touchPos.y - 10
-                            })) || Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        shoot(player.getPosition().x, player.getPosition().y, player.getRotation(),
-                                player.directionX, player.directionY);
-                    }
-                }, connectionDelay);
-            }
+        if ( Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+
+            Timer.schedule(new Timer.Task() {
+                @Override
+                public void run() {
+                    shoot(player.getPosition().x, player.getPosition().y, player.getRotation(),
+                            player.directionX, player.directionY);
+                }
+            }, connectionDelay);
         }
 
     }
@@ -514,8 +518,6 @@ public class OnlinePlayState extends State {
             cam.position.y = player.getPosition().y
                     + player.getSprite().getWidth() / 2;
         }
-        mButton.setPosition(cam.position.x - 100, cam.position.y - 170);
-        mButton.update(dt);
         cam.update();
 
         if (lastConnectionSpeed + 3 < timer && player != null && player.hasMoved()) {
@@ -567,7 +569,8 @@ public class OnlinePlayState extends State {
         if (player != null) {
             player.getSprite().draw(sb);
         }
-        mButton.getSprite().draw(sb);
+//        mButton.getSprite().draw(sb);
+
 
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
             entry.getValue().getSprite().draw(sb);
@@ -596,7 +599,7 @@ public class OnlinePlayState extends State {
         font.draw(sb, "liveEnemies " + liveEnemies.size(), cam.position.x - 35,
                 cam.position.y - 170);
         font.draw(sb, "my id  " + myId, cam.position.x - 115, cam.position.y - 185);
-
+        stage.draw();
         sb.end();
     }
 
@@ -608,6 +611,9 @@ public class OnlinePlayState extends State {
         sr.setColor(Color.BLACK);
         if (player != null) {
             sr.circle(player.getPosition().x,player.getPosition().y,player.resistant/10);
+        }
+        for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
+            sr.circle(entry.getValue().getPosition().x,entry.getValue().getPosition().y,entry.getValue().resistant/10);;
         }
 
         for (int i = 0; i < aiEnemies.size(); i++) {
