@@ -40,6 +40,7 @@ public class Tank extends Entity {
         this.textureFileName = textureFileName;
         texture = Assets.getInstance().getManager().get(textureFileName);
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
+        getSprite().scale(-0.5f);
         createBody(world, x, y, type);
 
 
@@ -53,7 +54,7 @@ public class Tank extends Entity {
 
         PolygonShape shape = new PolygonShape();
 
-        shape.setAsBox(glowSprite.getWidth() * 0.5f, glowSprite.getHeight() * 0.5f);
+        shape.setAsBox(glowSprite.getWidth() * 0.5f*glowSprite.getScaleX(), glowSprite.getHeight() * 0.5f*glowSprite.getScaleY());
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;

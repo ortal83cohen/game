@@ -43,7 +43,7 @@ public class Stone extends Entity {
 
         PolygonShape shape = new PolygonShape();
 
-        shape.setAsBox(glowSprite.getWidth() * 0.5f, glowSprite.getHeight() * 0.5f);
+        shape.setAsBox(glowSprite.getWidth() * 0.5f*glowSprite.getScaleX(), glowSprite.getHeight() * 0.5f*glowSprite.getScaleY());
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;

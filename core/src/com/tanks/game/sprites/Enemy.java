@@ -12,7 +12,7 @@ public class Enemy extends Tank {
 
     public Enemy(World world, String id, int x, int y) {
         super(world, id, "tank.png", x, y, Type.ENEMY);
-        getSprite().scale(-0.5f);
+
         birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
 
         directionX = 1;

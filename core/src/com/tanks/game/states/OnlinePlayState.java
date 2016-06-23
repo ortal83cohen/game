@@ -4,6 +4,7 @@ package com.tanks.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.tanks.game.Scenes.Hud;
 import com.tanks.game.TanksDemo;
 import com.tanks.game.sprites.AiEnemy;
 import com.tanks.game.sprites.Bullet;
@@ -67,11 +70,13 @@ public class OnlinePlayState extends State {
 
     private final com.tanks.game.utils.Persistent persistent;
 
+    private final Hud hud;
+
     BitmapFont font;
 
-    int ANDROID_WIDTH = Gdx.graphics.getWidth();
+    public static int ANDROID_WIDTH = Gdx.graphics.getWidth();
 
-    int ANDROID_HEIGHT = Gdx.graphics.getHeight();
+    public static int ANDROID_HEIGHT = Gdx.graphics.getHeight();
 
     Map<String, Enemy> liveEnemies;
 
@@ -105,7 +110,7 @@ public class OnlinePlayState extends State {
 
     private float lastUpdate = 0;
 
-    private float lastShoot;
+    private float lastShoot = 0;
 
     private float connectionDelay = 0;
 
@@ -125,7 +130,8 @@ public class OnlinePlayState extends State {
         connectSocket();
         configSocketEvents();
 
-        stage = new Stage();
+        FitViewport viewport = new FitViewport(OnlinePlayState.ANDROID_WIDTH, OnlinePlayState.ANDROID_HEIGHT, new OrthographicCamera());
+        stage = new Stage(viewport);
         mButton = new Button(stage, 50, 50);
         mButton.getButton().addListener(new ChangeListener() {
             @Override
@@ -167,6 +173,9 @@ public class OnlinePlayState extends State {
         font = new BitmapFont();
         font.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear,
                 Texture.TextureFilter.Linear);
+
+        hud = new Hud(stage);
+
     }
 
     private void loadAssets() {
@@ -235,6 +244,7 @@ public class OnlinePlayState extends State {
                 try {
 
                     myId = data.getString("id");
+                    hud.set1(myId);
                     Gdx.app.log("SocketIO", "My ID: " + myId);
                 } catch (Exception e) {
                     Gdx.app.log("SocketIO", "Error getting ID");
@@ -528,14 +538,13 @@ public class OnlinePlayState extends State {
                 Gdx.app.log("SocketIO", "Error sending connectionTest data");
             }
         }
-
-
     }
 
-
     private void shoot(float x, float y, float rotation, float directionX, float directionY) {
-        if (player != null) {
-            if (bullets.size() < 5) {
+        if (bullets.size() < 5) {
+            if (lastShoot + 0.3 < timer) {
+                lastShoot = timer;
+
                 Bullet bullet = bulletPool.obtainAndFire("Player", (int) x, (int) y,
                         player.getRotation(), directionX, directionY);
                 bullets.add(bullet);
@@ -567,7 +576,7 @@ public class OnlinePlayState extends State {
 
         player.getSprite().draw(sb);
 
-//        mButton.getSprite().draw(sb);
+//        mButton.getSprite().addActor(sb);
 
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
             entry.getValue().getSprite().draw(sb);
@@ -582,11 +591,11 @@ public class OnlinePlayState extends State {
             entry.getValue().getSprite().draw(sb);
         }
         b2dr.render(world, cam.combined);
-//        font.draw(sb, String.valueOf(player.getSprite().getRotation()), player.getPosition().x - 10,
+//        font.addActor(sb, String.valueOf(player.getSprite().getRotation()), player.getPosition().x - 10,
 //                player.getPosition().y - 10);
-//        font.draw(sb, String.valueOf(Gdx.input.getX() - ANDROID_WIDTH / 2), cam.position.x,
+//        font.addActor(sb, String.valueOf(Gdx.input.getX() - ANDROID_WIDTH / 2), cam.position.x,
 //                cam.position.y - 150);
-//        font.draw(sb, String.valueOf(Gdx.input.getY() - ANDROID_HEIGHT / 2), cam.position.x,
+//        font.addActor(sb, String.valueOf(Gdx.input.getY() - ANDROID_HEIGHT / 2), cam.position.x,
 //                cam.position.y - 165);
         font.draw(sb, "kill     -" + persistent.LoadInt("kill1"), cam.position.x - 35,
                 cam.position.y + 170);
@@ -629,6 +638,7 @@ public class OnlinePlayState extends State {
         bg.dispose();
         player.dispose();
         mButton.dispose();
+        hud.dispose();
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
             entry.getValue().dispose();
         }

@@ -23,8 +23,6 @@ public class Bullet extends Entity implements Pool.Poolable {
 
     private Sound fireSound;
 
-    private float rotation;
-
     private float directionX;
 
     private float directionY;
@@ -47,14 +45,13 @@ public class Bullet extends Entity implements Pool.Poolable {
         this.texture = texture;
 
         glowSprite = new Sprite(texture);
-        createBody(0, 0);
         getSprite().scale(-0.8f);
+        createBody(0, 0);
         this.fireSound = fireSound;
 
         this.directionX = 0;
         this.directionY = 0;
 
-        this.rotation = 0;
         speed = 90;
     }
 
@@ -67,7 +64,7 @@ public class Bullet extends Entity implements Pool.Poolable {
 
         PolygonShape shape = new PolygonShape();
 
-        shape.setAsBox(glowSprite.getWidth() * 0.5f, glowSprite.getHeight() * 0.5f);
+        shape.setAsBox(glowSprite.getWidth() * 0.5f*glowSprite.getScaleX(), glowSprite.getHeight() * 0.5f*glowSprite.getScaleY());
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
@@ -100,17 +97,16 @@ public class Bullet extends Entity implements Pool.Poolable {
 
         this.directionX = directionX;
         this.directionY = directionY;
-        this.rotation = rotation;
         fireSound.play(0.5f);
 
     }
 
     public boolean update(float dt) {
         timer += dt;
-        getPosition().x = getPosition().x + directionX * dt * speed;
-        getPosition().y = getPosition().y + directionY * dt * speed;
-        glowSprite.setPosition(getPosition().x, getPosition().y);
-        glowSprite.setRotation(rotation);
+//        getPosition().x = getPosition().x + directionX * dt * speed;
+//        getPosition().y = getPosition().y + directionY * dt * speed;
+        glowSprite.setPosition(getPosition().x - glowSprite.getWidth() / 2, getPosition().y - glowSprite.getHeight() / 2);
+        glowSprite.setRotation(getAngle());
 
         if (timer > maxTime) {
             dispose();
@@ -144,7 +140,7 @@ public class Bullet extends Entity implements Pool.Poolable {
 
         Bullet bullet = (Bullet) o;
 
-        if (Float.compare(bullet.rotation, rotation) != 0) {
+        if (bullet.body != body) {
             return false;
         }
         if (directionX != bullet.directionX) {
@@ -168,7 +164,6 @@ public class Bullet extends Entity implements Pool.Poolable {
         int result = ownerId != null ? ownerId.hashCode() : 0;
         result = 31 * result + (texture != null ? texture.hashCode() : 0);
         result = 31 * result + (fireSound != null ? fireSound.hashCode() : 0);
-        result = 31 * result + (rotation != +0.0f ? Float.floatToIntBits(rotation) : 0);
         result = 31 * result + (int) directionX;
         result = 31 * result + (int) directionY;
         return result;

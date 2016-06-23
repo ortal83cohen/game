@@ -34,6 +34,9 @@ public abstract class Entity {
         return body.getPosition();
     }
 
+    public float getAngle() {
+        return body.getAngle();
+    }
     public Sprite getSprite() {
         return glowSprite;
     }
