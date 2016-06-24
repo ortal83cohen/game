@@ -34,8 +34,7 @@ public class Enemy extends Tank {
     }
 
     public void setPosition(Vector2 position) {
-        getPosition().x = position.x;
-        getPosition().y = position.y;
+        body.setTransform(position,body.getAngle());
     }
 
 

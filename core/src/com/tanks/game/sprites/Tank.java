@@ -79,7 +79,7 @@ public class Tank extends Entity {
 
     @Override
     public boolean hasMoved() {
-        return speed > 0;
+        return body.isAwake() ;
     }
 
     public float getRotation() {

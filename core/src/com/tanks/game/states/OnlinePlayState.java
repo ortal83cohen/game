@@ -187,7 +187,7 @@ public class OnlinePlayState extends State {
     }
 
     public void playerMoved(float dt) {
-        if (updateTimeLoopTimer >= UPDATE_TIME && player != null && player.hasMoved()) {
+        if (updateTimeLoopTimer >= UPDATE_TIME &&  player.hasMoved()) {
             updateTimeLoopTimer = 0;
             JSONObject data = new JSONObject();
             try {
