@@ -10,22 +10,26 @@ import com.badlogic.gdx.utils.Disposable;
 /**
  * Created by brentaureli on 8/17/15.
  */
-public class Hud implements Disposable{
+public class Hud implements Disposable {
+
+    private static Label text1;
 
     //Scene2D.ui Stage and its own Viewport for HUD
     public Stage stage;
 
     //Scene2D widgets
     private Label text3;
-    private static Label text1;
+
     private Label title3;
+
     private Label text2;
+
     private Label title2;
+
     private Label title1;
 
 
-
-    public Hud(Stage stage){
+    public Hud(Stage stage) {
 
         //define a table used to organize our hud's labels
         Table table = new Table();
@@ -36,7 +40,7 @@ public class Hud implements Disposable{
 
         //define our labels using the String, and a Label style consisting of a font and color
         title1 = new Label("my id", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        text1 =new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        text1 = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         title2 = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         text2 = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         title3 = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
@@ -56,12 +60,9 @@ public class Hud implements Disposable{
 
         //add our labels to our table, padding the top, and giving them all equal width with expandX
 
-
-
         stage.addActor(table);
 
     }
-
 
 //        public void update(float dt){
 //        timeCount += dt;
@@ -77,14 +78,13 @@ public class Hud implements Disposable{
 //    }
 
 
-
-
-    public  void set1(String string){
+    public void set1(String string) {
         text1.setText(string);
     }
 
     @Override
-    public void dispose() { stage.dispose(); }
+    public void dispose() {
+    }
 
 
 }

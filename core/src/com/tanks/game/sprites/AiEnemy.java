@@ -17,13 +17,6 @@ public class AiEnemy extends Tank {
         birdAnimation = new Animation(new TextureRegion(
                 Assets.getInstance().getManager().get(textureFileName, Texture.class)), 3, 0.5f);
 
-        directionX = (int) (Math.random() * 500) - 250;
-        directionY = (int) (Math.random() * 500) - 250;
-
-        double length = Math.sqrt((directionX * directionX) + (directionY * directionY));
-
-        this.directionX = (float) (directionX / length);
-        this.directionY = (float) (directionY / length);
         movement = true;
         speed = 50;
         maxSpeed = 50;

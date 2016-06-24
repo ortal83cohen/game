@@ -24,7 +24,7 @@ public abstract class Entity {
 
     protected boolean movement = false;
 
-    protected Body body;
+    public Body body;
 
     public Entity(World world) {
         this.world = world;
@@ -37,6 +37,7 @@ public abstract class Entity {
     public float getAngle() {
         return body.getAngle();
     }
+
     public Sprite getSprite() {
         return glowSprite;
     }

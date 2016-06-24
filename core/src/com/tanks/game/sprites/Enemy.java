@@ -15,9 +15,6 @@ public class Enemy extends Tank {
 
         birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
 
-        directionX = 1;
-        directionY = 1;
-
     }
 
     public boolean update(float dt) {
@@ -27,14 +24,16 @@ public class Enemy extends Tank {
     }
 
     public void move(float directionX, float directionY, float speed) {
-        this.speed = speed;
-        this.directionX = directionX;
-        this.directionY = directionY;
-
+body.setLinearVelocity(directionX,directionY);
     }
 
     public void setPosition(Vector2 position) {
-        body.setTransform(position,body.getAngle());
+        try {
+            body.setTransform(position, body.getAngle());
+        }catch (Exception e){
+
+        }
+
     }
 
 

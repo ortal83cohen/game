@@ -4,6 +4,7 @@ package com.tanks.game.states;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -62,6 +63,10 @@ public class OnlinePlayState extends State {
 
     static public int GAME_HEIGHT = 400;
 
+    public static int ANDROID_WIDTH = Gdx.graphics.getWidth();
+
+    public static int ANDROID_HEIGHT = Gdx.graphics.getHeight();
+
     private final Stage stage;
 
     private final TextureRegion bgTextureRegion;
@@ -73,10 +78,6 @@ public class OnlinePlayState extends State {
     private final Hud hud;
 
     BitmapFont font;
-
-    public static int ANDROID_WIDTH = Gdx.graphics.getWidth();
-
-    public static int ANDROID_HEIGHT = Gdx.graphics.getHeight();
 
     Map<String, Enemy> liveEnemies;
 
@@ -130,7 +131,8 @@ public class OnlinePlayState extends State {
         connectSocket();
         configSocketEvents();
 
-        FitViewport viewport = new FitViewport(OnlinePlayState.ANDROID_WIDTH, OnlinePlayState.ANDROID_HEIGHT, new OrthographicCamera());
+        FitViewport viewport = new FitViewport(OnlinePlayState.ANDROID_WIDTH,
+                OnlinePlayState.ANDROID_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport);
         mButton = new Button(stage, 50, 50);
         mButton.getButton().addListener(new ChangeListener() {
@@ -140,7 +142,7 @@ public class OnlinePlayState extends State {
                     @Override
                     public void run() {
                         shoot(player.getPosition().x, player.getPosition().y, player.getRotation(),
-                                player.directionX, player.directionY);
+                                player.body.getLinearVelocity().x, player.body.getLinearVelocity().y);
                     }
                 }, connectionDelay);
             }
@@ -187,14 +189,14 @@ public class OnlinePlayState extends State {
     }
 
     public void playerMoved(float dt) {
-        if (updateTimeLoopTimer >= UPDATE_TIME &&  player.hasMoved()) {
+        if (updateTimeLoopTimer >= UPDATE_TIME && player.hasMoved()) {
             updateTimeLoopTimer = 0;
             JSONObject data = new JSONObject();
             try {
                 data.put("x", player.getPosition().x);
                 data.put("y", player.getPosition().y);
-                data.put("dx", player.directionX);
-                data.put("dy", player.directionY);
+                data.put("dx", player.body.getLinearVelocity().x);
+                data.put("dy", player.body.getLinearVelocity().y);
                 data.put("s", player.getSpeed());
                 socket.emit("playerMoved", data);
             } catch (Exception e) {
@@ -456,7 +458,7 @@ public class OnlinePlayState extends State {
                 @Override
                 public void run() {
                     shoot(player.getPosition().x, player.getPosition().y, player.getRotation(),
-                            player.directionX, player.directionY);
+                            player.body.getLinearVelocity().x, player.body.getLinearVelocity().y);
                 }
             }, connectionDelay);
         }
@@ -572,8 +574,24 @@ public class OnlinePlayState extends State {
 
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
+
+//        Array<Body> bodies = new Array<Body>();
+//        world.getBodies(bodies);
+//
+//        for (int i = 0; i < bodies.size; i++) {
+//            Object data = bodies.get(i).getFixtureList().get(0).getUserData();
+//            if(bodies.get(i).isActive() && data != null && ((Entity)data).getSprite() !=null)
+//                ((Entity)data).getSprite().draw(sb);
+//        }
+
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         sb.draw(bgTextureRegion, 0, 0);
 
+        for (int i = 0; i < bullets.size(); i++) {
+            bullets.get(i).getSprite().draw(sb);
+        }
         player.getSprite().draw(sb);
 
 //        mButton.getSprite().addActor(sb);
@@ -581,9 +599,7 @@ public class OnlinePlayState extends State {
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
             entry.getValue().getSprite().draw(sb);
         }
-        for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).getSprite().draw(sb);
-        }
+
         for (int i = 0; i < aiEnemies.size(); i++) {
             aiEnemies.get(i).getSprite().draw(sb);
         }
@@ -604,7 +620,6 @@ public class OnlinePlayState extends State {
 
         font.draw(sb, "liveEnemies " + liveEnemies.size(), cam.position.x - 35,
                 cam.position.y - 170);
-        font.draw(sb, "my id  " + myId, cam.position.x - 115, cam.position.y - 185);
         stage.draw();
         sb.end();
     }
@@ -662,7 +677,8 @@ public class OnlinePlayState extends State {
 
         walls = new ArrayList<Wall>();
         walls.add(new Wall(world,
-                new Polygon(new float[]{0, GAME_HEIGHT, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH, GAME_HEIGHT + 1,
+                new Polygon(new float[]{0, GAME_HEIGHT, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH,
+                        GAME_HEIGHT + 1,
                         0, GAME_HEIGHT + 1})));
         walls.add(new Wall(world,
                 new Polygon(new float[]{0, 0, GAME_WIDTH, 0, GAME_WIDTH, -1, 0, -1})));

@@ -1,10 +1,9 @@
 package com.tanks.game.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -23,10 +22,6 @@ public class Bullet extends Entity implements Pool.Poolable {
 
     private Sound fireSound;
 
-    private float directionX;
-
-    private float directionY;
-
     private float speed;
 
     private float timer = 0f;
@@ -34,8 +29,6 @@ public class Bullet extends Entity implements Pool.Poolable {
     private float maxTime = 3f;
 
     private boolean alive = true;
-
-
 
 
     public Bullet(World world, String ownerId, Texture texture, Sound fireSound) {
@@ -49,9 +42,6 @@ public class Bullet extends Entity implements Pool.Poolable {
         createBody(0, 0);
         this.fireSound = fireSound;
 
-        this.directionX = 0;
-        this.directionY = 0;
-
         speed = 90;
     }
 
@@ -64,7 +54,8 @@ public class Bullet extends Entity implements Pool.Poolable {
 
         PolygonShape shape = new PolygonShape();
 
-        shape.setAsBox(glowSprite.getWidth() * 0.5f*glowSprite.getScaleX(), glowSprite.getHeight() * 0.5f*glowSprite.getScaleY());
+        shape.setAsBox(glowSprite.getWidth() * 0.3f * glowSprite.getScaleX(),
+                glowSprite.getHeight() * 0.3f * glowSprite.getScaleY());
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
@@ -95,8 +86,6 @@ public class Bullet extends Entity implements Pool.Poolable {
             setCategoryFilter(Type.ENEMY_BULLET);
         }
 
-        this.directionX = directionX;
-        this.directionY = directionY;
         fireSound.play(0.5f);
 
     }
@@ -105,7 +94,8 @@ public class Bullet extends Entity implements Pool.Poolable {
         timer += dt;
 //        getPosition().x = getPosition().x + directionX * dt * speed;
 //        getPosition().y = getPosition().y + directionY * dt * speed;
-        glowSprite.setPosition(getPosition().x - glowSprite.getWidth() / 2, getPosition().y - glowSprite.getHeight() / 2);
+        glowSprite.setPosition(getPosition().x - glowSprite.getWidth() / 2,
+                getPosition().y - glowSprite.getHeight() / 2);
         glowSprite.setRotation(getAngle());
 
         if (timer > maxTime) {
@@ -143,12 +133,6 @@ public class Bullet extends Entity implements Pool.Poolable {
         if (bullet.body != body) {
             return false;
         }
-        if (directionX != bullet.directionX) {
-            return false;
-        }
-        if (directionY != bullet.directionY) {
-            return false;
-        }
         if (ownerId != null ? !ownerId.equals(bullet.ownerId) : bullet.ownerId != null) {
             return false;
         }
@@ -164,8 +148,6 @@ public class Bullet extends Entity implements Pool.Poolable {
         int result = ownerId != null ? ownerId.hashCode() : 0;
         result = 31 * result + (texture != null ? texture.hashCode() : 0);
         result = 31 * result + (fireSound != null ? fireSound.hashCode() : 0);
-        result = 31 * result + (int) directionX;
-        result = 31 * result + (int) directionY;
         return result;
     }
 

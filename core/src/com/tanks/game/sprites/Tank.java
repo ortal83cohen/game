@@ -1,8 +1,6 @@
 package com.tanks.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -20,10 +18,6 @@ public class Tank extends Entity {
     protected final Texture texture;
 
     private final String id;
-
-    public float directionX;//tmp for enemies
-
-    public float directionY;//tmp for enemies
 
     protected boolean alive = true;
 
@@ -54,7 +48,8 @@ public class Tank extends Entity {
 
         PolygonShape shape = new PolygonShape();
 
-        shape.setAsBox(glowSprite.getWidth() * 0.5f*glowSprite.getScaleX(), glowSprite.getHeight() * 0.5f*glowSprite.getScaleY());
+        shape.setAsBox(glowSprite.getWidth() * 0.5f * glowSprite.getScaleX(),
+                glowSprite.getHeight() * 0.5f * glowSprite.getScaleY());
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 1f;
@@ -69,21 +64,21 @@ public class Tank extends Entity {
 
     public boolean update(float dt) {
 
-        float rotation = (float) MathUtil.getAngle(directionX, directionY);
         birdAnimation.update(dt);//animation example
-        glowSprite.setPosition(getPosition().x - glowSprite.getWidth() / 2, getPosition().y - glowSprite.getHeight() / 2);
-        glowSprite.setRotation(rotation);
+        glowSprite.setPosition(body.getPosition().x - glowSprite.getWidth() / 2,
+                body.getPosition().y - glowSprite.getHeight() / 2);
+        glowSprite.setRotation(body.getAngle());
 
         return true;
     }
 
     @Override
     public boolean hasMoved() {
-        return body.isAwake() ;
+        return body.isAwake();
     }
 
     public float getRotation() {
-        return (float) MathUtil.getAngle(directionX, directionY);
+        return body.getAngle();
     }
 
 
@@ -103,6 +98,7 @@ public class Tank extends Entity {
     public void hit(int damage) {
         resistant = resistant - damage;
         if (resistant <= 0) {
+            body.setActive(false);
             dispose();
             alive = false;
         }

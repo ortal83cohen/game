@@ -15,9 +15,6 @@ public class Player extends Tank {
 
         birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
 
-        directionX = 1;
-        directionY = 1;
-
         speed = 0.1f;
         maxSpeed = 50;
     }
@@ -40,7 +37,7 @@ public class Player extends Tank {
 
         // calculte the normalized direction from the body to the touch position
         Vector2 direction = new Vector2(x, y);
-        direction.sub(body.getPosition());
+//        direction.sub(body.getPosition());
         direction.nor();
 
         float speed = 100;
@@ -51,9 +48,7 @@ public class Player extends Tank {
 //        if (speed < maxSpeed) {
 //            speed = speed + 3f;
 //        }
-        double length = Math.sqrt((x * x) + (y * y));
-        this.directionX = (float) (x / length);
-        this.directionY = (float) (y / length);
+
 
     }
 
