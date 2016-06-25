@@ -1,11 +1,15 @@
 package com.tanks.game.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.tanks.game.utils.Assets;
+
+import static com.badlogic.gdx.Gdx.app;
 
 /**
  *
@@ -63,6 +67,7 @@ public class Tank extends Entity {
 
     public boolean update(float dt) {
 
+        body.setTransform(body.getPosition(), (float) (300- Math.atan2((double) body.getLinearVelocity().x,(double) body.getLinearVelocity().y)));
         birdAnimation.update(dt);//animation example
         glowSprite.setPosition(body.getPosition().x - glowSprite.getWidth() / 2,
                 body.getPosition().y - glowSprite.getHeight() / 2);

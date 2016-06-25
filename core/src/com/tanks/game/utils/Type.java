@@ -5,17 +5,15 @@ package com.tanks.game.utils;
  */
 public class Type {
 
-    public static final short PLAYER = 0;
+    public static final short PLAYER = 1;
 
-    public static final short AI_ENEMY = 1;
+    public static final short AI_ENEMY = 2;
 
-    public static final short ENEMY = 2;
+    public static final short ENEMY = 4;
 
-    public static final short PLAYER_BULLET = 4;
+    public static final short PLAYER_BULLET = 8;
 
-    public static final short ENEMY_BULLET = 8;
-
-    public static final short BUTTON = 16;
+    public static final short ENEMY_BULLET = 16;
 
     public static final short WALL = 32;
 

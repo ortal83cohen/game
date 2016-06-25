@@ -1,6 +1,5 @@
 package com.tanks.game.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -96,7 +95,7 @@ public class Bullet extends Entity implements Pool.Poolable {
 //        getPosition().y = getPosition().y + directionY * dt * speed;
         glowSprite.setPosition(getPosition().x - glowSprite.getWidth() / 2,
                 getPosition().y - glowSprite.getHeight() / 2);
-        glowSprite.setRotation(  (getAngle() * 180) / (float)Math.PI);
+        glowSprite.setRotation((getAngle() * 180) / (float) Math.PI);
 
         if (timer > maxTime) {
             dispose();
