@@ -22,7 +22,6 @@ public class Player extends Tank {
     @Override
     public boolean update(float dt) {
         if (speed > 0) {
-            movement = true;
             speed = speed - dt * 20;
         }
         super.update(dt);

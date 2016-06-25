@@ -19,7 +19,7 @@ import java.util.List;
 public class MenuState extends State {
 
     private static final List<String> requiredTextures = Arrays.asList(new String[]{
-            "bg.png",
+            "bg.png","button.png"
     });
 
     private final Stage stage;
@@ -56,7 +56,10 @@ public class MenuState extends State {
     }
 
     private void loadAssets() {
-        Assets.getInstance().getManager().load("bg.png", Texture.class);
+        Assets.getInstance().loadSingleTypeAssetList(
+                requiredTextures,
+                Texture.class
+        );
         //load all assets in queue, block until finished
         Assets.getInstance().getManager().finishLoading();
         background = Assets.getInstance().getManager().get("bg.png");

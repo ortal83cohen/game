@@ -7,9 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
 
-/**
- * Created by brentaureli on 8/17/15.
- */
+
 public class Hud implements Disposable {
 
     private static Label text1;

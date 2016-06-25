@@ -6,7 +6,6 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.tanks.game.utils.Assets;
-import com.tanks.game.utils.MathUtil;
 
 /**
  *
@@ -19,13 +18,13 @@ public class Tank extends Entity {
 
     private final String id;
 
-    protected boolean alive = true;
-
     protected int maxSpeed;
 
     protected Animation birdAnimation;
 
     protected float speed;
+
+    private boolean alive = true;
 
 
     public Tank(World world, String id, String textureFileName, int x, int y, short type) {
@@ -67,14 +66,13 @@ public class Tank extends Entity {
         birdAnimation.update(dt);//animation example
         glowSprite.setPosition(body.getPosition().x - glowSprite.getWidth() / 2,
                 body.getPosition().y - glowSprite.getHeight() / 2);
-        glowSprite.setRotation(body.getAngle());
-
+        glowSprite.setRotation((getAngle() * 180) / (float) Math.PI);
+        if (!alive) {
+            dispose();
+            body.setActive(false);
+            return false;
+        }
         return true;
-    }
-
-    @Override
-    public boolean hasMoved() {
-        return body.isAwake();
     }
 
     public float getRotation() {
@@ -90,16 +88,9 @@ public class Tank extends Entity {
         return speed;
     }
 
-//    @Override
-//    public void collideWith(Collisionable collisionable) {
-//
-//    }
-
     public void hit(int damage) {
         resistant = resistant - damage;
         if (resistant <= 0) {
-            body.setActive(false);
-            dispose();
             alive = false;
         }
     }

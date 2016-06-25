@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.tanks.game.utils.Assets;
 import com.tanks.game.utils.Type;
 
 /**
@@ -24,6 +25,7 @@ public class Stone extends Entity {
         super(world);
 
         this.texture = new Texture("stone.png");
+//        this.texture = Assets.getInstance().getManager().get("stone.png");
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
         glowSprite.setPosition(x, y);
         glowSprite.scale(-1.5f);
@@ -60,15 +62,9 @@ public class Stone extends Entity {
     }
 
     public boolean update(float dt) {
-
+        glowSprite.setRotation( (getAngle() * 180) / (float)Math.PI);
         return true;
     }
-
-    @Override
-    public boolean hasMoved() {
-        return speed > 0;
-    }
-
 
     public void dispose() {
         alive = false;

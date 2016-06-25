@@ -11,7 +11,7 @@ import com.tanks.game.utils.Type;
 public class Enemy extends Tank {
 
     public Enemy(World world, String id, int x, int y) {
-        super(world, id, "tank.png", x, y, Type.ENEMY);
+        super(world, id, "tank3.png", x, y, Type.ENEMY);
 
         birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
 
@@ -20,7 +20,7 @@ public class Enemy extends Tank {
     public boolean update(float dt) {
         super.update(dt);
 
-        return alive;
+        return body.isActive();
     }
 
     public void move(float directionX, float directionY, float speed) {

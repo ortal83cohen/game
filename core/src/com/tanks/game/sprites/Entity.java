@@ -22,9 +22,7 @@ public abstract class Entity {
 
     protected Sprite glowSprite;
 
-    protected boolean movement = false;
-
-    public Body body;
+    protected Body body;
 
     public Entity(World world) {
         this.world = world;
@@ -43,8 +41,8 @@ public abstract class Entity {
     }
 
 
-    public boolean hasMoved() {
-        return movement;
+    public Body getBody() {
+        return body;
     }
 
     abstract public void dispose();

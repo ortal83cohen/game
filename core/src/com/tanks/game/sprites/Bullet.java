@@ -96,7 +96,7 @@ public class Bullet extends Entity implements Pool.Poolable {
 //        getPosition().y = getPosition().y + directionY * dt * speed;
         glowSprite.setPosition(getPosition().x - glowSprite.getWidth() / 2,
                 getPosition().y - glowSprite.getHeight() / 2);
-        glowSprite.setRotation(getAngle());
+        glowSprite.setRotation(  (getAngle() * 180) / (float)Math.PI);
 
         if (timer > maxTime) {
             dispose();

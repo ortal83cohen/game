@@ -17,7 +17,6 @@ public class AiEnemy extends Tank {
         birdAnimation = new Animation(new TextureRegion(
                 Assets.getInstance().getManager().get(textureFileName, Texture.class)), 3, 0.5f);
 
-        movement = true;
         speed = 50;
         maxSpeed = 50;
 
@@ -29,7 +28,7 @@ public class AiEnemy extends Tank {
 
         super.update(dt);
 
-        return alive;
+        return body.isActive();
     }
 
 //
