@@ -3,9 +3,7 @@ package com.tanks.game.sprites;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
 
-/**
- * Created by brentaureli on 7/28/15.
- */
+
 public class Animation {
 
     private Array<TextureRegion> frames;

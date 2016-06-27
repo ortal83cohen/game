@@ -3,8 +3,6 @@ package com.tanks.game.sprites;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.tanks.game.utils.CollisionManager;
-import com.tanks.game.utils.Collisionable;
 import com.tanks.game.utils.Type;
 
 /**
@@ -12,50 +10,31 @@ import com.tanks.game.utils.Type;
  */
 public class Enemy extends Tank {
 
-    public Enemy(World world, String id, int x, int y, CollisionManager collisionManager) {
-        super(world, id, "tank.png", x, y, Type.ENEMY, collisionManager);
-        position = new Vector2(x, y);
-        setPolygon();
-        boundsPoly.scale(-0.5f);
-        getSprite().scale(-0.5f);
-        birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
+    public Enemy(World world, String id, int x, int y) {
+        super(world, id, "tank3.png", x, y, Type.ENEMY);
 
-        directionX = 1;
-        directionY = 1;
+        birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
 
     }
 
     public boolean update(float dt) {
         super.update(dt);
-//        collisionManager.checkCollision(this);
 
-        return alive;
+        return body.isActive();
     }
 
     public void move(float directionX, float directionY, float speed) {
-        this.speed = speed;
-        this.directionX = directionX;
-        this.directionY = directionY;
-
+body.setLinearVelocity(directionX,directionY);
     }
 
     public void setPosition(Vector2 position) {
-        this.position = position;
-    }
-
-    @Override
-    public boolean hasCollisionBehaviorWith(Type type) {
-        return super.hasCollisionBehaviorWith(type) || type.equals(Type.PLAYER) || type.equals(Type.PLAYER_BULLET);
-    }
-
-    @Override
-    public void collideWith(Collisionable collisionable) {
-        switch (collisionable.getType()) {
-            case PLAYER_BULLET:
-                dispose();
-                alive = false;
+        try {
+            body.setTransform(position, body.getAngle());
+        }catch (Exception e){
 
         }
 
     }
+
+
 }

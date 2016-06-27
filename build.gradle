@@ -3,6 +3,9 @@ buildscript {
         mavenCentral()
         mavenLocal()
         maven {
+            url "http://repo1.maven.org/maven2"
+        }
+        maven {
             name "jcenter"
             url "http://jcenter.bintray.com/"
         }
@@ -70,7 +73,8 @@ project(":core") {
 
 
     dependencies {
-        compile "io.socket:socket.io-client:0.6.2"
+        compile group: 'org.json', name: 'json', version: '20160212'
+        compile "io.socket:socket.io-client:0.7.0"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
 

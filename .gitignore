@@ -3,6 +3,8 @@
 
 # IntelliJ project files
 .idea
+.idea/
+.idea\
 *.iml
 out
 gen### Gradle template
@@ -59,3 +61,7 @@ proguard/
 .navigation/
 
 # Created by .ignore support plugin (hsz.mobi)
+
+
+server\node_modules
+server/node_modules/

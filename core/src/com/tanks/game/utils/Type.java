@@ -3,6 +3,24 @@ package com.tanks.game.utils;
 /**
  * Created by cohenort on 14/06/2016.
  */
-public enum Type {
-    PLAYER, SMART_PLAYER, ENEMY, PLAYER_BULLET, ENEMY_BULLET, BUTTON, TOP_WALL, BOTTOM_WALL, RIGHT_WALL, STONE, LEFT_WALL
+public class Type {
+
+    public static final short PLAYER = 1;
+
+    public static final short AI_ENEMY = 2;
+
+    public static final short ENEMY = 4;
+
+    public static final short PLAYER_BULLET = 8;
+
+    public static final short ENEMY_BULLET = 16;
+
+    public static final short WALL = 32;
+
+    public static final short STONE = 64;
+//public static final short ENEMY_HEAD_BIT = 128;
+//public static final short ITEM_BIT = 256;
+//public static final short MARIO_HEAD_BIT = 512;
+//public static final short FIREBALL_BIT = 1024;
+
 }
