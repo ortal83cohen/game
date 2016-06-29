@@ -5,7 +5,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.tanks.game.utils.Assets;
 import com.tanks.game.utils.Type;
 
 /**
@@ -62,7 +61,7 @@ public class Stone extends Entity {
     }
 
     public boolean update(float dt) {
-        glowSprite.setRotation( (getAngle() * 180) / (float)Math.PI);
+        glowSprite.setRotation((getAngle() * 180) / (float) Math.PI);
         return true;
     }
 

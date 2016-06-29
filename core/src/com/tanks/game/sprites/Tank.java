@@ -1,26 +1,31 @@
 package com.tanks.game.sprites;
 
-import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.tanks.game.utils.Assets;
-
-import static com.badlogic.gdx.Gdx.app;
 
 /**
  *
  */
 public class Tank extends Entity {
 
+    protected final Label label;
+
     protected final String textureFileName;
 
     protected final Texture texture;
 
     private final String id;
+
+    protected String playerName;
 
     protected int maxSpeed;
 
@@ -31,16 +36,19 @@ public class Tank extends Entity {
     private boolean alive = true;
 
 
-    public Tank(World world, String id, String textureFileName, int x, int y, short type) {
+    public Tank(World world, String id, String textureFileName, int x, int y,
+            short type, String playerName) {
         super(world);
         this.id = id;
+        this.playerName = playerName;
         this.textureFileName = textureFileName;
         texture = Assets.getInstance().getManager().get(textureFileName);
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
         getSprite().scale(-0.5f);
         createBody(world, x, y, type);
-
-
+        label = new Label(playerName, new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        label.setFontScale(0.5f);
+//        stage.addActor(label);
     }
 
     private void createBody(World world, int x, int y, short type) {
@@ -67,8 +75,10 @@ public class Tank extends Entity {
 
     public boolean update(float dt) {
 
-        body.setTransform(body.getPosition(), (float) (300- Math.atan2((double) body.getLinearVelocity().x,(double) body.getLinearVelocity().y)));
+        body.setTransform(body.getPosition(), (float) (300 - Math
+                .atan2((double) body.getLinearVelocity().x, (double) body.getLinearVelocity().y)));
         birdAnimation.update(dt);//animation example
+        label.setPosition(body.getPosition().x - glowSprite.getWidth()/2, body.getPosition().y+10);
         glowSprite.setPosition(body.getPosition().x - glowSprite.getWidth() / 2,
                 body.getPosition().y - glowSprite.getHeight() / 2);
         glowSprite.setRotation((getAngle() * 180) / (float) Math.PI);
@@ -84,7 +94,10 @@ public class Tank extends Entity {
         return body.getAngle();
     }
 
-
+    public void draw(SpriteBatch sb) {
+        glowSprite.draw(sb);
+        label.draw(sb,0.7f);
+    }
     public void dispose() {
 //        world.destroyBody(body);
     }

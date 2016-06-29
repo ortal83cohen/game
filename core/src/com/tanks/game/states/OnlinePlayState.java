@@ -24,9 +24,9 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.tanks.game.Scenes.Hud;
 import com.tanks.game.TanksDemo;
+import com.tanks.game.elements.Button;
 import com.tanks.game.sprites.AiEnemy;
 import com.tanks.game.sprites.Bullet;
-import com.tanks.game.sprites.Button;
 import com.tanks.game.sprites.Enemy;
 import com.tanks.game.sprites.Player;
 import com.tanks.game.sprites.Stone;
@@ -55,7 +55,8 @@ import io.socket.emitter.Emitter;
 public class OnlinePlayState extends State {
 
     public static final List<String> textureFiles = Arrays
-            .asList("tank.png", "tank2.png", "tank3.png", "bullet.png", "stone.png", "bg.png", "button.png");
+            .asList("tank.png", "tank2.png", "tank3.png", "bullet.png", "stone.png", "bg.png",
+                    "button.png");
 
     private static final float UPDATE_TIME = 1 / 30f;
 
@@ -142,7 +143,8 @@ public class OnlinePlayState extends State {
                     @Override
                     public void run() {
                         shoot(player.getPosition().x, player.getPosition().y, player.getRotation(),
-                                player.getBody().getLinearVelocity().x, player.getBody().getLinearVelocity().y);
+                                player.getBody().getLinearVelocity().x,
+                                player.getBody().getLinearVelocity().y);
                     }
                 }, connectionDelay);
             }
@@ -164,12 +166,13 @@ public class OnlinePlayState extends State {
         persistent = new com.tanks.game.utils.Persistent();
 
         player = new Player(world, "Player", (int) (Math.random() * GAME_WIDTH),
-                (int) (Math.random() * GAME_HEIGHT));
+                (int) (Math.random() * GAME_HEIGHT), persistent.LoadString("playerName"));
 
         if (addSmartPlayers) {
             for (int i = 0; i < 10; i++) {
                 aiEnemies
-                        .add(i, new AiEnemy(world, "Enemy_" + i, (int) (Math.random() * GAME_WIDTH),
+                        .add(i, new AiEnemy(world, "Enemy_" + i,
+                                (int) (Math.random() * GAME_WIDTH),
                                 (int) (Math.random() * GAME_HEIGHT)));
             }
         }
@@ -230,6 +233,7 @@ public class OnlinePlayState extends State {
                         try {
                             data.put("x", player.getPosition().x);
                             data.put("y", player.getPosition().y);
+                            data.put("playerName", persistent.LoadString("playerName"));
                             socket.emit("newPlayer", data);
                         } catch (Exception e) {
                             Gdx.app.log("SocketIO", "Error sending update data");
@@ -260,7 +264,7 @@ public class OnlinePlayState extends State {
                     public void run() {
                         try {
                             liveEnemies.put(id, new Enemy(world, id, data.getInt("x"),
-                                    data.getInt("y")));
+                                    data.getInt("y"), data.getString("playerName")));
                         } catch (Exception e) {
                             Gdx.app.log("SocketIO", "Error getting New PlayerID");
                             e.printStackTrace();
@@ -332,9 +336,11 @@ public class OnlinePlayState extends State {
                                     @Override
                                     public void run() {
                                         try {
-                                            liveEnemies.get(enemyId).setPosition(new Vector2((float) x, (float) y));
+                                            liveEnemies.get(enemyId)
+                                                    .setPosition(new Vector2((float) x, (float) y));
                                             liveEnemies.get(enemyId).move(dx, dy, s - 0.5f);
-                                            Gdx.app.log("SocketIO", "playerMoved x" + x + " y" + y + " s" + s);
+                                            Gdx.app.log("SocketIO",
+                                                    "playerMoved x" + x + " y" + y + " s" + s);
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -389,7 +395,8 @@ public class OnlinePlayState extends State {
                                         liveEnemies.put(object.getString("id"),
                                                 new Enemy(world, object.getString("id"),
                                                         object.getInt("x"),
-                                                        object.getInt("y")));
+                                                        object.getInt("y"),
+                                                        object.getString("playerName")));
                                     }
                                     if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Vibrator)) {
                                         Gdx.input.vibrate(new long[]{0, 2, 10, 2, 10, 2}, -1);
@@ -462,7 +469,8 @@ public class OnlinePlayState extends State {
                 @Override
                 public void run() {
                     shoot(player.getPosition().x, player.getPosition().y, player.getRotation(),
-                            player.getBody().getLinearVelocity().x, player.getBody().getLinearVelocity().y);
+                            player.getBody().getLinearVelocity().x,
+                            player.getBody().getLinearVelocity().y);
                 }
             }, connectionDelay);
         }
@@ -480,24 +488,24 @@ public class OnlinePlayState extends State {
         playerMoved(dt);
         world.step(dt, velocityIterations, positionIterations);
         try {
-        for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
-            if (!entry.getValue().update(dt)) {
-                JSONObject data = new JSONObject();
-                try {
-                    data.put("id", entry.getKey());
-                    socket.emit("playerHit", data);
-                    HashMap map = new HashMap();
-                    map.put("kill1", persistent.LoadInt("kill1") + 1);
-                    persistent.saveInt(map);
-                } catch (Exception e) {
-                    Gdx.app.log("SocketIO", "Error sending playerHit data");
+            for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
+                if (!entry.getValue().update(dt)) {
+                    JSONObject data = new JSONObject();
+                    try {
+                        data.put("id", entry.getKey());
+                        socket.emit("playerHit", data);
+                        HashMap map = new HashMap();
+                        map.put("kill1", persistent.LoadInt("kill1") + 1);
+                        persistent.saveInt(map);
+                    } catch (Exception e) {
+                        Gdx.app.log("SocketIO", "Error sending playerHit data");
+                    }
+                    entry.getValue().dispose();
+                    liveEnemies.remove(entry.getKey());
                 }
-                entry.getValue().dispose();
-                liveEnemies.remove(entry.getKey());
             }
-        }
         } catch (Exception e) {
-            Gdx.app.log("SocketIO", "Error update players",e);
+            Gdx.app.log("SocketIO", "Error update players", e);
         }
         for (Map.Entry<String, Stone> entry : stones.entrySet()) {
             if (!entry.getValue().update(dt)) {
@@ -597,21 +605,21 @@ public class OnlinePlayState extends State {
         sb.draw(bgTextureRegion, 0, 0);
 
         for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).getSprite().draw(sb);
+            bullets.get(i).draw(sb);
         }
-        player.getSprite().draw(sb);
+        player.draw(sb);
 
 //        mButton.getSprite().addActor(sb);
 
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
-            entry.getValue().getSprite().draw(sb);
+            entry.getValue().draw(sb);
         }
 
         for (int i = 0; i < aiEnemies.size(); i++) {
-            aiEnemies.get(i).getSprite().draw(sb);
+            aiEnemies.get(i).draw(sb);
         }
         for (Map.Entry<String, Stone> entry : stones.entrySet()) {
-            entry.getValue().getSprite().draw(sb);
+            entry.getValue().draw(sb);
         }
         b2dr.render(world, cam.combined);
 //        font.addActor(sb, String.valueOf(player.getSprite().getRotation()), player.getPosition().x - 10,
