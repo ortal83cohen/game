@@ -1,4 +1,4 @@
-package com.tanks.game.sprites;
+package com.tanks.game.elements;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.tanks.game.utils.Assets;
 
 
 /**
@@ -22,7 +21,6 @@ public class Button {
         super();
         texture = new Texture("button.png");
 //        texture = Assets.getInstance().getManager().get("button.png");
-
 
         Gdx.input.setInputProcessor(stage);
         TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();

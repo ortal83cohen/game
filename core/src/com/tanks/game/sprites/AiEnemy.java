@@ -3,6 +3,7 @@ package com.tanks.game.sprites;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.tanks.game.utils.Assets;
 import com.tanks.game.utils.Type;
 
@@ -12,7 +13,7 @@ import com.tanks.game.utils.Type;
 public class AiEnemy extends Tank {
 
     public AiEnemy(World world, String id, int x, int y) {
-        super(world, id, "tank.png", x, y, Type.AI_ENEMY);
+        super(world, id, "tank.png", x, y, Type.AI_ENEMY, "Robot");
 
         birdAnimation = new Animation(new TextureRegion(
                 Assets.getInstance().getManager().get(textureFileName, Texture.class)), 3, 0.5f);

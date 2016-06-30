@@ -33,7 +33,7 @@ if(!stones[0]){
     });
     socket.on('newPlayer', function(data) {
         console.log(socket.id + " newPlayer");
-        players.push(new player(socket.id, data.x, data.y));
+        players.push(new player(socket.id, data.x, data.y,data.playerName));
         data.id = socket.id
         socket.broadcast.emit('newPlayer', data);
         printPlayers();
@@ -69,10 +69,11 @@ if(!stones[0]){
 
 });
 
-function player(id, x, y) {
+function player(id, x, y, playerName) {
     this.id = id;
     this.x = x;
     this.y = y;
+    this.playerName = playerName
 }
 function stone(id, x, y) {
     this.id = id;
@@ -85,6 +86,6 @@ function randomInt(min, max) {
 function printPlayers() {
     console.log("Players:");
     for (var i = 0; i < players.length; i++) {
-        console.log("Player:" + players[i].id + "  x-" + players[i].x + "  y-" + players[i].y);
+        console.log("Player:" + players[i].id +" name -"+ players[i].playerName + "  x-" + players[i].x + "  y-" + players[i].y);
     }
 }

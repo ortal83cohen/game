@@ -30,10 +30,12 @@ public class BasicContactListener implements ContactListener {
 
                 if (fixtureA.getFilterData().categoryBits == Type.PLAYER_BULLET) {
                     ((Bullet) fixtureA.getUserData()).hit();
-                    ((Tank) fixtureB.getUserData()).hit(((Bullet) fixtureA.getUserData()).getDamaging());
+                    ((Tank) fixtureB.getUserData())
+                            .hit(((Bullet) fixtureA.getUserData()).getDamaging());
 
                 } else {
-                    ((Tank) fixtureA.getUserData()).hit(((Bullet) fixtureB.getUserData()).getDamaging());
+                    ((Tank) fixtureA.getUserData())
+                            .hit(((Bullet) fixtureB.getUserData()).getDamaging());
                     ((Bullet) fixtureB.getUserData()).hit();
                 }
 
