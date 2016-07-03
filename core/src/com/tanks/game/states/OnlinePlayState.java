@@ -60,6 +60,8 @@ public class OnlinePlayState extends State {
 
     private static final float UPDATE_TIME = 1 / 30f;
 
+    private static final String TAG = "PlayState";
+
     static public int GAME_WIDTH = 400;
 
     static public int GAME_HEIGHT = 400;
@@ -310,7 +312,7 @@ public class OnlinePlayState extends State {
                                         liveEnemies.remove(id);
                                     }
                                 } catch (Exception e) {
-                                    Gdx.app.log("SocketIO", "Error PlayerHit");
+                                    Gdx.app.error("SocketIO", "Error PlayerHit", e);
                                 }
                             }
                         });
@@ -322,7 +324,8 @@ public class OnlinePlayState extends State {
                         final JSONObject data = (JSONObject) args[0];
                         try {
                             if (lastUpdate == timer) {
-                                Gdx.app.log("SocketIO", "SKIPED " + (skipCounter++) + " at " + timer);
+                                Gdx.app.log("SocketIO",
+                                        "SKIPED " + (skipCounter++) + " at " + timer);
                             }
                             lastUpdate = timer;
                             final String enemyId = data.getString("id");
@@ -349,7 +352,7 @@ public class OnlinePlayState extends State {
 
                             }
                         } catch (Exception e) {
-                            Gdx.app.log("SocketIO", "Error getting disconnected PlayerID");
+                            Gdx.app.error("SocketIO", "Error getting disconnected PlayerID");
                         }
                     }
                 }
@@ -374,7 +377,7 @@ public class OnlinePlayState extends State {
                                     bullets.add(bullet);
 
                                 } catch (Exception e) {
-                                    Gdx.app.log("SocketIO", "Error playerShoot");
+                                    Gdx.app.error("SocketIO", "Error playerShoot");
                                 }
                             }
                         });
@@ -398,12 +401,13 @@ public class OnlinePlayState extends State {
                                                         object.getInt("y"),
                                                         object.getString("playerName")));
                                     }
-                                    if (Gdx.input.isPeripheralAvailable(Input.Peripheral.Vibrator)) {
+                                    if (Gdx.input
+                                            .isPeripheralAvailable(Input.Peripheral.Vibrator)) {
                                         Gdx.input.vibrate(new long[]{0, 2, 10, 2, 10, 2}, -1);
                                     }
                                 } catch (Exception e) {
                                     e.printStackTrace();
-                                    Gdx.app.log("SocketIO", "Error Get Players");
+                                    Gdx.app.error("SocketIO", "Error Get Players");
                                 }
                             }
                         });
@@ -425,7 +429,7 @@ public class OnlinePlayState extends State {
                                                         object.getInt("y")));
                                     }
                                 } catch (Exception e) {
-                                    Gdx.app.log("SocketIO", "Error Get Players");
+                                    Gdx.app.error("SocketIO", "Error Get Players");
                                 }
                             }
                         });
@@ -440,7 +444,7 @@ public class OnlinePlayState extends State {
                             connectionDelay = (connectionDelay + (timer - t)) / 2;
                             Gdx.app.log("SocketIO", "connectionDelay - " + connectionDelay);
                         } catch (Exception e) {
-                            Gdx.app.log("SocketIO", "Error Get connectionTest");
+                            Gdx.app.error("SocketIO", "Error Get connectionTest");
                         }
                     }
                 }
@@ -498,14 +502,14 @@ public class OnlinePlayState extends State {
                         map.put("kill1", persistent.LoadInt("kill1") + 1);
                         persistent.saveInt(map);
                     } catch (Exception e) {
-                        Gdx.app.log("SocketIO", "Error sending playerHit data");
+                        Gdx.app.error("SocketIO", "Error sending playerHit data");
                     }
                     entry.getValue().dispose();
                     liveEnemies.remove(entry.getKey());
                 }
             }
         } catch (Exception e) {
-            Gdx.app.log("SocketIO", "Error update players", e);
+            Gdx.app.error("SocketIO", "Error update players", e);
         }
         for (Map.Entry<String, Stone> entry : stones.entrySet()) {
             if (!entry.getValue().update(dt)) {
@@ -517,7 +521,7 @@ public class OnlinePlayState extends State {
 //                    map.put("kill1", persistent.LoadInt("kill1") + 1);
 //                    persistent.saveInt(map);
 //                } catch (JSONException e) {
-//                    Gdx.app.log("SocketIO", "Error sending playerHit data");
+//                    Gdx.app.error("SocketIO", "Error sending playerHit data");
 //                }
 //                entry.getValue().dispose();
 //                liveEnemies.remove(entry.getKey());
@@ -552,7 +556,7 @@ public class OnlinePlayState extends State {
                 data.put("t", timer);
                 socket.emit("connectionTest", data);
             } catch (Exception e) {
-                Gdx.app.log("SocketIO", "Error sending connectionTest data");
+                Gdx.app.error("SocketIO", "Error sending connectionTest data");
             }
         }
     }
@@ -575,7 +579,7 @@ public class OnlinePlayState extends State {
                     data.put("directionY", directionY);
                     socket.emit("playerShoot", data);
                 } catch (Exception e) {
-                    Gdx.app.log("SocketIO", "Error sending update data");
+                    Gdx.app.error("SocketIO", "Error sending update data");
                 }
             }
         }
@@ -662,28 +666,34 @@ public class OnlinePlayState extends State {
 
     @Override
     public void dispose() {
-        socket.off();
-        socket.disconnect();
-        socket.close();
-        bg.dispose();
-        player.dispose();
-        mButton.dispose();
-        hud.dispose();
-        for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
-            entry.getValue().dispose();
-        }
-        for (int i = 0; i < aiEnemies.size(); i++) {
-            aiEnemies.get(i).dispose();
-        }
-        for (int i = 0; i < stones.size(); i++) {
-            stones.get(i).dispose();
-        }
-        for (int i = 0; i < walls.size(); i++) {
-            walls.get(i).dispose();
-        }
-        bulletPool.dispose();
-        for (String textureFile : textureFiles) {
-            Assets.getInstance().getManager().unload(textureFile);
+        try {
+            socket.off();
+            socket.disconnect();
+            socket.close();
+            bg.dispose();
+            player.dispose();
+            mButton.dispose();
+            hud.dispose();
+            for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
+                entry.getValue().dispose();
+            }
+            for (int i = 0; i < aiEnemies.size(); i++) {
+                aiEnemies.get(i).dispose();
+            }
+            for (int i = 0; i < stones.size(); i++) {
+                if (stones.get(i) != null) {
+                    stones.get(i).dispose();
+                }
+            }
+            for (int i = 0; i < walls.size(); i++) {
+                walls.get(i).dispose();
+            }
+            bulletPool.dispose();
+            for (String textureFile : textureFiles) {
+                Assets.getInstance().getManager().unload(textureFile);
+            }
+        } catch (Exception e) {
+            Gdx.app.error(TAG, "dispose", e);
         }
     }
 
