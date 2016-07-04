@@ -63,7 +63,7 @@ public class Tank extends Entity {
                 glowSprite.getHeight() * 0.5f * glowSprite.getScaleY());
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
+        fixtureDef.density = 100f;
         fixtureDef.filter.categoryBits = type;
         body = world.createBody(bodyDef);
         body.createFixture(fixtureDef).setUserData(this);

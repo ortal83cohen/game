@@ -2,6 +2,7 @@ package com.tanks.game.utils;
 
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Pool;
 import com.tanks.game.sprites.Bullet;
@@ -28,10 +29,9 @@ public class BulletPool extends Pool<Bullet> {
         return new Bullet(world, null, bulletTexture, fireSound);
     }
 
-    public Bullet obtainAndFire(String ownerId, int x, int y, float rotation, float directionX,
-            float directionY) {
+    public Bullet obtainAndFire(String ownerId, int x, int y, float rotation,  Vector2 direction) {
         Bullet bullet = obtain();
-        bullet.fire(ownerId, x, y, rotation, directionX, directionY);
+        bullet.fire(ownerId, x, y, rotation, direction.nor());
         return bullet;
     }
 

@@ -373,7 +373,7 @@ public class OnlinePlayState extends State {
                                     float directionY = (float) data.getDouble("directionY");
 
                                     Bullet bullet = bulletPool.obtainAndFire(enemyId, x, y,
-                                            (float) rotation, directionX, directionY);
+                                            (float) rotation, new Vector2(directionX, directionY));
                                     bullets.add(bullet);
 
                                 } catch (Exception e) {
@@ -567,7 +567,7 @@ public class OnlinePlayState extends State {
                 lastShoot = timer;
 
                 Bullet bullet = bulletPool.obtainAndFire("Player", (int) x, (int) y,
-                        player.getRotation(), directionX, directionY);
+                        player.getRotation(), new Vector2(directionX, directionY));
                 bullets.add(bullet);
 
                 JSONObject data = new JSONObject();

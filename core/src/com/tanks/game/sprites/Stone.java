@@ -1,6 +1,7 @@
 package com.tanks.game.sprites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -43,11 +44,11 @@ public class Stone extends Entity {
 
         PolygonShape shape = new PolygonShape();
 
-        shape.setAsBox(glowSprite.getWidth() * 0.5f * glowSprite.getScaleX(),
-                glowSprite.getHeight() * 0.5f * glowSprite.getScaleY());
+        shape.setAsBox(glowSprite.getWidth() /4 ,
+                glowSprite.getHeight() /4 );
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
+        fixtureDef.density = 1000000;
         fixtureDef.filter.categoryBits = type;
 
         body = world.createBody(bodyDef);
@@ -56,8 +57,6 @@ public class Stone extends Entity {
         fixture.setUserData(this);
         shape.dispose();
 
-        //linear damping to slow down when applying force
-        body.setLinearDamping(4f);
     }
 
     public boolean update(float dt) {

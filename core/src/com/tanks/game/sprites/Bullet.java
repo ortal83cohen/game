@@ -1,8 +1,10 @@
 package com.tanks.game.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -53,11 +55,11 @@ public class Bullet extends Entity implements Pool.Poolable {
 
         PolygonShape shape = new PolygonShape();
 
-        shape.setAsBox(glowSprite.getWidth() * 0.3f * glowSprite.getScaleX(),
-                glowSprite.getHeight() * 0.3f * glowSprite.getScaleY());
+        shape.setAsBox(glowSprite.getWidth() /16,
+                glowSprite.getHeight()/16);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1f;
+        fixtureDef.density = 0.0001f;
 
         body = world.createBody(bodyDef);
         body.setBullet(true);
@@ -66,18 +68,15 @@ public class Bullet extends Entity implements Pool.Poolable {
         shape.dispose();
 
         //linear damping to slow down when applying force
-        body.setLinearDamping(4f);
+//        body.setLinearDamping(4f);
     }
 
-    public void fire(String ownerId, int x, int y, float rotation, float directionX,
-            float directionY) {
+    public void fire(String ownerId, int x, int y, float rotation,  Vector2 direction) {
 
         this.ownerId = ownerId;
-        getPosition().set(x, y);
-        body.setTransform(x, y, rotation);
+        body.setTransform(x+direction.x*24, y+direction.y*24, rotation);
 
-        body.applyLinearImpulse(directionX * speed, directionY * speed, body.getWorldCenter().x,
-                body.getWorldCenter().y, true);
+        body.applyLinearImpulse(direction.scl(999999999) , body.getWorldCenter(), true);
 
         if (ownerId == "Player") {
             setCategoryFilter(Type.PLAYER_BULLET);
