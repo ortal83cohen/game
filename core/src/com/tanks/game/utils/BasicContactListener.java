@@ -40,7 +40,18 @@ public class BasicContactListener implements ContactListener {
                 }
 
                 break;
+            case Type.PLAYER_BULLET | Type.WALL:
+            case Type.PLAYER_BULLET | Type.STONE:
+            case Type.ENEMY_BULLET | Type.WALL:
+            case Type.ENEMY_BULLET | Type.STONE:
 
+                if (fixtureA.getUserData() instanceof Bullet) {
+                    ((Bullet) fixtureA.getUserData()).hit();
+                } else {
+                    ((Bullet) fixtureB.getUserData()).hit();
+                }
+
+                break;
         }
 
 //        if (fixtureA.getUserData() instanceof Collisionable && fixtureB
