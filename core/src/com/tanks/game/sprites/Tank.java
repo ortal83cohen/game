@@ -4,11 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.tanks.game.utils.Assets;
 
@@ -27,11 +27,7 @@ public class Tank extends Entity {
 
     protected String playerName;
 
-    protected int maxSpeed;
-
     protected Animation birdAnimation;
-
-    protected float speed;
 
     private boolean alive = true;
 
@@ -69,8 +65,7 @@ public class Tank extends Entity {
         body.createFixture(fixtureDef).setUserData(this);
         shape.dispose();
 
-        //linear damping to slow down when applying force
-        body.setLinearDamping(4f);
+
     }
 
     public boolean update(float dt) {
@@ -78,7 +73,7 @@ public class Tank extends Entity {
         body.setTransform(body.getPosition(), (float) (300 - Math
                 .atan2((double) body.getLinearVelocity().x, (double) body.getLinearVelocity().y)));
         birdAnimation.update(dt);//animation example
-        label.setPosition(body.getPosition().x - glowSprite.getWidth()/2, body.getPosition().y+10);
+        label.setPosition(body.getPosition().x - glowSprite.getWidth() / 2, body.getPosition().y + 10);
         glowSprite.setPosition(body.getPosition().x - glowSprite.getWidth() / 2,
                 body.getPosition().y - glowSprite.getHeight() / 2);
         glowSprite.setRotation((getAngle() * 180) / (float) Math.PI);
@@ -96,14 +91,15 @@ public class Tank extends Entity {
 
     public void draw(SpriteBatch sb) {
         glowSprite.draw(sb);
-        label.draw(sb,0.7f);
+        label.draw(sb, 0.7f);
     }
+
     public void dispose() {
         world.destroyBody(body);
     }
 
-    public float getSpeed() {
-        return speed;
+    public Vector2 getSpeed() {
+        return body.getLinearVelocity();
     }
 
     public void hit(int damage) {

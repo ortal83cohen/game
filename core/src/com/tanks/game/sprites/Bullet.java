@@ -106,9 +106,9 @@ public class Bullet extends Entity implements Pool.Poolable {
 
         if (boomAnimation == NO_ANIMATION) {
             timer += dt;
-            glowSprite.setPosition(getPosition().x - glowSprite.getWidth() / 2,
-                    getPosition().y - glowSprite.getHeight() / 2);
-            glowSprite.setRotation((getAngle() * 180) / (float) Math.PI);
+            glowSprite.setPosition(body.getPosition().x - glowSprite.getWidth() / 2,
+                    body.getPosition().y - glowSprite.getHeight() / 2);
+            glowSprite.setRotation((body.getAngle() * 180) / (float) Math.PI);
 
             if (timer > maxTime) {
                 dispose();
@@ -119,7 +119,7 @@ public class Bullet extends Entity implements Pool.Poolable {
             explosionAnimation.update(dt);
 
             if (boomAnimation > END_ANIMATION) {
-                dispose();
+                boomAnimation = NO_ANIMATION;
                 return false;
             }
         }

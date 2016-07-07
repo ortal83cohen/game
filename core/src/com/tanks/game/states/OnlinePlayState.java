@@ -204,7 +204,6 @@ public class OnlinePlayState extends State {
                 data.put("y", player.getPosition().y);
                 data.put("dx", player.getBody().getLinearVelocity().x);
                 data.put("dy", player.getBody().getLinearVelocity().y);
-                data.put("s", player.getSpeed());
 
                 socket.emit("playerMoved", data);
 

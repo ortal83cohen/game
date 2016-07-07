@@ -3,7 +3,6 @@ package com.tanks.game.sprites;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.tanks.game.utils.Type;
 
 /**
@@ -15,16 +14,13 @@ public class Player extends Tank {
         super(world, id, "tank2.png", x, y, Type.PLAYER, playerName);
 
         birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
+        //linear damping to slow down when applying force
+        body.setLinearDamping(4f);
 
-        speed = 0.1f;
-        maxSpeed = 50;
     }
 
     @Override
     public boolean update(float dt) {
-        if (speed > 0) {
-            speed = speed - dt * 20;
-        }
         super.update(dt);
 
         return true;

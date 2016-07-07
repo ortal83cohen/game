@@ -5,6 +5,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.tanks.game.sprites.AiEnemy;
 import com.tanks.game.sprites.Bullet;
 import com.tanks.game.sprites.Tank;
 
@@ -49,6 +50,17 @@ public class BasicContactListener implements ContactListener {
                     ((Bullet) fixtureA.getUserData()).hit();
                 } else {
                     ((Bullet) fixtureB.getUserData()).hit();
+                }
+
+                break;
+
+            case Type.AI_ENEMY | Type.WALL:
+            case Type.AI_ENEMY | Type.STONE:
+
+                if (fixtureA.getUserData() instanceof AiEnemy) {
+                    ((AiEnemy) fixtureA.getUserData()).hit();
+                } else {
+                    ((AiEnemy) fixtureB.getUserData()).hit();
                 }
 
                 break;
