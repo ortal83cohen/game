@@ -99,7 +99,7 @@ public class Tank extends Entity {
         label.draw(sb,0.7f);
     }
     public void dispose() {
-//        world.destroyBody(body);
+        world.destroyBody(body);
     }
 
     public float getSpeed() {

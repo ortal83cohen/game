@@ -53,8 +53,8 @@ public class Bullet extends Entity implements Pool.Poolable {
         createBody(0, 0);
         this.fireSound = fireSound;
 
-        explosionAnimation = new Animation( new TextureRegion( new Texture(Gdx.files.internal("explosion.png"))),5,
-                END_ANIMATION );
+        explosionAnimation = new Animation(new TextureRegion(new Texture(Gdx.files.internal("explosion.png"))), 5,
+                END_ANIMATION);
         explosionAnimation.setScale(-1.5f);
         explosionAnimation.setAlpha(0.7f);
         speed = 90;
@@ -69,8 +69,8 @@ public class Bullet extends Entity implements Pool.Poolable {
 
         PolygonShape shape = new PolygonShape();
 
-        shape.setAsBox(glowSprite.getWidth() /16,
-                glowSprite.getHeight()/16);
+        shape.setAsBox(glowSprite.getWidth() / 16,
+                glowSprite.getHeight() / 16);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0.0001f;
@@ -85,12 +85,12 @@ public class Bullet extends Entity implements Pool.Poolable {
 //        body.setLinearDamping(4f);
     }
 
-    public void fire(String ownerId, int x, int y, float rotation,  Vector2 direction) {
+    public void fire(String ownerId, int x, int y, float rotation, Vector2 direction) {
 
         this.ownerId = ownerId;
-        body.setTransform(x+direction.x*24, y+direction.y*24, rotation);
+        body.setTransform(x + direction.x * 24, y + direction.y * 24, rotation);
 
-        body.applyLinearImpulse(direction.scl(999999999) , body.getWorldCenter(), true);
+        body.applyLinearImpulse(direction.scl(999999999), body.getWorldCenter(), true);
 
         if (ownerId == "Player") {
             setCategoryFilter(Type.PLAYER_BULLET);
@@ -103,22 +103,22 @@ public class Bullet extends Entity implements Pool.Poolable {
     }
 
     public boolean update(float dt) {
-        timer += dt;
-//        getPosition().x = getPosition().x + directionX * dt * speed;
-//        getPosition().y = getPosition().y + directionY * dt * speed;
-        glowSprite.setPosition(getPosition().x - glowSprite.getWidth() / 2,
-                getPosition().y - glowSprite.getHeight() / 2);
-        glowSprite.setRotation((getAngle() * 180) / (float) Math.PI);
 
-        if (timer > maxTime && boomAnimation == NO_ANIMATION) {
-            dispose();
-            return false;
-        }
-        if(boomAnimation != NO_ANIMATION) {
-            boomAnimation+=dt;
+        if (boomAnimation == NO_ANIMATION) {
+            timer += dt;
+            glowSprite.setPosition(getPosition().x - glowSprite.getWidth() / 2,
+                    getPosition().y - glowSprite.getHeight() / 2);
+            glowSprite.setRotation((getAngle() * 180) / (float) Math.PI);
+
+            if (timer > maxTime) {
+                dispose();
+                return false;
+            }
+        } else {
+            boomAnimation += dt;
             explosionAnimation.update(dt);
 
-            if(boomAnimation > END_ANIMATION){
+            if (boomAnimation > END_ANIMATION) {
                 dispose();
                 return false;
             }
@@ -127,7 +127,12 @@ public class Bullet extends Entity implements Pool.Poolable {
     }
 
     public void dispose() {
-//        world.destroyBody(body);
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                body.setTransform(-1, -1, -1);
+            }
+        });
         body.setAwake(false);
     }
 
@@ -173,9 +178,9 @@ public class Bullet extends Entity implements Pool.Poolable {
     }
 
     public void hit() {
-        dispose();
         explosionAnimation.setRotation(body.getAngle());
-        explosionAnimation.setPosition(body.getPosition().x ,body.getPosition().y);
+        explosionAnimation.setPosition(body.getPosition().x, body.getPosition().y);
+        dispose();
         boomAnimation = START_ANIMATION;
     }
 
@@ -185,9 +190,9 @@ public class Bullet extends Entity implements Pool.Poolable {
 
     @Override
     public void draw(SpriteBatch sb) {
-        if(NO_ANIMATION == boomAnimation) {
+        if (NO_ANIMATION == boomAnimation) {
             super.draw(sb);
-        }else {
+        } else {
             explosionAnimation.getFrame().draw(sb);
         }
     }

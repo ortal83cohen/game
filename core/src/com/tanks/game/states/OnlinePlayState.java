@@ -461,7 +461,7 @@ public class OnlinePlayState extends State {
         if (Gdx.input.isTouched(0)) {
             final int x = Gdx.input.getX(0);
             final int y = Gdx.input.getY(0);
-            if (ANDROID_HEIGHT * 3 / 4 > y) {
+            if (ANDROID_HEIGHT * 4 / 5 > y) {
                 touchPos.set(x, y, 0);
                 cam.unproject(touchPos);
                 Timer.schedule(new Timer.Task() {
