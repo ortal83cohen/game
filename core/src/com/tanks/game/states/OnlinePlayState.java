@@ -198,13 +198,16 @@ public class OnlinePlayState extends State {
         if (updateTimeLoopTimer >= UPDATE_TIME && player.getBody().isAwake()) {
             updateTimeLoopTimer = 0;
             JSONObject data = new JSONObject();
+
             try {
                 data.put("x", player.getPosition().x);
                 data.put("y", player.getPosition().y);
                 data.put("dx", player.getBody().getLinearVelocity().x);
                 data.put("dy", player.getBody().getLinearVelocity().y);
                 data.put("s", player.getSpeed());
+
                 socket.emit("playerMoved", data);
+
             } catch (Exception e) {
                 Gdx.app.log("SocketIO", "Error sending update data");
             }
@@ -346,13 +349,14 @@ public class OnlinePlayState extends State {
                                                     "playerMoved x" + x + " y" + y + " s" + s);
                                         } catch (Exception e) {
                                             e.printStackTrace();
+
                                         }
                                     }
                                 });
 
                             }
                         } catch (Exception e) {
-                            Gdx.app.error("SocketIO", "Error getting disconnected PlayerID");
+                            Gdx.app.error("SocketIO", "Error playerMoved", e);
                         }
                     }
                 }
@@ -457,15 +461,17 @@ public class OnlinePlayState extends State {
         if (Gdx.input.isTouched(0)) {
             final int x = Gdx.input.getX(0);
             final int y = Gdx.input.getY(0);
-            touchPos.set(x, y, 0);
-            cam.unproject(touchPos);
-            Timer.schedule(new Timer.Task() {
-                @Override
-                public void run() {
-                    player.move(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
+            if (ANDROID_HEIGHT * 3 / 4 > y) {
+                touchPos.set(x, y, 0);
+                cam.unproject(touchPos);
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                        player.move(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
 //                    player.move(x, y);
-                }
-            }, connectionDelay);
+                    }
+                }, connectionDelay);
+            }
         }
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 

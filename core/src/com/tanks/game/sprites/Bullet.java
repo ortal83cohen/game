@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -17,6 +19,14 @@ import com.tanks.game.utils.Type;
  */
 public class Bullet extends Entity implements Pool.Poolable {
 
+    private static final float NO_ANIMATION = -1;
+
+    private static final float START_ANIMATION = 0;
+
+    private static final float END_ANIMATION = 0.7f;
+
+    private final Animation explosionAnimation;
+
     private String ownerId;
 
     private Texture texture;
@@ -29,7 +39,7 @@ public class Bullet extends Entity implements Pool.Poolable {
 
     private float maxTime = 3f;
 
-    private boolean alive = true;
+    private float boomAnimation = NO_ANIMATION;
 
 
     public Bullet(World world, String ownerId, Texture texture, Sound fireSound) {
@@ -43,6 +53,10 @@ public class Bullet extends Entity implements Pool.Poolable {
         createBody(0, 0);
         this.fireSound = fireSound;
 
+        explosionAnimation = new Animation( new TextureRegion( new Texture(Gdx.files.internal("explosion.png"))),5,
+                END_ANIMATION );
+        explosionAnimation.setScale(-1.5f);
+        explosionAnimation.setAlpha(0.7f);
         speed = 90;
     }
 
@@ -96,11 +110,20 @@ public class Bullet extends Entity implements Pool.Poolable {
                 getPosition().y - glowSprite.getHeight() / 2);
         glowSprite.setRotation((getAngle() * 180) / (float) Math.PI);
 
-        if (timer > maxTime) {
+        if (timer > maxTime && boomAnimation == NO_ANIMATION) {
             dispose();
             return false;
         }
-        return alive;
+        if(boomAnimation != NO_ANIMATION) {
+            boomAnimation+=dt;
+            explosionAnimation.update(dt);
+
+            if(boomAnimation > END_ANIMATION){
+                dispose();
+                return false;
+            }
+        }
+        return true;
     }
 
     public void dispose() {
@@ -112,9 +135,9 @@ public class Bullet extends Entity implements Pool.Poolable {
     public void reset() {
         //reset methods invoked when bullet is freed by pool
         timer = 0f;
-        alive = true;
         getPosition().set(0, 0);
         ownerId = null;
+        boomAnimation = NO_ANIMATION;
     }
 
     @Override
@@ -151,10 +174,21 @@ public class Bullet extends Entity implements Pool.Poolable {
 
     public void hit() {
         dispose();
-        alive = false;
+        explosionAnimation.setRotation(body.getAngle());
+        explosionAnimation.setPosition(body.getPosition().x ,body.getPosition().y);
+        boomAnimation = START_ANIMATION;
     }
 
     public int getDamaging() {
         return 10;
+    }
+
+    @Override
+    public void draw(SpriteBatch sb) {
+        if(NO_ANIMATION == boomAnimation) {
+            super.draw(sb);
+        }else {
+            explosionAnimation.getFrame().draw(sb);
+        }
     }
 }
