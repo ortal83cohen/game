@@ -38,21 +38,18 @@ public class Stone extends Entity {
 
     private void createBody(int x, int y, short type) {
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.type = BodyDef.BodyType.StaticBody;
         bodyDef.position.set(x + glowSprite.getWidth() * 0.5f, y + glowSprite.getHeight() * 0.5f);
         bodyDef.fixedRotation = false;
 
         PolygonShape shape = new PolygonShape();
-
         shape.setAsBox(glowSprite.getWidth() /4 ,
                 glowSprite.getHeight() /4 );
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 1000000;
         fixtureDef.filter.categoryBits = type;
 
         body = world.createBody(bodyDef);
-        body.setBullet(true);
         fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);
         shape.dispose();
