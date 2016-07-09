@@ -1,5 +1,6 @@
 package com.tanks.game.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -26,8 +27,6 @@ public class Tank extends Entity {
     private final String id;
 
     protected String playerName;
-
-    protected Animation birdAnimation;
 
     private boolean alive = true;
 
@@ -72,14 +71,12 @@ public class Tank extends Entity {
 
         body.setTransform(body.getPosition(), (float) (300 - Math
                 .atan2((double) body.getLinearVelocity().x, (double) body.getLinearVelocity().y)));
-        birdAnimation.update(dt);//animation example
         label.setPosition(body.getPosition().x - glowSprite.getWidth() / 2, body.getPosition().y + 10);
         glowSprite.setPosition(body.getPosition().x - glowSprite.getWidth() / 2,
                 body.getPosition().y - glowSprite.getHeight() / 2);
         glowSprite.setRotation((getAngle() * 180) / (float) Math.PI);
         if (!alive) {
             dispose();
-            body.setActive(false);
             return false;
         }
         return true;
@@ -95,7 +92,14 @@ public class Tank extends Entity {
     }
 
     public void dispose() {
-        world.destroyBody(body);
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                body.setActive(false);
+//                world.destroyBody(body);
+            }
+        });
+
     }
 
     public Vector2 getSpeed() {
