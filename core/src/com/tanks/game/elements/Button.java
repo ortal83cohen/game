@@ -17,7 +17,7 @@ public class Button {
 
     private Texture texture;
 
-    public Button(Stage stage, int x, int y) {
+    public Button(Stage stage, int x, int y,String text) {
         super();
         texture = new Texture("button.png");
 //        texture = Assets.getInstance().getManager().get("button.png");
@@ -28,7 +28,7 @@ public class Button {
         textButtonStyle.up = new Image(texture).getDrawable();
         textButtonStyle.down = new Image(texture).getDrawable();
         textButtonStyle.checked = new Image(texture).getDrawable();
-        button = new TextButton("Button1", textButtonStyle);
+        button = new TextButton(text, textButtonStyle);
         button.setBounds(x, y, 150, 150);
         stage.addActor(button);
     }

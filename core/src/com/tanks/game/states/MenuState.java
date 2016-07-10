@@ -47,8 +47,8 @@ public class MenuState extends State {
 //        playBtn = new Texture("button.png");
         persistent = new com.tanks.game.utils.Persistent();
         stage = new Stage();
-        mButton1 = new Button(stage, 200, 200);
-        mButton2 = new Button(stage, 200, 500);
+        mButton1 = new Button(stage, 200, 200,"AI");
+        mButton2 = new Button(stage, 200, 500,"ONLINE");
 
         mButton1.getButton().addListener(new ChangeListener() {
             @Override

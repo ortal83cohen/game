@@ -137,7 +137,7 @@ public class OnlinePlayState extends State {
         FitViewport viewport = new FitViewport(OnlinePlayState.ANDROID_WIDTH,
                 OnlinePlayState.ANDROID_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport);
-        mButton = new Button(stage, 50, 50);
+        mButton = new Button(stage, 50, 50,"Fire");
         mButton.getButton().addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -335,7 +335,6 @@ public class OnlinePlayState extends State {
                             final double y = data.getDouble("y");
                             final float dx = (float) data.getDouble("dx");
                             final float dy = (float) data.getDouble("dy");
-                            final float s = (float) data.getDouble("s");
                             if (liveEnemies.containsKey(enemyId)) {
                                 Gdx.app.postRunnable(new Runnable() {
                                     @Override
@@ -343,9 +342,9 @@ public class OnlinePlayState extends State {
                                         try {
                                             liveEnemies.get(enemyId)
                                                     .setPosition(new Vector2((float) x, (float) y));
-                                            liveEnemies.get(enemyId).move(dx, dy, s - 0.5f);
+                                            liveEnemies.get(enemyId).move(dx, dy, 0.5f);
                                             Gdx.app.log("SocketIO",
-                                                    "playerMoved x" + x + " y" + y + " s" + s);
+                                                    "playerMoved x" + x + " y" + y );
                                         } catch (Exception e) {
                                             e.printStackTrace();
 

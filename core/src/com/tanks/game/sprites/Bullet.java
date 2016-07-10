@@ -88,7 +88,7 @@ public class Bullet extends Entity implements Pool.Poolable {
     public void fire(String ownerId, int x, int y, float rotation, Vector2 direction) {
 
         this.ownerId = ownerId;
-        body.setTransform(x + direction.x * 24, y + direction.y * 24, rotation);
+        body.setTransform(x + direction.x * 26, y + direction.y * 26, rotation);
 
         body.applyLinearImpulse(direction.scl(999999999), body.getWorldCenter(), true);
 

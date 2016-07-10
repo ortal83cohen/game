@@ -28,6 +28,8 @@ public class BasicContactListener implements ContactListener {
         switch (cDef) {
             case Type.PLAYER_BULLET | Type.ENEMY:
             case Type.PLAYER_BULLET | Type.AI_ENEMY:
+            case Type.ENEMY_BULLET | Type.PLAYER:
+            case Type.ENEMY_BULLET | Type.AI_ENEMY:
 
                 if (fixtureA.getFilterData().categoryBits == Type.PLAYER_BULLET) {
                     ((Bullet) fixtureA.getUserData()).hit();

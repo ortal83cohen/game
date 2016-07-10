@@ -13,7 +13,6 @@ public class Player extends Tank {
     public Player(World world, String id, int x, int y, String playerName) {
         super(world, id, "tank2.png", x, y, Type.PLAYER, playerName);
 
-        birdAnimation = new Animation(new TextureRegion(texture), 3, 0.5f);
         //linear damping to slow down when applying force
         body.setLinearDamping(4f);
 
