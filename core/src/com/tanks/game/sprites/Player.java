@@ -1,6 +1,6 @@
 package com.tanks.game.sprites;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.tanks.game.utils.Type;
@@ -10,18 +10,21 @@ import com.tanks.game.utils.Type;
  */
 public class Player extends Tank {
 
+    private float maxSpeed =500;
+
+    private float acceleration = 6;
+
     public Player(World world, String id, int x, int y, String playerName) {
         super(world, id, "tank2.png", x, y, Type.PLAYER, playerName);
 
         //linear damping to slow down when applying force
-        body.setLinearDamping(4f);
+        body.setLinearDamping(3f);
 
     }
 
     @Override
     public boolean update(float dt) {
         super.update(dt);
-
         return true;
     }
 
@@ -33,16 +36,21 @@ public class Player extends Tank {
         // calculte the normalized direction from the body to the touch position
         Vector2 direction = new Vector2(x, y);
 //        direction.sub(body.getPosition());
-        direction.nor();
 
-        float speed = 100;
-        body.setLinearVelocity(direction.scl(speed));
+//        if( body.getLinearVelocity().nor())
+//
+        if (body.getLinearVelocity().len() < maxSpeed) {
+            body.setLinearVelocity(body.getLinearVelocity().add(direction.nor().scl(acceleration)));
+        }
+
+
+        Gdx.app.log("acceleration", acceleration +"" );
+        Gdx.app.log("getAngularVelocity", body.getLinearVelocity().len()+"" );
+        Gdx.app.log("------------------", "---------------------------" );
 
 //        body.applyLinearImpulse(new Vector2((x-body.getPosition().x)/SPEED_RATIO, (y-body.getPosition().y)/SPEED_RATIO), body.getWorldCenter(), true);
 
-//        if (speed < maxSpeed) {
-//            speed = speed + 3f;
-//        }
+
 
     }
 
