@@ -19,12 +19,6 @@ import com.tanks.game.utils.Type;
  */
 public class Bullet extends Entity implements Pool.Poolable {
 
-    private static final float NO_ANIMATION = -1;
-
-    private static final float START_ANIMATION = 0;
-
-    private static final float END_ANIMATION = 0.7f;
-
     private final Animation explosionAnimation;
 
     private String ownerId;
@@ -39,8 +33,6 @@ public class Bullet extends Entity implements Pool.Poolable {
 
     private float maxTime = 3f;
 
-    private float boomAnimation = NO_ANIMATION;
-
 
     public Bullet(World world, String ownerId, Texture texture, Sound fireSound) {
         super(world);
@@ -54,9 +46,9 @@ public class Bullet extends Entity implements Pool.Poolable {
         this.fireSound = fireSound;
 
         explosionAnimation = new Animation(new TextureRegion(new Texture(Gdx.files.internal("explosion.png"))), 5,
-                END_ANIMATION);
+                0.2f, 0.2f);
         explosionAnimation.setScale(-1.5f);
-        explosionAnimation.setAlpha(0.7f);
+        explosionAnimation.setAlpha(0.6f);
         speed = 90;
     }
 
@@ -86,7 +78,7 @@ public class Bullet extends Entity implements Pool.Poolable {
     }
 
     public void fire(String ownerId, int x, int y, float rotation, Vector2 direction) {
-
+        body.setActive(true);
         this.ownerId = ownerId;
         body.setTransform(x + direction.x * 26, y + direction.y * 26, rotation);
 
@@ -99,42 +91,26 @@ public class Bullet extends Entity implements Pool.Poolable {
         }
 
         fireSound.play(0.5f);
-
+        explosionAnimation.setRotation(rotation);
+        explosionAnimation.setPosition(body.getPosition().x, body.getPosition().y);
+        explosionAnimation.startAnimation();
     }
 
     public boolean update(float dt) {
 
-        if (boomAnimation == NO_ANIMATION) {
-            timer += dt;
-            glowSprite.setPosition(body.getPosition().x - glowSprite.getWidth() / 2,
-                    body.getPosition().y - glowSprite.getHeight() / 2);
-            glowSprite.setRotation((body.getAngle() * 180) / (float) Math.PI);
-
-            if (timer > maxTime) {
-                dispose();
-                return false;
-            }
-        } else {
-            boomAnimation += dt;
-            explosionAnimation.update(dt);
-
-            if (boomAnimation > END_ANIMATION) {
-                boomAnimation = NO_ANIMATION;
-                return false;
-            }
+        timer += dt;
+        glowSprite.setPosition(body.getPosition().x - glowSprite.getWidth() / 2,
+                body.getPosition().y - glowSprite.getHeight() / 2);
+        glowSprite.setRotation((body.getAngle() * 180) / (float) Math.PI);
+        explosionAnimation.update(dt);
+        if (timer > maxTime) {
+            return false;
         }
+
         return true;
     }
 
-    public void dispose() {
-        Gdx.app.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                body.setTransform(-1, -1, -1);
-            }
-        });
-        body.setAwake(false);
-    }
+
 
     @Override
     public void reset() {
@@ -142,7 +118,7 @@ public class Bullet extends Entity implements Pool.Poolable {
         timer = 0f;
         getPosition().set(0, 0);
         ownerId = null;
-        boomAnimation = NO_ANIMATION;
+        explosionAnimation.stopAnimation();
     }
 
     @Override
@@ -180,8 +156,8 @@ public class Bullet extends Entity implements Pool.Poolable {
     public void hit() {
         explosionAnimation.setRotation(body.getAngle());
         explosionAnimation.setPosition(body.getPosition().x, body.getPosition().y);
-        dispose();
-        boomAnimation = START_ANIMATION;
+        explosionAnimation.startAnimation();
+        body.setActive(false);
     }
 
     public int getDamaging() {
@@ -189,10 +165,15 @@ public class Bullet extends Entity implements Pool.Poolable {
     }
 
     @Override
+    public void dispose() {
+        explosionAnimation.dispose();
+        texture.dispose();
+    }
+
+    @Override
     public void draw(SpriteBatch sb) {
-        if (NO_ANIMATION == boomAnimation) {
             super.draw(sb);
-        } else {
+        if (explosionAnimation.isAwake()) {
             explosionAnimation.getFrame().draw(sb);
         }
     }

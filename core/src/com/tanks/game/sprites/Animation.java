@@ -2,15 +2,18 @@ package com.tanks.game.sprites;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 
 public class Animation {
 
+    private final float timeLimit;
+
     private Array<Sprite> frames;
 
     private float maxFrameTime;
+
+    private float timer;
 
     private float currentFrameTime;
 
@@ -18,7 +21,7 @@ public class Animation {
 
     private int frame;
 
-    public Animation(TextureRegion region, int frameCount, float cycleTime) {
+    public Animation(TextureRegion region, int frameCount, float cycleTime,float timeLimit) {
         frames = new Array<Sprite>();
         int frameWidth = region.getRegionWidth() / frameCount;
         for (int i = 0; i < frameCount; i++) {
@@ -29,10 +32,12 @@ public class Animation {
         this.frameCount = frameCount;
         maxFrameTime = cycleTime / frameCount;
         frame = 0;
+        this.timeLimit = timer = timeLimit;
     }
 
-    public void update(float dt) {
+    public boolean update(float dt) {
         currentFrameTime += dt;
+        timer += dt;
         if (currentFrameTime > maxFrameTime) {
             frame++;
             currentFrameTime = 0;
@@ -40,6 +45,7 @@ public class Animation {
         if (frame >= frameCount) {
             frame = 0;
         }
+        return isAwake();
     }
 
     public void setScale(float scail) {
@@ -61,7 +67,7 @@ public class Animation {
     public void setRotation(float rotation) {
         for (int i = 0; i < frames.size; i++) {
             Sprite f = frames.get(i);
-            f.rotate(rotation);
+            f.rotate((float) Math.toRadians(rotation));
             frames.set(i, f);
         }
     }
@@ -73,7 +79,23 @@ public class Animation {
         }
     }
 
+    public boolean isAwake(){
+        return timer<timeLimit;
+    }
+
     public Sprite getFrame() {
         return frames.get(frame);
+    }
+
+    public void startAnimation() {
+        timer = 0;
+    }
+
+    public void stopAnimation() {
+        timer = timeLimit;
+    }
+
+    public void dispose() {
+
     }
 }

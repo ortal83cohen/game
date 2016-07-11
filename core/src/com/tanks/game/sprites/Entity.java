@@ -59,6 +59,8 @@ public abstract class Entity {
     }
 
     public void draw(SpriteBatch sb) {
-        glowSprite.draw(sb);
+        if(body.isActive()) {
+            glowSprite.draw(sb);
+        }
     }
 }

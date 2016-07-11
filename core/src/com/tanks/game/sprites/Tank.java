@@ -68,9 +68,10 @@ public class Tank extends Entity {
     }
 
     public boolean update(float dt) {
-
-        body.setTransform(body.getPosition(), (float) (300 - Math
-                .atan2((double) body.getLinearVelocity().x, (double) body.getLinearVelocity().y)));
+        if (body.getLinearVelocity().x !=0 && body.getLinearVelocity().y!=0) {
+            body.setTransform(body.getPosition(), (float) (300 - Math
+                    .atan2((double) body.getLinearVelocity().x, (double) body.getLinearVelocity().y)));
+        }
         label.setPosition(body.getPosition().x - glowSprite.getWidth() / 2, body.getPosition().y + 10);
         glowSprite.setPosition(body.getPosition().x - glowSprite.getWidth() / 2,
                 body.getPosition().y - glowSprite.getHeight() / 2);
