@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.tanks.game.data.TankCharacteristics;
 import com.tanks.game.utils.Assets;
 
 /**
@@ -28,6 +29,8 @@ public class Tank extends Entity {
 
     protected String playerName;
 
+    protected TankCharacteristics mTankCharacteristics;
+
     private boolean alive = true;
 
 
@@ -44,13 +47,14 @@ public class Tank extends Entity {
         label = new Label(playerName, new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         label.setFontScale(0.5f);
 //        stage.addActor(label);
+        mTankCharacteristics = new TankCharacteristics();
     }
 
     private void createBody(World world, int x, int y, short type) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
-        bodyDef.fixedRotation = false;
+        bodyDef.fixedRotation = true;
 
         PolygonShape shape = new PolygonShape();
 
@@ -68,7 +72,7 @@ public class Tank extends Entity {
     }
 
     public boolean update(float dt) {
-        if (Math.abs(body.getLinearVelocity().x) >0.1 && Math.abs(body.getLinearVelocity().y)>0.1) {
+        if (!body.getLinearVelocity().isZero()) {
             body.setTransform(body.getPosition(), (float) (300 - Math
                     .atan2((double) body.getLinearVelocity().x, (double) body.getLinearVelocity().y)));
         }
@@ -108,9 +112,13 @@ public class Tank extends Entity {
     }
 
     public void hit(int damage) {
-        resistant = resistant - damage;
-        if (resistant <= 0) {
+        mTankCharacteristics.addResistant(- damage);
+        if (mTankCharacteristics.getResistant() <= 0) {
             alive = false;
         }
+    }
+
+    public TankCharacteristics getTankCharacteristics() {
+        return mTankCharacteristics;
     }
 }

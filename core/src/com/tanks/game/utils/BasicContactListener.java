@@ -7,6 +7,8 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.tanks.game.sprites.AiEnemy;
 import com.tanks.game.sprites.Bullet;
+import com.tanks.game.sprites.Gift;
+import com.tanks.game.sprites.Player;
 import com.tanks.game.sprites.Tank;
 
 /**
@@ -63,6 +65,18 @@ public class BasicContactListener implements ContactListener {
                     ((AiEnemy) fixtureA.getUserData()).hit();
                 } else {
                     ((AiEnemy) fixtureB.getUserData()).hit();
+                }
+
+                break;
+
+            case Type.PLAYER | Type.GIFT:
+
+                if (fixtureA.getUserData() instanceof Player) {
+                    ((Player) fixtureA.getUserData()).gift();
+                    ((Gift) fixtureB.getUserData()).hit();
+                } else {
+                    ((Player) fixtureB.getUserData()).gift();
+                    ((Gift) fixtureA.getUserData()).hit();
                 }
 
                 break;

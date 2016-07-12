@@ -17,8 +17,6 @@ public abstract class Entity {
 
     public World world;
 
-    public int resistant = 100;
-
     protected Fixture fixture;
 
     protected Sprite glowSprite;
@@ -52,10 +50,6 @@ public abstract class Entity {
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
         fixture.setFilterData(filter);
-    }
-
-    public int getResistant() {
-        return resistant;
     }
 
     public void draw(SpriteBatch sb) {

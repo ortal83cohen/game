@@ -29,9 +29,9 @@ public class BulletPool extends Pool<Bullet> {
         return new Bullet(world, null, bulletTexture, fireSound);
     }
 
-    public Bullet obtainAndFire(String ownerId, int x, int y, float rotation,  Vector2 direction) {
+    public Bullet obtainAndFire(String ownerId, int x, int y, float rotation,  Vector2 direction,int speed) {
         Bullet bullet = obtain();
-        bullet.fire(ownerId, x, y, rotation, direction.nor());
+        bullet.fire(ownerId, x, y, rotation, direction.nor(),speed);
         return bullet;
     }
 

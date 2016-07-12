@@ -82,12 +82,12 @@ public class Bullet extends Entity implements Pool.Poolable {
 //        body.setLinearDamping(4f);
     }
 
-    public void fire(String ownerId, int x, int y, float rotation, Vector2 direction) {
+    public void fire(String ownerId, int x, int y, float rotation, Vector2 direction,int speed) {
         body.setActive(true);
         this.ownerId = ownerId;
         body.setTransform(x + direction.x * 26, y + direction.y * 26, rotation);
 
-        body.applyLinearImpulse(direction.scl(999999999), body.getWorldCenter(), true);
+        body.applyLinearImpulse(direction.scl(speed), body.getWorldCenter(), true);
 
         if (ownerId == "Player") {
             setCategoryFilter(Type.PLAYER_BULLET);

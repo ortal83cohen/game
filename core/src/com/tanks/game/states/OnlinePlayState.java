@@ -28,6 +28,7 @@ import com.tanks.game.elements.Button;
 import com.tanks.game.sprites.AiEnemy;
 import com.tanks.game.sprites.Bullet;
 import com.tanks.game.sprites.Enemy;
+import com.tanks.game.sprites.Gift;
 import com.tanks.game.sprites.Player;
 import com.tanks.game.sprites.Stone;
 import com.tanks.game.sprites.Tank;
@@ -94,6 +95,8 @@ public class OnlinePlayState extends State {
 
     private Map<String, Stone> stones;
 
+    private Map<String, Gift> gifts;
+
     private Socket socket;
 
     private Player player;
@@ -144,13 +147,14 @@ public class OnlinePlayState extends State {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        shoot(player.getPosition().x, player.getPosition().y, player.getRotation());
+                        shoot(player.getPosition().x, player.getPosition().y, player.getRotation(), player.getTankCharacteristics().getBulletSpeed());
                     }
                 }, connectionDelay);
             }
         });
         liveEnemies = new HashMap<String, Enemy>();
         stones = new HashMap<String, Stone>();
+        gifts = new HashMap<String, Gift>();
         bullets = new ArrayList<Bullet>();
         cam.setToOrtho(false, TanksDemo.WIDTH / 2, TanksDemo.HEIGHT / 2);
         bg = new Texture("bg.png");
@@ -309,6 +313,7 @@ public class OnlinePlayState extends State {
                                         persistent.saveInt(map);
                                         gsm.set(new MenuState(gsm));
                                     } else {
+                                        gifts.put(id, new Gift(world, liveEnemies.get(id).getPosition().x, liveEnemies.get(id).getPosition().y));
                                         liveEnemies.remove(id);
                                     }
                                 } catch (Exception e) {
@@ -340,7 +345,7 @@ public class OnlinePlayState extends State {
                                         try {
                                             liveEnemies.get(enemyId)
                                                     .setPosition(new Vector2((float) x, (float) y));
-                                            liveEnemies.get(enemyId).move(dx, dy, 0.5f);
+                                            liveEnemies.get(enemyId).move(dx, dy);
                                             Gdx.app.log("SocketIO", "playerMoved x" + x + " y" + y);
                                         } catch (Exception e) {
                                             e.printStackTrace();
@@ -367,10 +372,11 @@ public class OnlinePlayState extends State {
                                     String enemyId = data.getString("id");
                                     int x = data.getInt("x");
                                     int y = data.getInt("y");
+                                    int speed = data.getInt("speed");
                                     double rotation = data.getDouble("rotation");
                                     Vector2 direction = new Vector2((float) Math.cos(rotation - 135), (float) Math.sin(rotation - 135));
                                     Bullet bullet = bulletPool.obtainAndFire(enemyId, x, y,
-                                            (float) rotation, direction);
+                                            (float) rotation, direction, speed);
                                     bullets.add(bullet);
 
                                 } catch (Exception e) {
@@ -471,7 +477,7 @@ public class OnlinePlayState extends State {
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    shoot(player.getPosition().x, player.getPosition().y, player.getRotation());
+                    shoot(player.getPosition().x, player.getPosition().y, player.getRotation(), player.getTankCharacteristics().getBulletSpeed());
                 }
             }, connectionDelay);
         }
@@ -502,6 +508,7 @@ public class OnlinePlayState extends State {
                         Gdx.app.error("SocketIO", "Error sending playerHit data");
                     }
                     entry.getValue().dispose();
+                    gifts.put(entry.getKey(), new Gift(world, entry.getValue().getPosition().x, entry.getValue().getPosition().y));
                     liveEnemies.remove(entry.getKey());
                 }
             }
@@ -522,6 +529,11 @@ public class OnlinePlayState extends State {
 //                }
 //                entry.getValue().dispose();
 //                liveEnemies.remove(entry.getKey());
+            }
+        }
+        for (Map.Entry<String, Gift> entry : gifts.entrySet()) {
+            if (!entry.getValue().update(dt)) {
+                gifts.remove(entry.getKey());
             }
         }
 
@@ -558,19 +570,20 @@ public class OnlinePlayState extends State {
         }
     }
 
-    private void shoot(final float x, final float y, float rotation) {
-        if (bullets.size() < 5) {
-            if (lastShoot + 0.3 < timer) {
+    private void shoot(final float x, final float y, float rotation, int speed) {
+        if (bullets.size() < player.getTankCharacteristics().getBulletsNumber()) {
+            if (lastShoot + player.getTankCharacteristics().getBulletsCoolDown() < timer) {
                 lastShoot = timer;
                 Vector2 direction = new Vector2((float) Math.cos(player.getRotation() - 135), (float) Math.sin(player.getRotation() - 135));
                 Bullet bullet = bulletPool.obtainAndFire("Player", (int) x, (int) y,
-                        player.getRotation(), direction);
+                        player.getRotation(), direction, speed);
                 bullets.add(bullet);
 
                 JSONObject data = new JSONObject();
                 try {
                     data.put("x", x);
                     data.put("y", y);
+                    data.put("speed", speed);
                     data.put("rotation", rotation);
                     socket.emit("playerShoot", data);
                 } catch (Exception e) {
@@ -617,6 +630,9 @@ public class OnlinePlayState extends State {
         for (int i = 0; i < aiEnemies.size(); i++) {
             aiEnemies.get(i).draw(sb);
         }
+        for (Map.Entry<String, Gift> entry : gifts.entrySet()) {
+            entry.getValue().draw(sb);
+        }
         for (Map.Entry<String, Stone> entry : stones.entrySet()) {
             entry.getValue().draw(sb);
         }
@@ -645,16 +661,16 @@ public class OnlinePlayState extends State {
         sr.begin();
         sr.setColor(Color.BLACK);
 
-        sr.circle(player.getPosition().x, player.getPosition().y, player.resistant / 10);
+        sr.circle(player.getPosition().x, player.getPosition().y, player.getTankCharacteristics().getResistant() / 10);
 
         for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
             sr.circle(entry.getValue().getPosition().x, entry.getValue().getPosition().y,
-                    entry.getValue().resistant / 10);
+                    entry.getValue().getTankCharacteristics().getResistant() / 10);
         }
 
         for (int i = 0; i < aiEnemies.size(); i++) {
             sr.circle(aiEnemies.get(i).getPosition().x, aiEnemies.get(i).getPosition().y,
-                    aiEnemies.get(i).resistant / 10);
+                    aiEnemies.get(i).getTankCharacteristics().getResistant() / 10);
         }
         sr.end();
     }
@@ -678,6 +694,11 @@ public class OnlinePlayState extends State {
             for (int i = 0; i < stones.size(); i++) {
                 if (stones.get(i) != null) {
                     stones.get(i).dispose();
+                }
+            }
+            for (int i = 0; i < gifts.size(); i++) {
+                if (gifts.get(i) != null) {
+                    gifts.get(i).dispose();
                 }
             }
             for (int i = 0; i < walls.size(); i++) {

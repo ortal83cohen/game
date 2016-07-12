@@ -18,7 +18,7 @@ public class Enemy extends Tank {
         return body.isActive();
     }
 
-    public void move(float directionX, float directionY, float speed) {
+    public void move(float directionX, float directionY) {
         body.setLinearVelocity(directionX, directionY);
     }
 
