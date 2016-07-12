@@ -33,6 +33,8 @@ public class Bullet extends Entity implements Pool.Poolable {
 
     private float maxTime = 3f;
 
+    private boolean gotHit = false;
+
 
     public Bullet(World world, String ownerId, Texture texture, Sound fireSound) {
         super(world);
@@ -57,7 +59,7 @@ public class Bullet extends Entity implements Pool.Poolable {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
-        bodyDef.fixedRotation = false;
+        bodyDef.fixedRotation = true;
 
         PolygonShape shape = new PolygonShape();
 
@@ -65,7 +67,10 @@ public class Bullet extends Entity implements Pool.Poolable {
                 glowSprite.getHeight() / 16);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = 0.0001f;
+        fixtureDef.density = 0.001f;
+        fixtureDef.friction = 0.1f;
+        fixtureDef.restitution = 0.7f;
+//        fixtureDef.isSensor = false;
 
         body = world.createBody(bodyDef);
         body.setBullet(true);
@@ -106,6 +111,9 @@ public class Bullet extends Entity implements Pool.Poolable {
         if (timer > maxTime) {
             return false;
         }
+        if(gotHit){
+            body.setActive(false);
+        }
 
         return true;
     }
@@ -119,6 +127,7 @@ public class Bullet extends Entity implements Pool.Poolable {
         getPosition().set(0, 0);
         ownerId = null;
         explosionAnimation.stopAnimation();
+        gotHit = false;
     }
 
     @Override
@@ -157,7 +166,7 @@ public class Bullet extends Entity implements Pool.Poolable {
         explosionAnimation.setRotation(body.getAngle());
         explosionAnimation.setPosition(body.getPosition().x, body.getPosition().y);
         explosionAnimation.startAnimation();
-        body.setActive(false);
+        gotHit=true;
     }
 
     public int getDamaging() {

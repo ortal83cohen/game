@@ -68,7 +68,7 @@ public class Tank extends Entity {
     }
 
     public boolean update(float dt) {
-        if (body.getLinearVelocity().x !=0 && body.getLinearVelocity().y!=0) {
+        if (Math.abs(body.getLinearVelocity().x) >0.1 && Math.abs(body.getLinearVelocity().y)>0.1) {
             body.setTransform(body.getPosition(), (float) (300 - Math
                     .atan2((double) body.getLinearVelocity().x, (double) body.getLinearVelocity().y)));
         }

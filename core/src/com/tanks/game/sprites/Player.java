@@ -44,9 +44,9 @@ public class Player extends Tank {
         }
 
 
-        Gdx.app.log("acceleration", acceleration +"" );
-        Gdx.app.log("getAngularVelocity", body.getLinearVelocity().len()+"" );
-        Gdx.app.log("------------------", "---------------------------" );
+//        Gdx.app.log("acceleration", acceleration +"" );
+//        Gdx.app.log("getAngularVelocity", body.getLinearVelocity().len()+"" );
+//        Gdx.app.log("------------------", "---------------------------" );
 
 //        body.applyLinearImpulse(new Vector2((x-body.getPosition().x)/SPEED_RATIO, (y-body.getPosition().y)/SPEED_RATIO), body.getWorldCenter(), true);
 

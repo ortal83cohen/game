@@ -137,16 +137,14 @@ public class OnlinePlayState extends State {
         FitViewport viewport = new FitViewport(OnlinePlayState.ANDROID_WIDTH,
                 OnlinePlayState.ANDROID_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport);
-        mButton = new Button(stage, 50, 50,"Fire");
+        mButton = new Button(stage, 50, 50, "Fire");
         mButton.getButton().addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                        shoot(player.getPosition().x, player.getPosition().y, player.getRotation(),
-                                player.getBody().getLinearVelocity().x,
-                                player.getBody().getLinearVelocity().y);
+                        shoot(player.getPosition().x, player.getPosition().y, player.getRotation());
                     }
                 }, connectionDelay);
             }
@@ -343,8 +341,7 @@ public class OnlinePlayState extends State {
                                             liveEnemies.get(enemyId)
                                                     .setPosition(new Vector2((float) x, (float) y));
                                             liveEnemies.get(enemyId).move(dx, dy, 0.5f);
-                                            Gdx.app.log("SocketIO",
-                                                    "playerMoved x" + x + " y" + y );
+                                            Gdx.app.log("SocketIO", "playerMoved x" + x + " y" + y);
                                         } catch (Exception e) {
                                             e.printStackTrace();
 
@@ -371,11 +368,9 @@ public class OnlinePlayState extends State {
                                     int x = data.getInt("x");
                                     int y = data.getInt("y");
                                     double rotation = data.getDouble("rotation");
-                                    float directionX = (float) data.getDouble("directionX");
-                                    float directionY = (float) data.getDouble("directionY");
-
+                                    Vector2 direction = new Vector2((float) Math.cos(rotation - 135), (float) Math.sin(rotation - 135));
                                     Bullet bullet = bulletPool.obtainAndFire(enemyId, x, y,
-                                            (float) rotation, new Vector2(directionX, directionY));
+                                            (float) rotation, direction);
                                     bullets.add(bullet);
 
                                 } catch (Exception e) {
@@ -476,9 +471,7 @@ public class OnlinePlayState extends State {
             Timer.schedule(new Timer.Task() {
                 @Override
                 public void run() {
-                    shoot(player.getPosition().x, player.getPosition().y, player.getRotation(),
-                            player.getBody().getLinearVelocity().x,
-                            player.getBody().getLinearVelocity().y);
+                    shoot(player.getPosition().x, player.getPosition().y, player.getRotation());
                 }
             }, connectionDelay);
         }
@@ -565,13 +558,13 @@ public class OnlinePlayState extends State {
         }
     }
 
-    private void shoot(float x, float y, float rotation, float directionX, float directionY) {
+    private void shoot(final float x, final float y, float rotation) {
         if (bullets.size() < 5) {
             if (lastShoot + 0.3 < timer) {
                 lastShoot = timer;
-
+                Vector2 direction = new Vector2((float) Math.cos(player.getRotation() - 135), (float) Math.sin(player.getRotation() - 135));
                 Bullet bullet = bulletPool.obtainAndFire("Player", (int) x, (int) y,
-                        player.getRotation(), new Vector2(directionX, directionY));
+                        player.getRotation(), direction);
                 bullets.add(bullet);
 
                 JSONObject data = new JSONObject();
@@ -579,8 +572,6 @@ public class OnlinePlayState extends State {
                     data.put("x", x);
                     data.put("y", y);
                     data.put("rotation", rotation);
-                    data.put("directionX", directionX);
-                    data.put("directionY", directionY);
                     socket.emit("playerShoot", data);
                 } catch (Exception e) {
                     Gdx.app.error("SocketIO", "Error sending update data");
