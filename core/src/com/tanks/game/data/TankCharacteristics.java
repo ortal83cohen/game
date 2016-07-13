@@ -4,10 +4,23 @@ package com.tanks.game.data;
  * Created by cohenort on 12/07/2016.
  */
 public class TankCharacteristics {
-    private int resistant = 100;
+    private float resistant = 100;
+    private float shield = 0;
     private int bulletSpeed = 100;
     private int bulletsNumber = 5;
     private float bulletsCoolDown = 0.4f;
+
+    public float getShield() {
+        return shield;
+    }
+
+    public void setShield(float shield) {
+        this.shield = shield;
+    }
+
+    public void addShield(float shield) {
+        this.shield += shield;
+    }
 
     public int getBulletsNumber() {
         return bulletsNumber;
@@ -36,13 +49,13 @@ public class TankCharacteristics {
         this.bulletSpeed += bulletSpeed;
     }
 
-    public int getResistant() {
+    public float getResistant() {
         return resistant;
     }
-    public void setResistant(int resistant) {
+    public void setResistant(float resistant) {
         this.resistant = resistant;
     }
-    public void addResistant(int resistant) {
+    public void addResistant(float resistant) {
         this.resistant += resistant;
     }
 }

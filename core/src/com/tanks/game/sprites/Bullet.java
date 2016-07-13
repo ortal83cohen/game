@@ -8,10 +8,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Pool;
+import com.tanks.game.utils.BodyEditorLoader;
 import com.tanks.game.utils.Type;
 
 /**
@@ -56,27 +58,30 @@ public class Bullet extends Entity implements Pool.Poolable {
 
 
     private void createBody(int x, int y) {
+        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("bodies.json"));
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
         bodyDef.fixedRotation = true;
 
-        PolygonShape shape = new PolygonShape();
-
-        shape.setAsBox(glowSprite.getWidth() / 16,
-                glowSprite.getHeight() / 16);
+//        PolygonShape shape = new PolygonShape();
+//
+//        shape.setAsBox(glowSprite.getWidth() / 16,
+//                glowSprite.getHeight() / 16);
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
+//        fixtureDef.shape = shape;
         fixtureDef.density = 0.001f;
         fixtureDef.friction = 0.1f;
         fixtureDef.restitution = 0.7f;
 //        fixtureDef.isSensor = false;
-
         body = world.createBody(bodyDef);
+        loader.attachFixture(body, "bullet", fixtureDef, 20);
         body.setBullet(true);
-        fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(this);
-        shape.dispose();
+        for (Fixture fixture : body.getFixtureList()) {
+            fixture.setUserData(this);
+        }
+
+//        shape.dispose();
 
         //linear damping to slow down when applying force
 //        body.setLinearDamping(4f);

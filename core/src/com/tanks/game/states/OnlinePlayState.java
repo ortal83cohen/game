@@ -42,6 +42,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,9 +64,9 @@ public class OnlinePlayState extends State {
 
     private static final String TAG = "PlayState";
 
-    static public int GAME_WIDTH = 400;
+    static public int GAME_WIDTH = 450;
 
-    static public int GAME_HEIGHT = 400;
+    static public int GAME_HEIGHT = 450;
 
     public static int ANDROID_WIDTH = Gdx.graphics.getWidth();
 
@@ -298,7 +299,7 @@ public class OnlinePlayState extends State {
                     }
                 });
             }
-        }).on("playerHit", new Emitter.Listener() {
+        }).on("giftHit", new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
                         final JSONObject data = (JSONObject) args[0];
@@ -307,17 +308,9 @@ public class OnlinePlayState extends State {
                             public void run() {
                                 String id = data.getString("id");
                                 try {
-                                    if (id.equals(myId)) {
-                                        HashMap map = new HashMap();
-                                        map.put("killed1", persistent.LoadInt("killed1") + 1);
-                                        persistent.saveInt(map);
-                                        gsm.set(new MenuState(gsm));
-                                    } else {
-                                        gifts.put(id, new Gift(world, liveEnemies.get(id).getPosition().x, liveEnemies.get(id).getPosition().y));
-                                        liveEnemies.remove(id);
-                                    }
+                                    gifts.remove(id);
                                 } catch (Exception e) {
-                                    Gdx.app.error("SocketIO", "Error PlayerHit", e);
+                                    Gdx.app.error("SocketIO", "Error giftHit", e);
                                 }
                             }
                         });
@@ -432,7 +425,29 @@ public class OnlinePlayState extends State {
                                                         object.getInt("y")));
                                     }
                                 } catch (Exception e) {
-                                    Gdx.app.error("SocketIO", "Error Get Players");
+                                    Gdx.app.error("SocketIO", "Error Get Stones");
+                                }
+                            }
+                        });
+                    }
+                }
+        ).on("getGifts", new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        final JSONArray objects = (JSONArray) args[0];
+                        Gdx.app.postRunnable(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    Gdx.app.log("SocketIO", "Get Gifts: " + objects.length());
+                                    for (int i = 0; i < objects.length(); i++) {
+                                        final JSONObject object = objects.getJSONObject(i);
+                                        gifts.put(String.valueOf(object.getInt("id")),
+                                                new Gift(world, object.getInt("x"),
+                                                        object.getInt("y")));
+                                    }
+                                } catch (Exception e) {
+                                    Gdx.app.error("SocketIO", "Error Get Gifts");
                                 }
                             }
                         });
@@ -531,10 +546,21 @@ public class OnlinePlayState extends State {
 //                liveEnemies.remove(entry.getKey());
             }
         }
-        for (Map.Entry<String, Gift> entry : gifts.entrySet()) {
-            if (!entry.getValue().update(dt)) {
-                gifts.remove(entry.getKey());
+        try {
+            for (Map.Entry<String, Gift> entry : gifts.entrySet()) {
+                if (!entry.getValue().update(dt)) {
+                    JSONObject data = new JSONObject();
+                    try {
+                        data.put("id", entry.getKey());
+                        socket.emit("giftHit", data);
+                    } catch (Exception e) {
+                        Gdx.app.error("SocketIO", "Error sending giftHit data");
+                    }
+                    gifts.remove(entry.getKey());
+                }
             }
+        } catch (ConcurrentModificationException e) {
+
         }
 
         for (int i = 0; i < aiEnemies.size(); i++) {

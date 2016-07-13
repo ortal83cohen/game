@@ -3,6 +3,7 @@ package com.tanks.game.sprites;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -40,15 +41,17 @@ public class Gift extends Entity {
         fixtureDef.filter.categoryBits = type;
 
         body = world.createBody(bodyDef);
-        fixture = body.createFixture(fixtureDef);
-        fixture.setUserData(this);
+        body.createFixture(fixtureDef);
+        for (Fixture fixture : body.getFixtureList()) {
+            fixture.setUserData(this);
+        }
         shape.dispose();
 
     }
 
     public boolean update(float dt) {
         if(!alive){
-            body.setActive(false);
+            body.destroyFixture(body.getFixtureList().first());
             return false;
         }
         return true;

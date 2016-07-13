@@ -55,6 +55,7 @@ public class Player extends Tank {
 
 
     public void gift() {
-        mTankCharacteristics.addResistant(10);
+        mTankCharacteristics.addResistant(5);
+        mTankCharacteristics.addShield(0.5f);
     }
 }

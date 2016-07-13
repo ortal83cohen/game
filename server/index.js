@@ -3,6 +3,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 var players = [];
 var stones = [];
+var gifts = [];
 
 server.listen(9000, function() {
     console.log("Server is now running...");
@@ -13,7 +14,14 @@ if(!stones[0]){
     console.log("stones null");
    for (var i = 0; i < 10; i++) {
              stones.push(new stone(i, randomInt(0, 400), randomInt(0, 400)));
-        }
+   }
+}
+if(!gifts[0]){
+    console.log("gifts null");
+   for (var i = 0; i < 2; i++) {
+             gifts.push(new gift(i, randomInt(0, 400), randomInt(0, 400)));
+   }
+   socket.broadcast.emit('getGifts', gifts);
 }
     console.log(socket.id + " Player Connected!");
     socket.emit('socketID', {
@@ -21,6 +29,7 @@ if(!stones[0]){
     });
     socket.emit('getPlayers', players);
     socket.emit('getStones', stones);
+    socket.emit('getGifts', gifts);
     socket.on('playerMoved', function(data) {
         data.id = socket.id;
         socket.broadcast.emit('playerMoved', data);
@@ -45,7 +54,7 @@ if(!stones[0]){
     });
     socket.on('playerHit', function(data) {
         console.log(socket.id + " Hit " + data.id);
-
+        gifts.push(new gift(i, data.x, data.y));
         for (var i = 0; i < players.length; i++) {
             if (players[i].id == data.id) {
                 socket.broadcast.emit('playerHit', data);
@@ -53,6 +62,16 @@ if(!stones[0]){
             }
         }
         printPlayers();
+    });
+     socket.on('giftHit', function(data) {
+        console.log(socket.id + "  giftHit " + data.id);
+        for (var i = 0; i < gifts.length; i++) {
+            if (gifts[i].id == data.id) {
+                socket.broadcast.emit('giftHit', data);
+                gifts.splice(i, 1);
+            }
+        }
+        printGifts();
     });
     socket.on('disconnect', function() {
         console.log(socket.id + " Disconnected");
@@ -80,6 +99,11 @@ function stone(id, x, y) {
     this.x = x;
     this.y = y;
 }
+function gift(id, x, y) {
+    this.id = id;
+    this.x = x;
+    this.y = y;
+}
 function randomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 }
@@ -87,5 +111,11 @@ function printPlayers() {
     console.log("Players:");
     for (var i = 0; i < players.length; i++) {
         console.log("Player:" + players[i].id +" name -"+ players[i].playerName + "  x-" + players[i].x + "  y-" + players[i].y);
+    }
+}
+function printGifts() {
+    console.log("Gifts:");
+    for (var i = 0; i < gifts.length; i++) {
+        console.log("gift:" + gifts[i].id + "  x-" + gifts[i].x + "  y-" + gifts[i].y);
     }
 }

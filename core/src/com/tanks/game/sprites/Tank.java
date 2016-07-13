@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -27,6 +28,8 @@ public class Tank extends Entity {
 
     private final String id;
 
+    private final Sprite shieldSprite;
+
     protected String playerName;
 
     protected TankCharacteristics mTankCharacteristics;
@@ -42,6 +45,8 @@ public class Tank extends Entity {
         this.textureFileName = textureFileName;
         texture = Assets.getInstance().getManager().get(textureFileName);
         glowSprite = new com.badlogic.gdx.graphics.g2d.Sprite(texture);
+        shieldSprite = new com.badlogic.gdx.graphics.g2d.Sprite(new Texture("shield.png"));
+        shieldSprite.setAlpha(0);
         getSprite().scale(-0.5f);
         createBody(world, x, y, type);
         label = new Label(playerName, new Label.LabelStyle(new BitmapFont(), Color.WHITE));
@@ -80,7 +85,12 @@ public class Tank extends Entity {
         glowSprite.setPosition(body.getPosition().x - glowSprite.getWidth() / 2,
                 body.getPosition().y - glowSprite.getHeight() / 2);
         glowSprite.setRotation((getAngle() * 180) / (float) Math.PI);
+        shieldSprite.setAlpha(getTankCharacteristics().getShield()/5);
+        shieldSprite.setPosition(body.getPosition().x - shieldSprite.getWidth() / 2,
+                body.getPosition().y - shieldSprite.getHeight() / 2);
+        shieldSprite.setRotation((getAngle() * 180) / (float) Math.PI);
         if (!alive) {
+            body.destroyFixture(body.getFixtureList().first());
             dispose();
             return false;
         }
@@ -94,6 +104,7 @@ public class Tank extends Entity {
     public void draw(SpriteBatch sb) {
         glowSprite.draw(sb);
         label.draw(sb, 0.7f);
+        shieldSprite.draw(sb);
     }
 
     public void dispose() {
@@ -112,7 +123,7 @@ public class Tank extends Entity {
     }
 
     public void hit(int damage) {
-        mTankCharacteristics.addResistant(- damage);
+        mTankCharacteristics.addResistant(-damage + mTankCharacteristics.getShield());
         if (mTankCharacteristics.getResistant() <= 0) {
             alive = false;
         }

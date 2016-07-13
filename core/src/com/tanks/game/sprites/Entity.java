@@ -17,8 +17,6 @@ public abstract class Entity {
 
     public World world;
 
-    protected Fixture fixture;
-
     protected Sprite glowSprite;
 
     protected Body body;
@@ -49,11 +47,13 @@ public abstract class Entity {
     public void setCategoryFilter(short filterBit) {
         Filter filter = new Filter();
         filter.categoryBits = filterBit;
-        fixture.setFilterData(filter);
+        for (Fixture fixture : body.getFixtureList()) {
+            fixture.setFilterData(filter);
+        }
     }
 
     public void draw(SpriteBatch sb) {
-        if(body.isActive()) {
+        if (body.isActive()) {
             glowSprite.draw(sb);
         }
     }
