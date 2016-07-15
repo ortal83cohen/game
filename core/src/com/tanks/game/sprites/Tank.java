@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -90,7 +91,9 @@ public class Tank extends Entity {
                 body.getPosition().y - shieldSprite.getHeight() / 2);
         shieldSprite.setRotation((getAngle() * 180) / (float) Math.PI);
         if (!alive) {
-            body.destroyFixture(body.getFixtureList().first());
+            if(body.getFixtureList().size !=0) {
+                body.destroyFixture(body.getFixtureList().first());
+            }
             dispose();
             return false;
         }
@@ -108,13 +111,7 @@ public class Tank extends Entity {
     }
 
     public void dispose() {
-        Gdx.app.postRunnable(new Runnable() {
-            @Override
-            public void run() {
                 body.setActive(false);
-//                world.destroyBody(body);
-            }
-        });
 
     }
 

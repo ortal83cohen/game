@@ -28,13 +28,7 @@ public class AiEnemy extends Tank {
     }
 
 
-    @Override
-    public boolean update(float dt) {
 
-        super.update(dt);
-
-        return body.isActive();
-    }
 
     public void hit() {
         randomDirection();

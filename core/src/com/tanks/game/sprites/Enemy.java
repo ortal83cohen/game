@@ -12,11 +12,7 @@ public class Enemy extends Tank {
         super(world, id, "tank3.png", x, y, Type.ENEMY, playerName);
     }
 
-    public boolean update(float dt) {
-        super.update(dt);
 
-        return body.isActive();
-    }
 
     public void move(float directionX, float directionY) {
         body.setLinearVelocity(directionX, directionY);
