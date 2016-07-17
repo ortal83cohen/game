@@ -299,7 +299,32 @@ public class OnlinePlayState extends State {
                     }
                 });
             }
-        }).on("giftHit", new Emitter.Listener() {
+        }).on("playerHit", new Emitter.Listener() {
+                    @Override
+                    public void call(Object... args) {
+                        final JSONObject data = (JSONObject) args[0];
+                        Gdx.app.postRunnable(new Runnable() {
+                            @Override
+                            public void run() {
+                                String id = data.getString("id");
+                                try {
+                                    if (id.equals(myId)) {
+                                        HashMap map = new HashMap();
+                                        map.put("killed1", persistent.LoadInt("killed1") + 1);
+                                        persistent.saveInt(map);
+                                        gsm.set(new MenuState(gsm));
+                                    } else {
+                                        liveEnemies.remove(id);
+                                        gifts.put(id, new Gift(world, liveEnemies.get(id).getPosition().x, liveEnemies.get(id).getPosition().y));
+                                    }
+                                } catch (Exception e) {
+                                    Gdx.app.error("SocketIO", "Error PlayerHit", e);
+                                }
+                            }
+                        });
+                    }
+                }
+        ).on("giftHit", new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {
                         final JSONObject data = (JSONObject) args[0];
@@ -442,9 +467,11 @@ public class OnlinePlayState extends State {
                                     Gdx.app.log("SocketIO", "Get Gifts: " + objects.length());
                                     for (int i = 0; i < objects.length(); i++) {
                                         final JSONObject object = objects.getJSONObject(i);
-                                        gifts.put(String.valueOf(object.getInt("id")),
-                                                new Gift(world, object.getInt("x"),
-                                                        object.getInt("y")));
+                                        if (!gifts.containsKey(String.valueOf(object.getInt("id")))) {
+                                            gifts.put(String.valueOf(object.getInt("id")),
+                                                    new Gift(world, object.getInt("x"),
+                                                            object.getInt("y")));
+                                        }
                                     }
                                 } catch (Exception e) {
                                     Gdx.app.error("SocketIO", "Error Get Gifts");

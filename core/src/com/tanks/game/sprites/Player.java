@@ -21,12 +21,6 @@ public class Player extends Tank {
 
     }
 
-    @Override
-    public boolean update(float dt) {
-        super.update(dt);
-        return true;
-    }
-
 
     public void move(int x, int y) {
 //        body.setLinearVelocity(x, y);
