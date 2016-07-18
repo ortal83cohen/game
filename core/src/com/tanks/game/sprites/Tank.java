@@ -35,7 +35,11 @@ public class Tank extends Entity {
 
     protected TankCharacteristics mTankCharacteristics;
 
-    private boolean alive = true;
+    protected float maxSpeed =500;
+
+    protected float rotation;
+
+    protected boolean alive = true;
 
 
     public Tank(World world, String id, String textureFileName, int x, int y,
@@ -79,8 +83,8 @@ public class Tank extends Entity {
 
     public boolean update(float dt) {
         if (!body.getLinearVelocity().isZero()) {
-            body.setTransform(body.getPosition(), (float) (300 - Math
-                    .atan2((double) body.getLinearVelocity().x, (double) body.getLinearVelocity().y)));
+            body.setTransform(body.getPosition(),getRotation());
+               //     (float) (300 - Math   .atan2((double) body.getLinearVelocity().x, (double) body.getLinearVelocity().y)));
         }
         label.setPosition(body.getPosition().x - glowSprite.getWidth() / 2, body.getPosition().y + 10);
         glowSprite.setPosition(body.getPosition().x - glowSprite.getWidth() / 2,
@@ -101,7 +105,7 @@ public class Tank extends Entity {
     }
 
     public float getRotation() {
-        return body.getAngle();
+        return rotation;
     }
 
     public void draw(SpriteBatch sb) {

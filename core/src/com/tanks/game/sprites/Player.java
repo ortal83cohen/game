@@ -9,7 +9,7 @@ import com.tanks.game.utils.Type;
  */
 public class Player extends Tank {
 
-    private float maxSpeed =500;
+
 
     private float acceleration = 6;
 
@@ -34,6 +34,7 @@ public class Player extends Tank {
 //
         if (body.getLinearVelocity().len() < maxSpeed) {
             body.setLinearVelocity(body.getLinearVelocity().add(direction.nor().scl(acceleration)));
+            rotation =(float) Math.toRadians(direction.angle())+135f;
         }
 
 

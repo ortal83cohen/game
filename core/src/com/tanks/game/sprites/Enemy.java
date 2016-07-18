@@ -14,8 +14,13 @@ public class Enemy extends Tank {
 
 
 
-    public void move(float directionX, float directionY) {
-        body.setLinearVelocity(directionX, directionY);
+    public void move(Vector2 direction,Vector2 diff) {
+        if (body.getLinearVelocity().len() < maxSpeed) {
+            rotation = (float) Math.toRadians(direction.angle())+135f ;
+            body.setLinearVelocity(direction.add(diff));
+        }
+
+
     }
 
     public void setPosition(Vector2 position) {

@@ -352,8 +352,8 @@ public class OnlinePlayState extends State {
                             }
                             lastUpdate = timer;
                             final String enemyId = data.getString("id");
-                            final double x = data.getDouble("x");
-                            final double y = data.getDouble("y");
+                            final float x =(float) data.getDouble("x");
+                            final float y =(float) data.getDouble("y");
                             final float dx = (float) data.getDouble("dx");
                             final float dy = (float) data.getDouble("dy");
                             if (liveEnemies.containsKey(enemyId)) {
@@ -361,10 +361,12 @@ public class OnlinePlayState extends State {
                                     @Override
                                     public void run() {
                                         try {
-                                            liveEnemies.get(enemyId)
-                                                    .setPosition(new Vector2((float) x, (float) y));
-                                            liveEnemies.get(enemyId).move(dx, dy);
-                                            Gdx.app.log("SocketIO", "playerMoved x" + x + " y" + y);
+
+                                            Vector2 dif = new Vector2( x - liveEnemies.get(enemyId).getPosition().x,
+                                                    y - liveEnemies.get(enemyId).getPosition().y);
+
+                                            liveEnemies.get(enemyId).move(new Vector2(dx, dy),dif);
+
                                         } catch (Exception e) {
                                             e.printStackTrace();
 
