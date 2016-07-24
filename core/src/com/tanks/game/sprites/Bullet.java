@@ -64,16 +64,10 @@ public class Bullet extends Entity implements Pool.Poolable {
         bodyDef.position.set(x, y);
         bodyDef.fixedRotation = true;
 
-//        PolygonShape shape = new PolygonShape();
-//
-//        shape.setAsBox(glowSprite.getWidth() / 16,
-//                glowSprite.getHeight() / 16);
         FixtureDef fixtureDef = new FixtureDef();
-//        fixtureDef.shape = shape;
         fixtureDef.density = 0.001f;
         fixtureDef.friction = 0.1f;
         fixtureDef.restitution = 0.7f;
-//        fixtureDef.isSensor = false;
         body = world.createBody(bodyDef);
         loader.attachFixture(body, "bullet", fixtureDef, 20);
         body.setBullet(true);
@@ -81,16 +75,12 @@ public class Bullet extends Entity implements Pool.Poolable {
             fixture.setUserData(this);
         }
 
-//        shape.dispose();
-
-        //linear damping to slow down when applying force
-//        body.setLinearDamping(4f);
     }
 
-    public void fire(String ownerId, int x, int y, float rotation, Vector2 direction,int speed) {
+    public void fire(String ownerId, int x, int y, float rotation, Vector2 direction, int speed) {
         body.setActive(true);
         this.ownerId = ownerId;
-        body.setTransform(x + direction.x * 26, y + direction.y * 26, rotation);
+        body.setTransform(x + direction.x * 23, y + direction.y * 23,rotation);
 
         body.applyLinearImpulse(direction.scl(speed), body.getWorldCenter(), true);
 
@@ -116,13 +106,12 @@ public class Bullet extends Entity implements Pool.Poolable {
         if (timer > maxTime) {
             return false;
         }
-        if(gotHit){
+        if (gotHit) {
             body.setActive(false);
         }
 
         return true;
     }
-
 
 
     @Override
@@ -171,7 +160,7 @@ public class Bullet extends Entity implements Pool.Poolable {
         explosionAnimation.setRotation(body.getAngle());
         explosionAnimation.setPosition(body.getPosition().x, body.getPosition().y);
         explosionAnimation.startAnimation();
-        gotHit=true;
+        gotHit = true;
     }
 
     public int getDamaging() {
@@ -186,7 +175,7 @@ public class Bullet extends Entity implements Pool.Poolable {
 
     @Override
     public void draw(SpriteBatch sb) {
-            super.draw(sb);
+        super.draw(sb);
         if (explosionAnimation.isAwake()) {
             explosionAnimation.getFrame().draw(sb);
         }

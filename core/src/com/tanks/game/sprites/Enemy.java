@@ -9,7 +9,7 @@ import com.tanks.game.utils.Type;
 public class Enemy extends Tank {
 
     public Enemy(World world,  String id, int x, int y, String playerName) {
-        super(world, id, "tank3.png", x, y, Type.ENEMY, playerName);
+        super(world, id, "ship4red.png", x, y, Type.ENEMY, playerName);
     }
 
 

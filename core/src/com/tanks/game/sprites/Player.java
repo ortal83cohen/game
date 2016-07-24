@@ -14,7 +14,7 @@ public class Player extends Tank {
     private float acceleration = 6;
 
     public Player(World world, String id, int x, int y, String playerName) {
-        super(world, id, "tank2.png", x, y, Type.PLAYER, playerName);
+        super(world, id, "ship4.png", x, y, Type.PLAYER, playerName);
 
         //linear damping to slow down when applying force
         body.setLinearDamping(3f);

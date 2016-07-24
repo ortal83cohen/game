@@ -1,6 +1,7 @@
 package com.tanks.game.states;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -47,8 +48,8 @@ public class MenuState extends State {
 //        playBtn = new Texture("button.png");
         persistent = new com.tanks.game.utils.Persistent();
         stage = new Stage();
-        mButton1 = new Button(stage, 200, 200,"AI");
-        mButton2 = new Button(stage, 200, 500,"ONLINE");
+        mButton1 = new Button(stage, 200, 200, "AI");
+        mButton2 = new Button(stage, 200, 500, "ONLINE");
 
         mButton1.getButton().addListener(new ChangeListener() {
             @Override
@@ -103,10 +104,15 @@ public class MenuState extends State {
 
     @Override
     public void render(SpriteBatch sb) {
+        Assets.getInstance().getManager().update();
+
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(background, 0, 0);
 
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        sb.draw(background, 0, 0);
         stage.draw();
 
         sb.end();
@@ -114,16 +120,6 @@ public class MenuState extends State {
 
     @Override
     public void render(ShapeRenderer sr) {
-//        sr.setProjectionMatrix(cam.combined);
-//        sr.setAutoShapeType(true);
-//        sr.begin();
-//        sr.setColor(Color.BLACK);
-//        sr.polygon(mButton1.getBoundsPolygon().getTransformedVertices());
-//        sr.polygon(mButton2.getBoundsPolygon().getTransformedVertices());
-//        sr.polygon(touchPolygon.getTransformedVertices());
-//
-//        sr.end();
-
     }
 
     @Override

@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.tanks.game.data.TankCharacteristics;
 import com.tanks.game.utils.Assets;
+import com.tanks.game.utils.BodyEditorLoader;
 
 /**
  *
@@ -61,24 +62,23 @@ public class Tank extends Entity {
     }
 
     private void createBody(World world, int x, int y, short type) {
+
+        BodyEditorLoader loader = new BodyEditorLoader(Gdx.files.internal("bodies.json"));
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(x, y);
         bodyDef.fixedRotation = true;
 
-        PolygonShape shape = new PolygonShape();
 
-        shape.setAsBox(glowSprite.getWidth() * 0.5f * glowSprite.getScaleX(),
-                glowSprite.getHeight() * 0.5f * glowSprite.getScaleY());
         FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = shape;
         fixtureDef.density = 100f;
         fixtureDef.filter.categoryBits = type;
         body = world.createBody(bodyDef);
-        body.createFixture(fixtureDef).setUserData(this);
-        shape.dispose();
-
-
+        loader.attachFixture(body, "ship4", fixtureDef, 34);
+        body.setBullet(true);
+        for (Fixture fixture : body.getFixtureList()) {
+            fixture.setUserData(this);
+        }
     }
 
     public boolean update(float dt) {

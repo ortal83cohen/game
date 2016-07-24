@@ -15,7 +15,7 @@ public class AiEnemy extends Tank {
     private Vector2 direction;
 
     public AiEnemy(World world, String id, int x, int y) {
-        super(world, id, "tank.png", x, y, Type.AI_ENEMY, "Robot");
+        super(world, id, "ship4red.png", x, y, Type.AI_ENEMY, "Robot");
         randomDirection();
     }
 

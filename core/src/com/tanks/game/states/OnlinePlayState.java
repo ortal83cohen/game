@@ -57,7 +57,7 @@ import io.socket.emitter.Emitter;
 public class OnlinePlayState extends State {
 
     public static final List<String> textureFiles = Arrays
-            .asList("tank.png", "tank2.png", "tank3.png", "bullet.png", "stone.png", "bg.png",
+            .asList("tank.png", "ship4.png","ship4red.png", "tank3.png", "bullet.png", "stone.png", "bg.png",
                     "button.png");
 
     private static final float UPDATE_TIME = 1 / 30f;
