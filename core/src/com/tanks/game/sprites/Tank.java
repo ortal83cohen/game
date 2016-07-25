@@ -36,9 +36,9 @@ public class Tank extends Entity {
 
     protected TankCharacteristics mTankCharacteristics;
 
-    protected float maxSpeed =500;
+    protected float maxSpeed =300;
 
-    protected float rotation;
+    protected float rotation ;
 
     protected boolean alive = true;
 
@@ -83,7 +83,7 @@ public class Tank extends Entity {
 
     public boolean update(float dt) {
         if (!body.getLinearVelocity().isZero()) {
-            body.setTransform(body.getPosition(),getRotation());
+            body.setTransform(body.getPosition(),rotation);
                //     (float) (300 - Math   .atan2((double) body.getLinearVelocity().x, (double) body.getLinearVelocity().y)));
         }
         label.setPosition(body.getPosition().x - glowSprite.getWidth() / 2, body.getPosition().y + 10);

@@ -1,5 +1,6 @@
 package com.tanks.game.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.tanks.game.utils.Type;
@@ -11,13 +12,13 @@ public class Player extends Tank {
 
 
 
-    private float acceleration = 6;
+
 
     public Player(World world, String id, int x, int y, String playerName) {
         super(world, id, "ship4.png", x, y, Type.PLAYER, playerName);
 
         //linear damping to slow down when applying force
-        body.setLinearDamping(3f);
+        body.setLinearDamping(0.2f);
 
     }
 
@@ -32,9 +33,13 @@ public class Player extends Tank {
 
 //        if( body.getLinearVelocity().nor())
 //
+
+        Gdx.app.error("d", ((float) Math.toRadians(direction.angle()) + Math.PI/2 )+"");
+        Gdx.app.error("d", rotation+"");
+        Gdx.app.error("d", "_________________");
         if (body.getLinearVelocity().len() < maxSpeed) {
-            body.setLinearVelocity(body.getLinearVelocity().add(direction.nor().scl(acceleration)));
-            rotation =(float) Math.toRadians(direction.angle())+135f;
+            body.setLinearVelocity(body.getLinearVelocity().add(direction.nor().scl(mTankCharacteristics.getAcceleration())));
+            rotation = (float) (Math.toRadians(direction.angle()) + Math.PI);
         }
 
 

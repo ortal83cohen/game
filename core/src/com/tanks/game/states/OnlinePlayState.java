@@ -57,16 +57,16 @@ import io.socket.emitter.Emitter;
 public class OnlinePlayState extends State {
 
     public static final List<String> textureFiles = Arrays
-            .asList("tank.png", "ship4.png","ship4red.png", "tank3.png", "bullet.png", "stone.png", "bg.png",
+            .asList("tank.png", "ship4.png", "ship4red.png", "tank3.png", "bullet.png", "stone.png", "bg.png",
                     "button.png");
 
     private static final float UPDATE_TIME = 1 / 30f;
 
     private static final String TAG = "PlayState";
 
-    static public int GAME_WIDTH = 450;
+    static public int GAME_WIDTH = 550;
 
-    static public int GAME_HEIGHT = 450;
+    static public int GAME_HEIGHT = 550;
 
     public static int ANDROID_WIDTH = Gdx.graphics.getWidth();
 
@@ -352,8 +352,8 @@ public class OnlinePlayState extends State {
                             }
                             lastUpdate = timer;
                             final String enemyId = data.getString("id");
-                            final float x =(float) data.getDouble("x");
-                            final float y =(float) data.getDouble("y");
+                            final float x = (float) data.getDouble("x");
+                            final float y = (float) data.getDouble("y");
                             final float dx = (float) data.getDouble("dx");
                             final float dy = (float) data.getDouble("dy");
                             if (liveEnemies.containsKey(enemyId)) {
@@ -362,10 +362,10 @@ public class OnlinePlayState extends State {
                                     public void run() {
                                         try {
 
-                                            Vector2 dif = new Vector2( x - liveEnemies.get(enemyId).getPosition().x,
+                                            Vector2 dif = new Vector2(x - liveEnemies.get(enemyId).getPosition().x,
                                                     y - liveEnemies.get(enemyId).getPosition().y);
 
-                                            liveEnemies.get(enemyId).move(new Vector2(dx, dy),dif);
+                                            liveEnemies.get(enemyId).move(new Vector2(dx, dy), dif);
 
                                         } catch (Exception e) {
                                             e.printStackTrace();
@@ -395,8 +395,7 @@ public class OnlinePlayState extends State {
                                     int speed = data.getInt("speed");
                                     double rotation = data.getDouble("rotation");
                                     Vector2 direction = new Vector2((float) Math.cos(rotation - 135), (float) Math.sin(rotation - 135));
-                                    Bullet bullet = bulletPool.obtainAndFire(enemyId, x, y,
-                                            (float) rotation, direction, speed);
+                                    Bullet bullet = bulletPool.obtainAndFire(enemyId, x, y, direction, speed);
                                     bullets.add(bullet);
 
                                 } catch (Exception e) {
@@ -606,10 +605,8 @@ public class OnlinePlayState extends State {
             }
         }
 
-        cam.position.x = player.getPosition().x
-                + player.getSprite().getHeight() / 2;
-        cam.position.y = player.getPosition().y
-                + player.getSprite().getWidth() / 2;
+        cam.position.x = player.getPosition().x;
+        cam.position.y = player.getPosition().y;
 
         cam.update();
 
@@ -629,9 +626,8 @@ public class OnlinePlayState extends State {
         if (bullets.size() < player.getTankCharacteristics().getBulletsNumber()) {
             if (lastShoot + player.getTankCharacteristics().getBulletsCoolDown() < timer) {
                 lastShoot = timer;
-                Vector2 direction = new Vector2((float) Math.cos(player.getRotation() - 135), (float) Math.sin(player.getRotation() - 135));
-                Bullet bullet = bulletPool.obtainAndFire("Player", (int) x, (int) y,
-                        player.getRotation(), direction, speed);
+                Vector2 direction = new Vector2((float) Math.cos(player.getRotation() + Math.PI), (float) Math.sin(player.getRotation() + Math.PI));
+                Bullet bullet = bulletPool.obtainAndFire("Player", (int) x, (int) y, direction, speed);
                 bullets.add(bullet);
 
                 JSONObject data = new JSONObject();

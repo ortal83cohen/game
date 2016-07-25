@@ -9,6 +9,25 @@ public class TankCharacteristics {
     private int bulletSpeed = 100;
     private int bulletsNumber = 5;
     private float bulletsCoolDown = 0.4f;
+    private float normalAcceleration = 1f;
+    private float acceleration = normalAcceleration;
+    private float engineHit = 0;
+
+    public float getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(float acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public float getEngineHit() {
+        return engineHit;
+    }
+
+    public void setEngineHit(float engineHit) {
+        this.engineHit = engineHit;
+    }
 
     public float getShield() {
         return shield;

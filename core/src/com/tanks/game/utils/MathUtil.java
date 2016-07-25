@@ -12,4 +12,15 @@ public class MathUtil {
                 - 180; //note the atan2 call, the order of paramers is y then x
     }
 
+    public static double normalizeRotation(float rotation) {
+
+        rotation = rotation % 360;
+
+        if (rotation < 0)
+        {
+            rotation += 360;
+        }
+        return rotation;
+    }
+
 }

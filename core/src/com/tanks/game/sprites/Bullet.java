@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Pool;
 import com.tanks.game.utils.BodyEditorLoader;
@@ -77,10 +76,11 @@ public class Bullet extends Entity implements Pool.Poolable {
 
     }
 
-    public void fire(String ownerId, int x, int y, float rotation, Vector2 direction, int speed) {
+    public void fire(String ownerId, int x, int y, Vector2 direction, int speed) {
         body.setActive(true);
         this.ownerId = ownerId;
-        body.setTransform(x + direction.x * 23, y + direction.y * 23,rotation);
+        float rotation = (float) (Math.toRadians(direction.angle()) + Math.PI);
+        body.setTransform(x + direction.x * 23, y + direction.y * 23, rotation);
 
         body.applyLinearImpulse(direction.scl(speed), body.getWorldCenter(), true);
 
