@@ -4,6 +4,9 @@ var io = require('socket.io')(server);
 var players = [];
 var stones = [];
 var gifts = [];
+var GAME_WIDTH = 500;
+var GAME_HEIGHT = 500;
+
 
 server.listen(9000, function() {
     console.log("Server is now running...");
@@ -13,13 +16,13 @@ io.on('connection', function(socket) {
 if(!stones[0]){
     console.log("stones null");
    for (var i = 0; i < 10; i++) {
-             stones.push(new stone(i, randomInt(0, 400), randomInt(0, 400)));
+             stones.push(new stone(i, randomInt(0, GAME_HEIGHT), randomInt(0, GAME_WIDTH)));
    }
 }
 if(!gifts[0]){
     console.log("gifts null");
    for (var i = 0; i < 2; i++) {
-             gifts.push(new gift(i, randomInt(0, 400), randomInt(0, 400)));
+             gifts.push(new gift(i, randomInt(0, GAME_HEIGHT), randomInt(0, GAME_WIDTH)));
    }
    socket.broadcast.emit('getGifts', gifts);
 }
