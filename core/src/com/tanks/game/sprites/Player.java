@@ -24,32 +24,13 @@ public class Player extends Tank {
 
 
     public void move(int x, int y) {
-//        body.setLinearVelocity(x, y);
-        float SPEED_RATIO = 1;
 
-        // calculte the normalized direction from the body to the touch position
         Vector2 direction = new Vector2(x, y);
-//        direction.sub(body.getPosition());
 
-//        if( body.getLinearVelocity().nor())
-//
-
-        Gdx.app.error("d", ((float) Math.toRadians(direction.angle()) + Math.PI/2 )+"");
-        Gdx.app.error("d", rotation+"");
-        Gdx.app.error("d", "_________________");
         if (body.getLinearVelocity().len() < maxSpeed) {
             body.setLinearVelocity(body.getLinearVelocity().add(direction.nor().scl(mTankCharacteristics.getAcceleration())));
             rotation = (float) (Math.toRadians(direction.angle()) + Math.PI);
         }
-
-
-//        Gdx.app.log("acceleration", acceleration +"" );
-//        Gdx.app.log("getAngularVelocity", body.getLinearVelocity().len()+"" );
-//        Gdx.app.log("------------------", "---------------------------" );
-
-//        body.applyLinearImpulse(new Vector2((x-body.getPosition().x)/SPEED_RATIO, (y-body.getPosition().y)/SPEED_RATIO), body.getWorldCenter(), true);
-
-
 
     }
 

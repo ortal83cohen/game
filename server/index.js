@@ -55,12 +55,15 @@ if(!gifts[0]){
         socket.broadcast.emit('playerShoot', data);
 
     });
-    socket.on('playerHit', function(data) {
+       socket.on('connectionTest', function(data) {
+        socket.emit('connectionTest', data);
+    });
+    socket.on('playerKilled', function(data) {
         console.log(socket.id + " Hit " + data.id);
         gifts.push(new gift(i, data.x, data.y));
         for (var i = 0; i < players.length; i++) {
             if (players[i].id == data.id) {
-                socket.broadcast.emit('playerHit', data);
+                socket.broadcast.emit('playerKilled', data);
                 players.splice(i, 1);
             }
         }
