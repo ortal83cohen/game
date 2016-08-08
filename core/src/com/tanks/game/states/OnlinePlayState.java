@@ -202,6 +202,7 @@ public class OnlinePlayState extends State {
                 data.put("y", player.getPosition().y);
                 data.put("dx", player.getBody().getLinearVelocity().x);
                 data.put("dy", player.getBody().getLinearVelocity().y);
+                data.put("rotation", player.getRotation());
 
                 socket.emit("playerMoved", data);
 
@@ -214,7 +215,7 @@ public class OnlinePlayState extends State {
     public void connectSocket() {
         try {
 //            socket = IO.socket("http://localhost:8080");
-            socket = IO.socket("http://104.155.63.29:9000");
+            socket = IO.socket("http://ec2-52-59-97-237.eu-central-1.compute.amazonaws.com:9000");
 //            socket = IO.socket("http://ec2-52-58-247-221.eu-central-1.compute.amazonaws.com:9000");
 
             socket.connect();
@@ -351,6 +352,7 @@ public class OnlinePlayState extends State {
                             final float y = (float) data.getDouble("y");
                             final float dx = (float) data.getDouble("dx");
                             final float dy = (float) data.getDouble("dy");
+                            final float rotation = (float) data.getDouble("rotation");
                             if (liveEnemies.containsKey(enemyId)) {
                                 Gdx.app.postRunnable(new Runnable() {
                                     @Override
@@ -360,7 +362,7 @@ public class OnlinePlayState extends State {
                                             Vector2 dif = new Vector2(x - liveEnemies.get(enemyId).getPosition().x,
                                                     y - liveEnemies.get(enemyId).getPosition().y);
 
-                                            liveEnemies.get(enemyId).move(new Vector2(dx, dy), dif);
+                                            liveEnemies.get(enemyId).move(rotation,new Vector2(dx, dy), dif);
 
                                         } catch (Exception e) {
                                             e.printStackTrace();
