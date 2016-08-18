@@ -18,7 +18,7 @@ public class Player extends Tank {
         super(world, id, "ship4.png", x, y, Type.PLAYER, playerName);
 
         //linear damping to slow down when applying force
-        body.setLinearDamping(0.2f);
+        body.setLinearDamping(0.7f);
 
     }
 

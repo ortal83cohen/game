@@ -9,7 +9,7 @@ public class TankCharacteristics {
     private int bulletSpeed = 100;
     private int bulletsNumber = 5;
     private float bulletsCoolDown = 0.4f;
-    private float normalAcceleration = 1f;
+    private float normalAcceleration = 0.9f;
     private float acceleration = normalAcceleration;
     private float engineHit = 0;
 

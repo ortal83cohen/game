@@ -215,7 +215,7 @@ public class OnlinePlayState extends State {
     public void connectSocket() {
         try {
 //            socket = IO.socket("http://localhost:8080");
-            socket = IO.socket("http://ec2-52-59-97-237.eu-central-1.compute.amazonaws.com:9000");
+            socket = IO.socket("http://salty-lake-42325.herokuapp.com");
 //            socket = IO.socket("http://ec2-52-58-247-221.eu-central-1.compute.amazonaws.com:9000");
 
             socket.connect();
@@ -346,6 +346,7 @@ public class OnlinePlayState extends State {
                                 Gdx.app.log("SocketIO",
                                         "SKIPED " + (skipCounter++) + " at " + timer);
                             }
+                            Gdx.app.log("playerMoved", "timer "+timer);
                             lastUpdate = timer;
                             final String enemyId = data.getString("id");
                             final float x = (float) data.getDouble("x");
@@ -485,7 +486,7 @@ public class OnlinePlayState extends State {
                         JSONObject data = (JSONObject) args[0];
                         try {
                             float t = (float) data.getDouble("t");
-                            connectionDelay = (connectionDelay + (timer - t)) / 2;
+                            connectionDelay = (connectionDelay + (timer - t)) / 2 ;
                             hud.set2(connectionDelay);
                             Gdx.app.log("SocketIO", "connectionDelay - " + connectionDelay);
                         } catch (Exception e) {

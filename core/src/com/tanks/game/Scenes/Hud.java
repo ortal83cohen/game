@@ -86,6 +86,6 @@ public class Hud implements Disposable {
 
 
     public void set2(float connectionDelay) {
-        text2.setText(connectionDelay+" s");
+        text2.setText(((int)(connectionDelay*1000))+" ms");
     }
 }
