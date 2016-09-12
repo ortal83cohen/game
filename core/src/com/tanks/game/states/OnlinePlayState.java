@@ -218,9 +218,7 @@ public class OnlinePlayState extends State {
 
     public void connectSocket() {
         try {
-//            socket = IO.socket("http://localhost:8080");
-            socket = IO.socket("http://104.155.63.29:9000");
-//            socket = IO.socket("http://ec2-52-58-247-221.eu-central-1.compute.amazonaws.com:9000");
+            socket = IO.socket("http://salty-lake-42325.herokuapp.com");
 
             socket.connect();
         } catch (Exception e) {
@@ -488,7 +486,7 @@ public class OnlinePlayState extends State {
                         try {
                             float t = (float) data.getDouble("t");
                             connectionDelay = (connectionDelay + (timer - t)) / 2;
-                            Gdx.app.log("SocketIO", "connectionDelay - " + connectionDelay);
+                            hud.set2(connectionDelay);
                         } catch (Exception e) {
                             Gdx.app.error("SocketIO", "Error Get connectionTest");
                         }

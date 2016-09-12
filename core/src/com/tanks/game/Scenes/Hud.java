@@ -39,7 +39,7 @@ public class Hud implements Disposable {
         //define our labels using the String, and a Label style consisting of a font and color
         title1 = new Label("my id", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         text1 = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        title2 = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        title2 = new Label("wifi", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         text2 = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         title3 = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         text3 = new Label("", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
@@ -85,4 +85,7 @@ public class Hud implements Disposable {
     }
 
 
+    public void set2(float connectionDelay) {
+        text2.setText(((int)(connectionDelay*1000))+" ms");
+    }
 }
