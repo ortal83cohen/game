@@ -126,6 +126,8 @@ public class OnlinePlayState extends State {
 
     private Box2DDebugRenderer b2dr;
 
+    private Vector2 input = new Vector2();
+
     public OnlinePlayState(GameStateManager gsm, boolean addSmartPlayers) {
         super(gsm);
 
@@ -193,11 +195,14 @@ public class OnlinePlayState extends State {
     }
 
     public void playerMoved(float dt) {
-        if (updateTimeLoopTimer >= UPDATE_TIME && player.getBody().isAwake()) {
-            updateTimeLoopTimer = 0;
+//        if (updateTimeLoopTimer >= UPDATE_TIME && player.getBody().isAwake()) {
+//            updateTimeLoopTimer = 0;
+        if (!input.isZero() || player.getBody().isAwake()) {
             JSONObject data = new JSONObject();
 
             try {
+                data.put("inputX", (input.isZero()) ? 0 : input.x - ANDROID_WIDTH / 2);
+                data.put("inputY", (input.isZero()) ? 0 : -(input.y - ANDROID_HEIGHT / 2));
                 data.put("x", player.getPosition().x);
                 data.put("y", player.getPosition().y);
                 data.put("dx", player.getBody().getLinearVelocity().x);
@@ -346,24 +351,32 @@ public class OnlinePlayState extends State {
                                 Gdx.app.log("SocketIO",
                                         "SKIPED " + (skipCounter++) + " at " + timer);
                             }
-                            Gdx.app.log("playerMoved", "timer "+timer);
+                            Gdx.app.log("playerMoved", "timer " + timer);
                             lastUpdate = timer;
-                            final String enemyId = data.getString("id");
+                            final String id = data.getString("id");
                             final float x = (float) data.getDouble("x");
                             final float y = (float) data.getDouble("y");
+                            final float inputX = (float) data.getDouble("inputX");
+                            final float inputY = (float) data.getDouble("inputY");
+                            final Vector2 playerMove = new Vector2(inputX, inputY);
                             final float dx = (float) data.getDouble("dx");
                             final float dy = (float) data.getDouble("dy");
                             final float rotation = (float) data.getDouble("rotation");
-                            if (liveEnemies.containsKey(enemyId)) {
+                            if (id.equals(myId)) {
+                                player.setInput(playerMove);
+                                if (!playerMove.isZero()) {
+                                    player.move((int) inputX, (int) inputY);
+                                }
+                            } else if (liveEnemies.containsKey(id)) {
                                 Gdx.app.postRunnable(new Runnable() {
                                     @Override
                                     public void run() {
                                         try {
 
-                                            Vector2 dif = new Vector2(x - liveEnemies.get(enemyId).getPosition().x,
-                                                    y - liveEnemies.get(enemyId).getPosition().y);
+                                            Vector2 dif = new Vector2(x - liveEnemies.get(id).getPosition().x,
+                                                    y - liveEnemies.get(id).getPosition().y);
 
-                                            liveEnemies.get(enemyId).move(rotation,new Vector2(dx, dy), dif);
+                                            liveEnemies.get(id).move(rotation, new Vector2(inputX, inputY), dif);
 
                                         } catch (Exception e) {
                                             e.printStackTrace();
@@ -393,7 +406,7 @@ public class OnlinePlayState extends State {
                                     int speed = data.getInt("speed");
                                     double rotation = data.getDouble("rotation");
                                     Vector2 direction = new Vector2((float) Math.cos(rotation + Math.PI), (float) Math.sin(rotation + Math.PI));
-                                    Bullet bullet = bulletPool.obtainAndFire(enemyId, x, y, direction, speed);
+                                    Bullet bullet = bulletPool.obtainAndFire(enemyId.equals(myId) ? "Player" : enemyId, x, y, direction, speed);
                                     bullets.add(bullet);
 
                                 } catch (Exception e) {
@@ -481,20 +494,20 @@ public class OnlinePlayState extends State {
                 }
         )
                 .on("connectionTest", new Emitter.Listener() {
-                    @Override
-                    public void call(Object... args) {
-                        JSONObject data = (JSONObject) args[0];
-                        try {
-                            float t = (float) data.getDouble("t");
-                            connectionDelay = (connectionDelay + (timer - t)) / 2 ;
-                            hud.set2(connectionDelay);
-                            Gdx.app.log("SocketIO", "connectionDelay - " + connectionDelay);
-                        } catch (Exception e) {
-                            Gdx.app.error("SocketIO", "Error Get connectionTest");
+                            @Override
+                            public void call(Object... args) {
+                                JSONObject data = (JSONObject) args[0];
+                                try {
+                                    float t = (float) data.getDouble("t");
+                                    connectionDelay = (connectionDelay + (timer - t)) / 2;
+                                    hud.set2(connectionDelay);
+                                    Gdx.app.log("SocketIO", "connectionDelay - " + connectionDelay);
+                                } catch (Exception e) {
+                                    Gdx.app.error("SocketIO", "Error Get connectionTest");
+                                }
+                            }
                         }
-                    }
-                }
-        );
+                );
     }
 
     @Override
@@ -506,14 +519,21 @@ public class OnlinePlayState extends State {
             if (ANDROID_HEIGHT * 4 / 5 > y) {
                 touchPos.set(x, y, 0);
                 cam.unproject(touchPos);
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        player.move(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
-//                    player.move(x, y);
-                    }
-                }, connectionDelay);
+                input.x = Gdx.input.getX();
+                input.y = Gdx.input.getY();
+//                input(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
+//                Timer.schedule(new Timer.Task() {
+//                    @Override
+//                    public void run() {
+//                        player.move(x - ANDROID_WIDTH / 2, -(y - ANDROID_HEIGHT / 2));
+////                    player.move(x, y);
+//                    }
+//                }, connectionDelay);
+            } else {
+                input.setZero();
             }
+        } else {
+            input.setZero();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
 
@@ -626,36 +646,29 @@ public class OnlinePlayState extends State {
         if (bullets.size() < player.getTankCharacteristics().getBulletsNumber()) {
             if (lastShoot + player.getTankCharacteristics().getBulletsCoolDown() < timer) {
                 lastShoot = timer;
-                Timer.schedule(new Timer.Task() {
-                    @Override
-                    public void run() {
-                        Vector2 direction = new Vector2((float) Math.cos(player.getRotation() + Math.PI), (float) Math.sin(player.getRotation() + Math.PI));
-                        Bullet bullet = bulletPool.obtainAndFire("Player", (int) x, (int) y, direction, speed);
-                        bullets.add(bullet);
-                    }
-                }, connectionDelay);
-                        JSONObject data = new JSONObject();
-                        try {
-                            data.put("x", x);
-                            data.put("y", y);
-                            data.put("speed", speed);
-                            data.put("rotation", rotation);
-                            socket.emit("playerShoot", data);
-                        } catch (Exception e) {
-                            Gdx.app.error("SocketIO", "Error sending update data");
-                        }
-                    }
+                JSONObject data = new JSONObject();
+                try {
+                    data.put("x", x);
+                    data.put("y", y);
+                    data.put("speed", speed);
+                    data.put("rotation", rotation);
+                    socket.emit("playerShoot", data);
+                } catch (Exception e) {
+                    Gdx.app.error("SocketIO", "Error sending update data");
                 }
             }
+        }
+    }
 
-            @Override
-            public void render (SpriteBatch sb){
 
-                //load all assets in queue
-                Assets.getInstance().getManager().update();
+    @Override
+    public void render(SpriteBatch sb) {
 
-                sb.setProjectionMatrix(cam.combined);
-                sb.begin();
+        //load all assets in queue
+        Assets.getInstance().getManager().update();
+
+        sb.setProjectionMatrix(cam.combined);
+        sb.begin();
 
 //        Array<Body> bodies = new Array<Body>();
 //        world.getBodies(bodies);
@@ -666,123 +679,123 @@ public class OnlinePlayState extends State {
 //                ((Entity)data).getSprite().draw(sb);
 //        }
 
-                Gdx.gl.glClearColor(0, 0, 0, 1);
-                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-                sb.draw(bgTextureRegion, 0, 0);
+        sb.draw(bgTextureRegion, 0, 0);
 
-                for (int i = 0; i < bullets.size(); i++) {
-                    bullets.get(i).draw(sb);
-                }
-                player.draw(sb);
+        for (int i = 0; i < bullets.size(); i++) {
+            bullets.get(i).draw(sb);
+        }
+        player.draw(sb);
 
 //        mButton.getSprite().addActor(sb);
 
-                for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
-                    entry.getValue().draw(sb);
-                }
+        for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
+            entry.getValue().draw(sb);
+        }
 
-                for (int i = 0; i < aiEnemies.size(); i++) {
-                    aiEnemies.get(i).draw(sb);
-                }
-                for (Map.Entry<String, Gift> entry : gifts.entrySet()) {
-                    entry.getValue().draw(sb);
-                }
-                for (Map.Entry<String, Stone> entry : stones.entrySet()) {
-                    entry.getValue().draw(sb);
-                }
-                b2dr.render(world, cam.combined);
+        for (int i = 0; i < aiEnemies.size(); i++) {
+            aiEnemies.get(i).draw(sb);
+        }
+        for (Map.Entry<String, Gift> entry : gifts.entrySet()) {
+            entry.getValue().draw(sb);
+        }
+        for (Map.Entry<String, Stone> entry : stones.entrySet()) {
+            entry.getValue().draw(sb);
+        }
+        b2dr.render(world, cam.combined);
 //        font.addActor(sb, String.valueOf(player.getSprite().getRotation()), player.getPosition().x - 10,
 //                player.getPosition().y - 10);
 //        font.addActor(sb, String.valueOf(Gdx.input.getX() - ANDROID_WIDTH / 2), cam.position.x,
 //                cam.position.y - 150);
 //        font.addActor(sb, String.valueOf(Gdx.input.getY() - ANDROID_HEIGHT / 2), cam.position.x,
 //                cam.position.y - 165);
-                font.draw(sb, "kill     -" + persistent.LoadInt("kill1"), cam.position.x - 35,
-                        cam.position.y + 170);
-                font.draw(sb, "killed -" + persistent.LoadInt("killed1"), cam.position.x - 35,
-                        cam.position.y + 185);
+        font.draw(sb, "kill     -" + persistent.LoadInt("kill1"), cam.position.x - 35,
+                cam.position.y + 170);
+        font.draw(sb, "killed -" + persistent.LoadInt("killed1"), cam.position.x - 35,
+                cam.position.y + 185);
 
-                font.draw(sb, "liveEnemies " + liveEnemies.size(), cam.position.x - 35,
-                        cam.position.y - 170);
-                stage.draw();
-                sb.end();
-            }
+        font.draw(sb, "liveEnemies " + liveEnemies.size(), cam.position.x - 35,
+                cam.position.y - 170);
+        stage.draw();
+        sb.end();
+    }
 
-            @Override
-            public void render (ShapeRenderer sr){
-                sr.setProjectionMatrix(cam.combined);
-                sr.setAutoShapeType(true);
-                sr.begin();
-                sr.setColor(Color.BLACK);
+    @Override
+    public void render(ShapeRenderer sr) {
+        sr.setProjectionMatrix(cam.combined);
+        sr.setAutoShapeType(true);
+        sr.begin();
+        sr.setColor(Color.BLACK);
 
-                sr.circle(player.getPosition().x, player.getPosition().y, player.getTankCharacteristics().getResistant() / 10);
+        sr.circle(player.getPosition().x, player.getPosition().y, player.getTankCharacteristics().getResistant() / 10);
 
-                for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
-                    sr.circle(entry.getValue().getPosition().x, entry.getValue().getPosition().y,
-                            entry.getValue().getTankCharacteristics().getResistant() / 10);
-                }
-
-                for (int i = 0; i < aiEnemies.size(); i++) {
-                    sr.circle(aiEnemies.get(i).getPosition().x, aiEnemies.get(i).getPosition().y,
-                            aiEnemies.get(i).getTankCharacteristics().getResistant() / 10);
-                }
-                sr.end();
-            }
-
-            @Override
-            public void dispose () {
-                try {
-                    socket.off();
-                    socket.disconnect();
-                    socket.close();
-                    bg.dispose();
-                    player.dispose();
-                    mButton.dispose();
-                    hud.dispose();
-                    for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
-                        entry.getValue().dispose();
-                    }
-                    for (int i = 0; i < aiEnemies.size(); i++) {
-                        aiEnemies.get(i).dispose();
-                    }
-                    for (int i = 0; i < stones.size(); i++) {
-                        if (stones.get(i) != null) {
-                            stones.get(i).dispose();
-                        }
-                    }
-                    for (int i = 0; i < gifts.size(); i++) {
-                        if (gifts.get(i) != null) {
-                            gifts.get(i).dispose();
-                        }
-                    }
-                    for (int i = 0; i < walls.size(); i++) {
-                        walls.get(i).dispose();
-                    }
-                    bulletPool.dispose();
-                    for (String textureFile : textureFiles) {
-                        Assets.getInstance().getManager().unload(textureFile);
-                    }
-                } catch (Exception e) {
-                    Gdx.app.error(TAG, "dispose", e);
-                }
-            }
-
-        private void addWalls () {
-
-            walls = new ArrayList<Wall>();
-            walls.add(new Wall(world,
-                    new Polygon(new float[]{0, GAME_HEIGHT, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH,
-                            GAME_HEIGHT + 1,
-                            0, GAME_HEIGHT + 1})));
-            walls.add(new Wall(world,
-                    new Polygon(new float[]{0, 0, GAME_WIDTH, 0, GAME_WIDTH, -1, 0, -1})));
-            walls.add(new Wall(world,
-                    new Polygon(new float[]{0, 0, 0, GAME_HEIGHT, -1, GAME_HEIGHT, -1, 0})));
-            walls.add(new Wall(world,
-                    new Polygon(new float[]{GAME_WIDTH, 0, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH + 1,
-                            GAME_HEIGHT, GAME_WIDTH + 1, 0})));
-
+        for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
+            sr.circle(entry.getValue().getPosition().x, entry.getValue().getPosition().y,
+                    entry.getValue().getTankCharacteristics().getResistant() / 10);
         }
 
+        for (int i = 0; i < aiEnemies.size(); i++) {
+            sr.circle(aiEnemies.get(i).getPosition().x, aiEnemies.get(i).getPosition().y,
+                    aiEnemies.get(i).getTankCharacteristics().getResistant() / 10);
+        }
+        sr.end();
     }
+
+    @Override
+    public void dispose() {
+        try {
+            socket.off();
+            socket.disconnect();
+            socket.close();
+            bg.dispose();
+            player.dispose();
+            mButton.dispose();
+            hud.dispose();
+            for (Map.Entry<String, Enemy> entry : liveEnemies.entrySet()) {
+                entry.getValue().dispose();
+            }
+            for (int i = 0; i < aiEnemies.size(); i++) {
+                aiEnemies.get(i).dispose();
+            }
+            for (int i = 0; i < stones.size(); i++) {
+                if (stones.get(i) != null) {
+                    stones.get(i).dispose();
+                }
+            }
+            for (int i = 0; i < gifts.size(); i++) {
+                if (gifts.get(i) != null) {
+                    gifts.get(i).dispose();
+                }
+            }
+            for (int i = 0; i < walls.size(); i++) {
+                walls.get(i).dispose();
+            }
+            bulletPool.dispose();
+            for (String textureFile : textureFiles) {
+                Assets.getInstance().getManager().unload(textureFile);
+            }
+        } catch (Exception e) {
+            Gdx.app.error(TAG, "dispose", e);
+        }
+    }
+
+    private void addWalls() {
+
+        walls = new ArrayList<Wall>();
+        walls.add(new Wall(world,
+                new Polygon(new float[]{0, GAME_HEIGHT, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH,
+                        GAME_HEIGHT + 1,
+                        0, GAME_HEIGHT + 1})));
+        walls.add(new Wall(world,
+                new Polygon(new float[]{0, 0, GAME_WIDTH, 0, GAME_WIDTH, -1, 0, -1})));
+        walls.add(new Wall(world,
+                new Polygon(new float[]{0, 0, 0, GAME_HEIGHT, -1, GAME_HEIGHT, -1, 0})));
+        walls.add(new Wall(world,
+                new Polygon(new float[]{GAME_WIDTH, 0, GAME_WIDTH, GAME_HEIGHT, GAME_WIDTH + 1,
+                        GAME_HEIGHT, GAME_WIDTH + 1, 0})));
+
+    }
+
+}

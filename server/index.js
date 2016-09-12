@@ -36,6 +36,7 @@ if(!gifts[0]){
     socket.on('playerMoved', function(data) {
         data.id = socket.id;
         socket.broadcast.emit('playerMoved', data);
+        socket.emit('playerMoved', data);
         for (var i = 0; i < players.length; i++) {
             if (players[i].id == socket.id) {
                 players[i].x = data.x;
@@ -53,7 +54,7 @@ if(!gifts[0]){
     socket.on('playerShoot', function(data) {
         data.id = socket.id;
         socket.broadcast.emit('playerShoot', data);
-
+    socket.emit('playerShoot', data);
     });
        socket.on('connectionTest', function(data) {
         socket.emit('connectionTest', data);

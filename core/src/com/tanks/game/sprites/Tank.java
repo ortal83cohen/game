@@ -44,6 +44,8 @@ public class Tank extends Entity {
 
     private Sound fireSound;
 
+    private Vector2 input = new Vector2();
+
     public Tank(World world, String id, String textureFileName, int x, int y,
             short type, String playerName) {
         super(world);
@@ -130,6 +132,14 @@ public class Tank extends Entity {
         if (mTankCharacteristics.getResistant() <= 0) {
             alive = false;
         }
+    }
+
+    public Vector2 getInput() {
+        return input;
+    }
+
+    public void setInput(Vector2 input) {
+        this.input = input;
     }
 
     public TankCharacteristics getTankCharacteristics() {
